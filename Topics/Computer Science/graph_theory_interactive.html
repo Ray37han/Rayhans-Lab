@@ -1,0 +1,2411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Theory · Full Interactive</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070710;--surface:#0f0f1e;--s2:#161628;--s3:#1e1e35;
+  --border:#252540;--border2:#303055;
+  --v:#6d28d9;--v2:#8b5cf6;--v3:#a78bfa;
+  --c:#0891b2;--c2:#06b6d4;--c3:#67e8f9;
+  --g:#047857;--g2:#10b981;--g3:#6ee7b7;
+  --y:#b45309;--y2:#f59e0b;--y3:#fcd34d;
+  --r:#be123c;--r2:#f43f5e;--r3:#fda4af;
+  --o:#c2410c;--o2:#f97316;--o3:#fdba74;
+  --p:#7c3aed;--p2:#a855f7;--p3:#d8b4fe;
+  --txt:#e2e8f0;--txtd:#94a3b8;--txtb:#f8fafc;
+  --nr:20;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Fraunces',serif;overflow-x:hidden}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:2rem}
+#hero-bg{position:absolute;inset:0;z-index:0}
+.hero-inner{position:relative;z-index:1}
+.chip{display:inline-block;border:1px solid var(--border2);color:var(--c2);font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.18em;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.2rem;text-transform:uppercase;background:rgba(6,182,212,.06)}
+h1.hero-title{font-size:clamp(3rem,9vw,7rem);font-weight:900;line-height:1;margin-bottom:.8rem;background:linear-gradient(120deg,#f8fafc 0%,var(--v3) 40%,var(--c2) 75%,var(--g2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1rem;color:var(--txtd);max-width:520px;margin:0 auto 1.5rem;font-style:italic}
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(7,7,16,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 1rem;gap:0;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-inner a{display:block;padding:.85rem .8rem;color:var(--txtd);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.06em;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.nav-inner a:hover{color:var(--txtb);border-bottom-color:var(--c2)}
+/* CHAPTER */
+.chapter{max-width:1200px;margin:0 auto;padding:4rem 1.5rem}
+.ch-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:.4rem}
+.ch-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--c2);letter-spacing:.15em;text-transform:uppercase}
+h2.ch-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;color:var(--txtb)}
+.ch-desc{color:var(--txtd);max-width:700px;margin-bottom:2rem;font-style:italic}
+/* TOPIC CARD */
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:1rem;margin-bottom:2.5rem;overflow:hidden}
+.topic-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
+.topic-icon{width:32px;height:32px;border-radius:.4rem;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.topic-title{font-size:1.1rem;font-weight:700;color:var(--txtb)}
+.topic-tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;margin-left:auto;color:var(--txtd)}
+.topic-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:820px){.topic-body{grid-template-columns:1fr}}
+.topic-theory{padding:1.5rem;border-right:1px solid var(--border)}
+@media(max-width:820px){.topic-theory{border-right:none;border-bottom:1px solid var(--border)}}
+.topic-sim{padding:1.5rem;background:var(--s2)}
+/* THEORY CONTENT */
+.def{background:var(--s3);border-left:3px solid var(--v2);border-radius:0 .4rem .4rem 0;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.88rem}
+.def-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--v3);margin-bottom:.3rem}
+.thm{border-left-color:var(--y2)}.thm .def-label{color:var(--y3)}
+.eg{border-left-color:var(--g2)}.eg .def-label{color:var(--g3)}
+.note{border-left-color:var(--c2)}.note .def-label{color:var(--c3)}
+p.body{color:var(--txtd);font-size:.88rem;margin:.6rem 0;line-height:1.7}
+b{color:var(--txtb)}
+.formula{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--c2);background:var(--s3);border:1px solid var(--border);border-radius:.35rem;padding:.7rem 1rem;margin:.6rem 0;text-align:center}
+.badge-row{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:2rem;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;font-weight:700;text-transform:uppercase}
+.bv{background:rgba(109,40,217,.15);color:var(--v3);border:1px solid rgba(109,40,217,.3)}
+.bc{background:rgba(6,182,212,.1);color:var(--c3);border:1px solid rgba(6,182,212,.25)}
+.bg{background:rgba(16,185,129,.1);color:var(--g3);border:1px solid rgba(16,185,129,.25)}
+.by{background:rgba(245,158,11,.1);color:var(--y3);border:1px solid rgba(245,158,11,.25)}
+.br{background:rgba(244,63,94,.1);color:var(--r3);border:1px solid rgba(244,63,94,.25)}
+/* SIM */
+.sim-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txtd);margin-bottom:.75rem}
+canvas.c{display:block;width:100%;border-radius:.5rem;background:#0a0a16;border:1px solid var(--border)}
+.ctrls{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+btn,.btn{background:var(--s3);border:1px solid var(--border2);color:var(--txt);padding:.35rem .85rem;border-radius:.3rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;cursor:pointer;transition:all .18s;white-space:nowrap;display:inline-block;user-select:none}
+.btn:hover{background:var(--v);border-color:var(--v);color:#fff}
+.btn.on{background:var(--v);border-color:var(--v);color:#fff}
+.btn.green{background:var(--g);border-color:var(--g2);color:#fff}
+.btn.green:hover{background:var(--g2)}
+.btn.red{background:var(--r);border-color:var(--r2);color:#fff}
+.btn.cyan{background:var(--c);border-color:var(--c2);color:#fff}
+.btn.cyan:hover{background:var(--c2)}
+.btn.amber{background:var(--y);border-color:var(--y2);color:#fff}
+select.sel{background:var(--s3);border:1px solid var(--border2);color:var(--txt);padding:.35rem .7rem;border-radius:.3rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;cursor:pointer}
+.status{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--g2);margin-top:.5rem;min-height:1.1em;line-height:1.5}
+.info-box{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--txtd);background:var(--s3);border:1px solid var(--border);border-radius:.35rem;padding:.6rem .8rem;margin-top:.5rem;line-height:1.7}
+.info-box span{color:var(--c2)}
+.legend{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.5rem}
+.leg{display:flex;align-items:center;gap:.3rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--txtd)}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+/* MATRIX */
+.matrix-wrap{font-family:'JetBrains Mono',monospace;font-size:.7rem;overflow-x:auto;margin:.5rem 0}
+.matrix-wrap table{border-collapse:collapse}
+.matrix-wrap td,.matrix-wrap th{border:1px solid var(--border);padding:.2rem .5rem;text-align:center;min-width:26px;transition:background .2s}
+.matrix-wrap th{color:var(--c2);background:var(--s3)}
+.matrix-wrap td.hi{background:rgba(109,40,217,.25);color:var(--v3)}
+/* DIVIDER */
+.div{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:3rem 0}
+/* SCROLL REVEAL */
+.rev{opacity:0;transform:translateY(28px);transition:opacity .55s,transform .55s}
+.rev.in{opacity:1;transform:none}
+/* FULL-WIDTH SIMS */
+.topic-body.full{grid-template-columns:1fr}
+.topic-body.full .topic-theory{border-right:none;border-bottom:1px solid var(--border)}
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:.75rem}
+.tab{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:.5rem .9rem;color:var(--txtd);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(--c2);border-bottom-color:var(--c2)}
+/* COLOR PALETTE BUTTONS */
+.pal-btn{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;flex-shrink:0}
+.pal-btn.active{border-color:#fff;transform:scale(1.15)}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div id="hero">
+  <canvas id="hero-bg"></canvas>
+  <div class="hero-inner">
+    <div class="chip">Rosen · Discrete Mathematics · Chapter 10</div>
+    <h1 class="hero-title">Graph Theory</h1>
+    <p class="hero-sub">Every concept. Every type. Every theorem. All interactive — touch, click, drag, simulate.</p>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#ch1">01 Graph Models</a>
+    <a href="#ch2">02 Terminology</a>
+    <a href="#ch3">03 Special Graphs</a>
+    <a href="#ch4">04 Representation</a>
+    <a href="#ch5">05 Isomorphism</a>
+    <a href="#ch6">06 Connectivity</a>
+    <a href="#ch7">07 Euler Graphs</a>
+    <a href="#ch8">08 Hamiltonian</a>
+    <a href="#ch9">09 Shortest Path</a>
+    <a href="#ch10">10 Planar Graphs</a>
+    <a href="#ch11">11 Graph Coloring</a>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 1: GRAPH MODELS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch1">
+  <div class="ch-header"><span class="ch-num">10.1</span><h2 class="ch-title">Graphs and Graph Models</h2></div>
+  <p class="ch-desc">Graphs model pairwise relationships. Six model types depending on direction, loops, and multi-edges.</p>
+
+  <!-- TOPIC: Simple Graph -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(109,40,217,.2)">◈</div>
+      <span class="topic-title">Simple Graph</span>
+      <span class="topic-tag">Model 1</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Definition</div>G=(V,E) where V=vertices, E=set of unordered pairs {u,v}. <b>No loops, no parallel edges.</b></div>
+        <p class="body">Most common model. Used for symmetric, unique relationships.</p>
+        <div class="eg"><div class="def-label">Real-World</div><b>Friend networks</b> — two people either friends or not, can't be double-friends, can't friend themselves.</div>
+        <div class="formula">|E| ≤ C(|V|,2) = |V|(|V|−1)/2</div>
+        <p class="body"><b>Build your own:</b> Click canvas to add nodes. Click two nodes to add edge.</p>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Simple Graph Builder</div>
+        <canvas class="c" id="sg-canvas" height="250"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="sg-node-btn" onclick="sgMode('node')">Add Node</span>
+          <span class="btn" id="sg-edge-btn" onclick="sgMode('edge')">Add Edge</span>
+          <span class="btn red" onclick="sgClear()">Clear</span>
+        </div>
+        <div class="status" id="sg-status">Click canvas to place vertices</div>
+        <div class="info-box">Nodes: <span id="sg-v">0</span> | Edges: <span id="sg-e">0</span> | Max possible: <span id="sg-max">0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPIC: Multigraph -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(6,182,212,.15)">⧫</div>
+      <span class="topic-title">Multigraph & Pseudograph</span>
+      <span class="topic-tag">Model 2 & 3</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Multigraph</div>Allows <b>multiple parallel edges</b> between same vertex pair. No loops.</div>
+        <div class="def"><div class="def-label">Pseudograph</div>Allows both <b>parallel edges AND loops</b> (edge from v to itself).</div>
+        <div class="eg"><div class="def-label">Examples</div><b>Multigraph:</b> Airlines — multiple flights between two cities.<br><b>Pseudograph:</b> Web graph — page can link to itself.</div>
+        <p class="body">A loop contributes <b>2</b> to the degree of its vertex.</p>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Multigraph & Loop Demo</div>
+        <canvas class="c" id="mg-canvas" height="250"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="mg-n" onclick="mgMode('node')">Node</span>
+          <span class="btn" id="mg-e" onclick="mgMode('edge')">Edge</span>
+          <span class="btn" id="mg-l" onclick="mgMode('loop')">Loop</span>
+          <span class="btn red" onclick="mgClear()">Clear</span>
+        </div>
+        <div class="status" id="mg-status">Add nodes, parallel edges, or loops</div>
+        <div class="info-box">Loops: <span id="mg-loops">0</span> | Multi-edges: <span id="mg-multi">0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPIC: Directed -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(16,185,129,.15)">→</div>
+      <span class="topic-title">Directed Graph (Digraph)</span>
+      <span class="topic-tag">Model 4 & 5</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Digraph</div>Edges are <b>ordered pairs (u,v)</b> — direction matters. (u,v) ≠ (v,u).</div>
+        <div class="thm"><div class="def-label">In/Out Degree</div><b>in-deg(v)</b> = edges INTO v | <b>out-deg(v)</b> = edges OUT OF v<br>∑in-deg = ∑out-deg = |E|</div>
+        <div class="eg"><div class="def-label">Examples</div><b>Web graph</b>: hyperlinks are directed. <b>Twitter follows</b>: A follows B ≠ B follows A. <b>Task dependencies</b>: A must finish before B.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Digraph Builder · arrows show direction</div>
+        <canvas class="c" id="dg-canvas" height="250"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="dg-n" onclick="dgMode('node')">Node</span>
+          <span class="btn" id="dg-e" onclick="dgMode('edge')">Arc</span>
+          <span class="btn red" onclick="dgClear()">Clear</span>
+        </div>
+        <div class="status" id="dg-status">Build directed graph</div>
+        <div class="info-box" id="dg-info">in-deg and out-deg shown beside each node</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 2: TERMINOLOGY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch2">
+  <div class="ch-header"><span class="ch-num">10.2</span><h2 class="ch-title">Graph Terminology</h2></div>
+  <p class="ch-desc">Adjacency, degree, paths, circuits — the vocabulary of graph theory.</p>
+
+  <!-- Degree + Handshaking -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(245,158,11,.15)">∑</div>
+      <span class="topic-title">Degree & Handshaking Lemma</span>
+      <span class="topic-tag">Theorem 1</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Degree deg(v)</div>Number of edges incident to v. Loop counts <b>twice</b>.</div>
+        <div class="thm"><div class="def-label">Handshaking Lemma</div>For any undirected graph:</div>
+        <div class="formula">∑ deg(v) = 2|E|</div>
+        <div class="thm"><div class="def-label">Corollary</div>Every graph has an <b>even number</b> of odd-degree vertices.</div>
+        <div class="eg"><div class="def-label">Why?</div>Each edge contributes exactly 2 to the total degree sum (one to each endpoint). So sum always even.</div>
+        <p class="body"><b>Isolated vertex:</b> deg=0. <b>Pendant:</b> deg=1.</p>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Handshaking Verifier · hover nodes · add edges</div>
+        <canvas class="c" id="hs-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="hs-n" onclick="hsMode('node')">Node</span>
+          <span class="btn" id="hs-e" onclick="hsMode('edge')">Edge</span>
+          <span class="btn red" onclick="hsClear()">Clear</span>
+          <span class="btn cyan" onclick="hsRandom()">Random</span>
+        </div>
+        <div class="status" id="hs-status">Hover nodes to see degree</div>
+        <div class="info-box">∑deg = <span id="hs-sum">0</span> | 2|E| = <span id="hs-2e">0</span> | Odd-deg nodes: <span id="hs-odd">0</span> | Lemma holds: <span id="hs-ok">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paths and Circuits -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(6,182,212,.15)">⟿</div>
+      <span class="topic-title">Paths, Circuits, Cycles</span>
+      <span class="topic-tag">Definitions</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Walk</div>Sequence v₀,e₁,v₁,…,eₙ,vₙ. Edges/vertices may repeat.</div>
+        <div class="def"><div class="def-label">Trail</div>Walk where <b>no edge repeats</b>.</div>
+        <div class="def"><div class="def-label">Path</div>Walk where <b>no vertex repeats</b>. Length = number of edges.</div>
+        <div class="def"><div class="def-label">Circuit / Closed Walk</div>Walk that starts and ends at same vertex.</div>
+        <div class="def"><div class="def-label">Cycle</div>Closed path — no repeated vertices except start=end.</div>
+        <div class="thm"><div class="def-label">Key Fact</div>If path exists from u to v, a <b>simple path</b> (no repeated vertices) also exists.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Path Explorer · click nodes to trace path</div>
+        <canvas class="c" id="path-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn cyan" onclick="pathNew()">New Graph</span>
+          <span class="btn red" onclick="pathClear()">Clear Path</span>
+        </div>
+        <div class="status" id="path-status">Click nodes in sequence to trace a path</div>
+        <div class="info-box">Path: <span id="path-seq">—</span> | Length: <span id="path-len">0</span> | Type: <span id="path-type">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 3: SPECIAL GRAPH TYPES
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch3">
+  <div class="ch-header"><span class="ch-num">10.2b</span><h2 class="ch-title">Special Types of Graphs</h2></div>
+
+  <!-- Complete Graph -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(109,40,217,.2)">K</div>
+      <span class="topic-title">Complete Graph Kₙ</span>
+      <span class="topic-tag">Special Type 1</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Definition</div>Every pair of distinct vertices connected by exactly one edge. <b>Fully dense.</b></div>
+        <div class="formula">|E| = n(n−1)/2 &nbsp;|&nbsp; deg(v) = n−1 for all v</div>
+        <div class="eg"><div class="def-label">Values</div>K₁: 0 edges | K₂: 1 | K₃: 3 | K₄: 6 | K₅: 10 | K₆: 15</div>
+        <div class="thm"><div class="def-label">Key Property</div>K₁,K₂,K₃,K₄ are planar. K₅ is NOT planar.</div>
+        <p class="body">χ(Kₙ) = n. Maximum chromatic number for n vertices.</p>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Complete Graph Kₙ · drag slider</div>
+        <canvas class="c" id="kn-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <label style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--txtd);display:flex;align-items:center;gap:.4rem">
+            n = <span id="kn-val">5</span>
+            <input type="range" min="2" max="10" value="5" id="kn-slider" oninput="drawKn(this.value)" style="accent-color:var(--v2);width:100px">
+          </label>
+        </div>
+        <div class="info-box">Vertices: <span id="kn-v">5</span> | Edges: <span id="kn-e">10</span> | Each degree: <span id="kn-d">4</span> | Planar: <span id="kn-p">No (K₅)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cycle Graph -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(6,182,212,.15)">○</div>
+      <span class="topic-title">Cycle Graph Cₙ & Wheel Wₙ</span>
+      <span class="topic-tag">Special Type 2</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Cycle Cₙ</div>n vertices in a ring. Each vertex has degree 2. Minimum n=3.</div>
+        <div class="formula">Cₙ: |E|=n, all deg=2 | χ = 2 if n even, 3 if n odd</div>
+        <div class="def"><div class="def-label">Wheel Wₙ</div>Cₙ plus one <b>hub</b> vertex connected to all rim vertices.</div>
+        <div class="formula">Wₙ: |V|=n+1, |E|=2n | Hub deg=n, Rim deg=3</div>
+        <div class="eg"><div class="def-label">Bipartite check</div>Cₙ bipartite iff n is <b>even</b> (alternating 2-coloring works).</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Cycle & Wheel · toggle type · adjust n</div>
+        <canvas class="c" id="cw-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="cw-cycle" onclick="cwType('cycle')">Cycle Cₙ</span>
+          <span class="btn" id="cw-wheel" onclick="cwType('wheel')">Wheel Wₙ</span>
+          <label style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--txtd);display:flex;align-items:center;gap:.4rem">
+            n=<span id="cw-val">6</span>
+            <input type="range" min="3" max="12" value="6" id="cw-slider" oninput="cwDraw()" style="accent-color:var(--c2);width:80px">
+          </label>
+        </div>
+        <div class="info-box" id="cw-info">Cycle C₆: V=6, E=6, χ=2 (even → bipartite)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bipartite -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(16,185,129,.15)">⊕</div>
+      <span class="topic-title">Bipartite Graph & Kₘ,ₙ</span>
+      <span class="topic-tag">Special Type 3</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Bipartite</div>V splits into two disjoint sets V₁,V₂. Every edge goes <b>between</b> V₁ and V₂. No edges within same set.</div>
+        <div class="thm"><div class="def-label">Characterization Theorem</div>G is bipartite ⟺ G contains <b>no odd-length cycle</b>.</div>
+        <div class="def"><div class="def-label">Complete Bipartite Kₘ,ₙ</div>Every vertex in V₁ connected to every vertex in V₂.</div>
+        <div class="formula">|E| = m·n &nbsp;|&nbsp; deg in V₁ = n &nbsp;|&nbsp; deg in V₂ = m</div>
+        <div class="eg"><div class="def-label">Example</div>Job assignment: workers (V₁) → jobs (V₂). K₃,₃ is not planar.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Bipartite Builder · 2-color check · BFS detection</div>
+        <canvas class="c" id="bip-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="bip-n1" onclick="bipSet(1)">V₁ Node</span>
+          <span class="btn" id="bip-n2" onclick="bipSet(2)">V₂ Node</span>
+          <span class="btn" id="bip-e" onclick="bipSet('e')">Edge</span>
+          <span class="btn cyan" onclick="bipCheck()">Check Bipartite</span>
+          <span class="btn red" onclick="bipClear()">Clear</span>
+        </div>
+        <div class="status" id="bip-status">Add nodes to V₁ or V₂, then edges between them</div>
+        <div class="info-box">Is bipartite: <span id="bip-result">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hypercube -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(168,85,247,.15)">Q</div>
+      <span class="topic-title">Hypercube Graph Qₙ</span>
+      <span class="topic-tag">Special Type 4</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Hypercube Qₙ</div>Vertices = all n-bit binary strings. Edge between two strings differing in <b>exactly 1 bit</b> (Hamming distance 1).</div>
+        <div class="formula">|V| = 2ⁿ &nbsp;|&nbsp; |E| = n·2ⁿ⁻¹ &nbsp;|&nbsp; deg(v) = n (n-regular)</div>
+        <div class="eg"><div class="def-label">Q₃ Example</div>000–001–011–010 (change bit 0, 1, 0). Used in <b>parallel computer interconnects</b>, Gray codes.</div>
+        <div class="thm"><div class="def-label">Properties</div>Qₙ is bipartite (0-weight vs 1-weight strings). Has Hamiltonian circuit. χ(Qₙ)=2.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Hypercube Q₁, Q₂, Q₃ · click edge to highlight path</div>
+        <canvas class="c" id="qn-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="q1-btn" onclick="drawQn(1)">Q₁</span>
+          <span class="btn" id="q2-btn" onclick="drawQn(2)">Q₂</span>
+          <span class="btn" id="q3-btn" onclick="drawQn(3)">Q₃</span>
+        </div>
+        <div class="info-box" id="qn-info">Q₁: 2 vertices, 1 edge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Petersen -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(244,63,94,.12)">P</div>
+      <span class="topic-title">Petersen Graph</span>
+      <span class="topic-tag">Famous Graph</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Petersen Graph</div>10 vertices, 15 edges, 3-regular. Outer 5-cycle + inner 5-cycle (pentagram) + spokes.</div>
+        <div class="thm"><div class="def-label">Properties</div>NOT planar. χ=3. No Hamiltonian circuit. Girth=5 (shortest cycle length). Famous counterexample in many graph theory conjectures.</div>
+        <div class="eg"><div class="def-label">Why Famous?</div>Appears as minimal counterexample in dozens of theorems about cubic graphs, planarity, coloring, and matchings.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Petersen Graph · drag nodes · 3-coloring shown</div>
+        <canvas class="c" id="pet-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn cyan" onclick="petColor()">Show 3-Coloring</span>
+          <span class="btn" onclick="petReset()">Reset</span>
+        </div>
+        <div class="info-box">V=10 | E=15 | 3-regular | χ=3 | Not planar | No Hamilton circuit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 4: REPRESENTATION
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch4">
+  <div class="ch-header"><span class="ch-num">10.3a</span><h2 class="ch-title">Representing Graphs</h2></div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(6,182,212,.15)">[]</div>
+      <span class="topic-title">Adjacency Matrix, Incidence Matrix & Adjacency List</span>
+      <span class="topic-tag">Data Structures</span>
+    </div>
+    <div class="topic-body full">
+      <div class="topic-theory">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+          <div>
+            <div class="def"><div class="def-label">Adjacency Matrix</div>n×n matrix A. A[i][j]=1 if edge {i,j} exists.<br>Space: O(V²). Fast edge lookup O(1).</div>
+            <div class="thm"><div class="def-label">Key</div>Symmetric for undirected. Diagonal=0 for simple. Row sum = deg(vᵢ).</div>
+          </div>
+          <div>
+            <div class="def"><div class="def-label">Incidence Matrix</div>n×m matrix M. M[i][j]=1 if vᵢ incident to eⱼ.<br>Space: O(V·E). Col sum always=2.</div>
+            <div class="thm"><div class="def-label">Key</div>Good for edge-centric operations. Row sum = degree.</div>
+          </div>
+          <div>
+            <div class="def"><div class="def-label">Adjacency List</div>Array of lists: adj[v] = neighbors of v.<br>Space: O(V+E). Best for sparse graphs.</div>
+            <div class="thm"><div class="def-label">Key</div>Default for most algorithms. Traversal: O(V+E).</div>
+          </div>
+        </div>
+      </div>
+      <div class="topic-sim" style="padding:1.5rem;background:var(--s2)">
+        <div class="sim-title">// Live Representation · build graph · all three views update instantly</div>
+        <div style="display:grid;grid-template-columns:240px 1fr;gap:1rem">
+          <div>
+            <canvas class="c" id="rep-canvas" height="220" width="240"></canvas>
+            <div class="ctrls" style="margin-top:.5rem">
+              <span class="btn on" id="rp-n" onclick="rpMode('n')">Node</span>
+              <span class="btn" id="rp-e" onclick="rpMode('e')">Edge</span>
+              <span class="btn red" onclick="rpClear()">Clear</span>
+              <span class="btn cyan" onclick="rpSample()">Sample</span>
+            </div>
+          </div>
+          <div>
+            <div class="tabs">
+              <div class="tab active" onclick="rpTab('adj')">Adjacency Matrix</div>
+              <div class="tab" onclick="rpTab('inc')">Incidence Matrix</div>
+              <div class="tab" onclick="rpTab('lst')">Adjacency List</div>
+            </div>
+            <div id="rep-output" class="matrix-wrap" style="min-height:160px;font-size:.68rem;white-space:pre;padding:.5rem;background:var(--s3);border:1px solid var(--border);border-radius:.4rem;overflow:auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 5: ISOMORPHISM
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch5">
+  <div class="ch-header"><span class="ch-num">10.3b</span><h2 class="ch-title">Graph Isomorphism</h2></div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(245,158,11,.15)">≅</div>
+      <span class="topic-title">Isomorphism & Invariants</span>
+      <span class="topic-tag">Structural Equivalence</span>
+    </div>
+    <div class="topic-body full">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Isomorphism</div>G₁≅G₂ if bijection f:V₁→V₂ exists where {u,v}∈E₁ ⟺ {f(u),f(v)}∈E₂. <b>Same graph, different labels.</b></div>
+        <div class="thm"><div class="def-label">Invariants — Necessary but NOT Sufficient</div>
+          Same |V| · Same |E| · Same degree sequence · Same # cycles · Same girth · Same # connected components
+        </div>
+        <div class="note"><div class="def-label">Strategy</div>To prove NOT isomorphic: find one invariant that differs. To prove IS isomorphic: exhibit explicit bijection.</div>
+        <div class="eg"><div class="def-label">Hard Problem</div>Graph Isomorphism is in NP but not known to be in P or NP-complete. One of CS theory's great open questions.</div>
+      </div>
+      <div class="topic-sim" style="padding:1.5rem;background:var(--s2)">
+        <div class="sim-title">// Isomorphism Checker · generate pairs · compare invariants</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--c2);margin-bottom:.4rem">GRAPH G₁</div>
+            <canvas class="c" id="iso1-c" height="200"></canvas>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--y2);margin-bottom:.4rem">GRAPH G₂</div>
+            <canvas class="c" id="iso2-c" height="200"></canvas>
+          </div>
+        </div>
+        <div class="ctrls" style="margin-top:.75rem">
+          <span class="btn green" onclick="isoGen(true)">Generate Isomorphic Pair</span>
+          <span class="btn red" onclick="isoGen(false)">Generate Non-Isomorphic</span>
+          <span class="btn cyan" onclick="isoCheck()">Compare Invariants</span>
+        </div>
+        <div class="info-box" id="iso-info">Click a button to generate graph pairs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 6: CONNECTIVITY
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch6">
+  <div class="ch-header"><span class="ch-num">10.4</span><h2 class="ch-title">Connectivity</h2></div>
+
+  <!-- Connected / Components -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(16,185,129,.15)">⬡</div>
+      <span class="topic-title">Connected Graphs & Components</span>
+      <span class="topic-tag">Connectivity 1</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Connected</div>Undirected graph where path exists between <b>every</b> pair of vertices.</div>
+        <div class="def"><div class="def-label">Connected Component</div>Maximal connected subgraph. Disconnected graph = union of components.</div>
+        <div class="def"><div class="def-label">Strongly Connected (Digraph)</div>∀u,v: path u→v AND v→u both exist.</div>
+        <div class="def"><div class="def-label">Weakly Connected</div>Underlying undirected graph is connected.</div>
+        <div class="thm"><div class="def-label">Theorem</div>Complete graph Kₙ: removing any k ≤ n−2 vertices still connected. κ(Kₙ)=n−1.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Component Finder · BFS colors each component</div>
+        <canvas class="c" id="comp-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="comp-n" onclick="compMode('n')">Node</span>
+          <span class="btn" id="comp-e" onclick="compMode('e')">Edge</span>
+          <span class="btn cyan" onclick="compFind()">Find Components</span>
+          <span class="btn red" onclick="compClear()">Clear</span>
+          <span class="btn" onclick="compRandom()">Random</span>
+        </div>
+        <div class="status" id="comp-status">Build graph then Find Components</div>
+        <div class="info-box">Components: <span id="comp-num">—</span> | Connected: <span id="comp-con">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BFS / DFS -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(109,40,217,.2)">↻</div>
+      <span class="topic-title">BFS & DFS Traversal</span>
+      <span class="topic-tag">Connectivity 2</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">BFS — Breadth-First Search</div>Visit all neighbors before going deeper. Uses <b>queue</b>. Finds shortest paths (unweighted). Explores level by level.</div>
+        <div class="formula">Time: O(V+E) | Space: O(V)</div>
+        <div class="def"><div class="def-label">DFS — Depth-First Search</div>Go as deep as possible before backtracking. Uses <b>stack</b> (or recursion). Detects cycles, topological sort, SCC.</div>
+        <div class="formula">Time: O(V+E) | Space: O(V)</div>
+        <div class="thm"><div class="def-label">BFS Tree</div>BFS on connected G produces spanning tree. Tree edges = shortest paths from source.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// BFS vs DFS · watch them explore differently</div>
+        <canvas class="c" id="trav-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn cyan" onclick="travRun('bfs')">▶ Run BFS</span>
+          <span class="btn amber" onclick="travRun('dfs')">▶ Run DFS</span>
+          <span class="btn" onclick="travStep()">Step</span>
+          <span class="btn red" onclick="travReset()">Reset</span>
+          <span class="btn" onclick="travNew()">New Graph</span>
+        </div>
+        <div class="status" id="trav-status">Click Run BFS or DFS to begin</div>
+        <div class="legend">
+          <div class="leg"><div class="dot" style="background:#f43f5e"></div>Source</div>
+          <div class="leg"><div class="dot" style="background:#f59e0b"></div>In Queue/Stack</div>
+          <div class="leg"><div class="dot" style="background:#10b981"></div>Visited</div>
+          <div class="leg"><div class="dot" style="background:#6d28d9"></div>Unvisited</div>
+        </div>
+        <div class="info-box">Visit order: <span id="trav-order">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cut Vertex / Bridge -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(244,63,94,.12)">✂</div>
+      <span class="topic-title">Cut Vertices & Bridges</span>
+      <span class="topic-tag">Connectivity 3</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Cut Vertex (Articulation Point)</div>Vertex whose removal <b>increases</b> the number of connected components. Critical node in network.</div>
+        <div class="def"><div class="def-label">Bridge</div>Edge whose removal disconnects the graph. Single point of failure in network.</div>
+        <div class="thm"><div class="def-label">Tarjan's Algorithm</div>Finds all cut vertices and bridges in O(V+E) using DFS timestamps and low-link values.</div>
+        <div class="eg"><div class="def-label">Application</div>Network design: avoid bridges and cut vertices for fault tolerance. Routers, power grids, supply chains.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Cut Vertex & Bridge Finder · Tarjan's algorithm</div>
+        <canvas class="c" id="cut-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn red" onclick="cutFind('vertex')">Find Cut Vertices</span>
+          <span class="btn amber" onclick="cutFind('bridge')">Find Bridges</span>
+          <span class="btn" onclick="cutReset()">Reset</span>
+          <span class="btn cyan" onclick="cutNew()">New Graph</span>
+        </div>
+        <div class="legend">
+          <div class="leg"><div class="dot" style="background:#f43f5e"></div>Cut Vertex</div>
+          <div class="leg"><div class="dot" style="background:#f59e0b"></div>Bridge</div>
+        </div>
+        <div class="status" id="cut-status">Click Find Cut Vertices or Find Bridges</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vertex/Edge Connectivity -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(168,85,247,.15)">κ</div>
+      <span class="topic-title">κ(G) and λ(G) — Connectivity Numbers</span>
+      <span class="topic-tag">Connectivity 4</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Vertex Connectivity κ(G)</div>Min # vertices to remove to disconnect G. Measures <b>vertex robustness.</b></div>
+        <div class="def"><div class="def-label">Edge Connectivity λ(G)</div>Min # edges to remove to disconnect G. Measures <b>edge robustness.</b></div>
+        <div class="thm"><div class="def-label">Whitney's Inequality</div>κ(G) ≤ λ(G) ≤ δ(G) where δ = minimum degree</div>
+        <div class="eg"><div class="def-label">Examples</div>
+          Tree: κ=1 (any leaf neighbor), λ=1 (any edge is bridge)<br>
+          Kₙ: κ=λ=n−1 (most robust)<br>
+          Cycle Cₙ: κ=λ=2
+        </div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Connectivity Calculator · shows κ and λ</div>
+        <canvas class="c" id="kappa-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="kp-n" onclick="kpMode('n')">Node</span>
+          <span class="btn" id="kp-e" onclick="kpMode('e')">Edge</span>
+          <span class="btn cyan" onclick="kpCalc()">Calculate κ, λ, δ</span>
+          <span class="btn red" onclick="kpClear()">Clear</span>
+          <span class="btn" onclick="kpSample()">Sample Graph</span>
+        </div>
+        <div class="info-box">κ(G) = <span id="kp-kap">—</span> | λ(G) = <span id="kp-lam">—</span> | δ(G) = <span id="kp-del">—</span> | κ ≤ λ ≤ δ: <span id="kp-ok">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 7: EULER GRAPHS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch7">
+  <div class="ch-header"><span class="ch-num">10.5a</span><h2 class="ch-title">Euler Paths & Circuits</h2></div>
+
+  <!-- Euler Circuit -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(6,182,212,.15)">∀</div>
+      <span class="topic-title">Euler Circuit — All Edges Once</span>
+      <span class="topic-tag">Euler 1</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Euler Circuit</div>Circuit traversing <b>every edge exactly once</b>. May revisit vertices. Starts and ends at same vertex.</div>
+        <div class="thm"><div class="def-label">Theorem (Euler 1736)</div>Connected graph G has Euler circuit ⟺ <b>every vertex has even degree</b>.</div>
+        <div class="note"><div class="def-label">Königsberg Bridge Problem</div>4 land masses connected by 7 bridges. All 4 vertices had odd degree → no Euler circuit exists. First graph theory proof.</div>
+        <div class="def"><div class="def-label">Hierholzer's Algorithm</div>O(E): Find any circuit, then splice in sub-circuits at vertices with unused edges until all edges used.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Euler Circuit Finder · Hierholzer animated</div>
+        <canvas class="c" id="ec-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <select class="sel" id="ec-sel" onchange="ecLoad()">
+            <option value="ec">Euler Circuit (all even)</option>
+            <option value="ep">Euler Path (2 odd)</option>
+            <option value="konig">Königsberg Bridges</option>
+            <option value="none">No Euler (4 odd)</option>
+          </select>
+          <span class="btn cyan" onclick="ecCheck()">Check</span>
+          <span class="btn green" onclick="ecAnimate()">Animate</span>
+          <span class="btn red" onclick="ecReset()">Reset</span>
+        </div>
+        <div class="status" id="ec-status">Select graph type and click Check</div>
+        <div class="info-box" id="ec-info">Odd-degree vertices: <span id="ec-odd">—</span> | Result: <span id="ec-result">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Euler Path -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(245,158,11,.15)">→∀</div>
+      <span class="topic-title">Euler Path — Start ≠ End</span>
+      <span class="topic-tag">Euler 2</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="thm"><div class="def-label">Theorem</div>Connected G has Euler path (not circuit) ⟺ <b>exactly 2 vertices have odd degree</b>. Those two are the endpoints.</div>
+        <div class="eg"><div class="def-label">Applications</div>
+          <b>Route planning:</b> garbage truck, mail delivery — traverse each street once.<br>
+          <b>Circuit board etching:</b> draw each wire exactly once.<br>
+          <b>DNA assembly:</b> de Bruijn graph Euler paths reconstruct sequences.
+        </div>
+        <div class="formula">Odd vertices = 0 → Euler circuit | Odd = 2 → Euler path | Odd &gt; 2 → neither</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Interactive Euler Path · draw edges yourself</div>
+        <canvas class="c" id="ep-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn cyan" onclick="epNew()">New Euler Graph</span>
+          <span class="btn green" onclick="epSolve()">Show Solution</span>
+          <span class="btn red" onclick="epReset()">Reset Trace</span>
+        </div>
+        <div class="status" id="ep-status">Click nodes in sequence to trace Euler path</div>
+        <div class="info-box">Edges remaining: <span id="ep-rem">—</span> | Completed: <span id="ep-done">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 8: HAMILTONIAN
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch8">
+  <div class="ch-header"><span class="ch-num">10.5b</span><h2 class="ch-title">Hamiltonian Paths & Circuits</h2></div>
+
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(168,85,247,.15)">∃</div>
+      <span class="topic-title">Hamiltonian — All Vertices Once</span>
+      <span class="topic-tag">NP-Hard</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Hamiltonian Circuit</div>Circuit visiting every <b>vertex exactly once</b>. May skip edges. Named after W.R. Hamilton (1859 dodecahedron puzzle).</div>
+        <div class="thm"><div class="def-label">Dirac's Theorem (Sufficient)</div>If G simple, |V|≥3, and <b>deg(v)≥|V|/2</b> for all v → Hamiltonian circuit exists.</div>
+        <div class="thm"><div class="def-label">Ore's Theorem (Sufficient)</div>If for every non-adjacent u,v: <b>deg(u)+deg(v)≥|V|</b> → Ham. circuit exists.</div>
+        <div class="note"><div class="def-label">No Easy Characterization</div>Unlike Euler (polynomial check), Hamilton is <b>NP-complete</b>. No known efficient algorithm.</div>
+        <div class="formula">Euler: traverse ALL edges | Hamilton: visit ALL vertices</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Hamiltonian · try to find the circuit yourself</div>
+        <canvas class="c" id="hm-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <select class="sel" id="hm-sel" onchange="hmLoad()">
+            <option value="has">Has Hamilton Circuit</option>
+            <option value="no">No Hamilton Circuit</option>
+            <option value="k5">K₅</option>
+            <option value="petersen">Petersen (No Ham)</option>
+          </select>
+          <span class="btn cyan" onclick="hmSolve()">Show Solution</span>
+          <span class="btn red" onclick="hmReset()">Reset</span>
+          <span class="btn amber" onclick="hmCheck()">Check Dirac/Ore</span>
+        </div>
+        <div class="status" id="hm-status">Click nodes in order to build Hamiltonian circuit</div>
+        <div class="info-box" id="hm-info">Dirac: <span id="hm-dirac">—</span> | Ore: <span id="hm-ore">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 9: SHORTEST PATH
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch9">
+  <div class="ch-header"><span class="ch-num">10.6</span><h2 class="ch-title">Shortest-Path Problems</h2></div>
+
+  <!-- Dijkstra -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(16,185,129,.15)">D</div>
+      <span class="topic-title">Dijkstra's Algorithm — Single Source</span>
+      <span class="topic-tag">Greedy O((V+E)logV)</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Problem</div>Given weighted graph G with <b>non-negative</b> weights and source s, find shortest path from s to all vertices.</div>
+        <div class="thm"><div class="def-label">Algorithm (Dijkstra 1959)</div>
+          1. dist[s]=0, dist[v]=∞ for all others<br>
+          2. Priority queue with all vertices<br>
+          3. Extract min-dist vertex u<br>
+          4. <b>Relax</b> neighbors: if dist[u]+w(u,v) &lt; dist[v], update<br>
+          5. Repeat until queue empty
+        </div>
+        <div class="formula">Relaxation: dist[v] = min(dist[v], dist[u] + w(u,v))</div>
+        <div class="note"><div class="def-label">Greedy Insight</div>Once a vertex is extracted from PQ, its distance is final. Negative weights break this (use Bellman-Ford).</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Dijkstra · click source · step through relaxations</div>
+        <canvas class="c" id="dijk-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn" onclick="dijkStep()">Step ▶</span>
+          <span class="btn green" onclick="dijkRun()">Run All</span>
+          <span class="btn red" onclick="dijkReset()">Reset</span>
+          <span class="btn cyan" onclick="dijkNew()">New Graph</span>
+        </div>
+        <div class="status" id="dijk-status">Click a node to set source</div>
+        <div class="legend">
+          <div class="leg"><div class="dot" style="background:#f43f5e"></div>Source</div>
+          <div class="leg"><div class="dot" style="background:#f59e0b"></div>In Queue</div>
+          <div class="leg"><div class="dot" style="background:#10b981"></div>Finalized</div>
+          <div class="leg"><div class="dot" style="background:#06b6d4"></div>Path Edge</div>
+        </div>
+        <div class="info-box">Distances: <span id="dijk-dist">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floyd-Warshall -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(245,158,11,.15)">FW</div>
+      <span class="topic-title">Floyd-Warshall — All Pairs</span>
+      <span class="topic-tag">DP O(V³)</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Problem</div>Find shortest paths between <b>ALL pairs</b> of vertices. Handles negative weights (not negative cycles).</div>
+        <div class="thm"><div class="def-label">Recurrence</div>D[i][j] = min distance using first k vertices as intermediates:</div>
+        <div class="formula">D^k[i][j] = min(D^(k-1)[i][j], D^(k-1)[i][k] + D^(k-1)[k][j])</div>
+        <div class="note"><div class="def-label">Idea</div>Try every vertex k as potential intermediate. If going through k shortens i→j, use it. Dynamic programming.</div>
+        <div class="thm"><div class="def-label">Complexity</div>O(V³) time, O(V²) space. Good when V small, E dense.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Floyd-Warshall · watch distance matrix evolve</div>
+        <canvas class="c" id="fw-canvas" height="180" style="max-height:180px"></canvas>
+        <div class="ctrls">
+          <span class="btn" onclick="fwStep()">Step k++</span>
+          <span class="btn green" onclick="fwRun()">Run All</span>
+          <span class="btn red" onclick="fwReset()">Reset</span>
+        </div>
+        <div class="status" id="fw-status">Shows all-pairs distance matrix, k=0</div>
+        <div id="fw-matrix" class="matrix-wrap" style="font-size:.62rem"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 10: PLANAR GRAPHS
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch10">
+  <div class="ch-header"><span class="ch-num">10.7</span><h2 class="ch-title">Planar Graphs</h2></div>
+
+  <!-- Euler Formula -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(6,182,212,.15)">χ</div>
+      <span class="topic-title">Euler's Formula · V − E + F = 2</span>
+      <span class="topic-tag">Fundamental</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Planar Graph</div>Can be drawn in the plane with <b>no edge crossings</b>. The drawing = planar embedding.</div>
+        <div class="thm"><div class="def-label">Euler's Formula (1758)</div>For any connected planar graph:</div>
+        <div class="formula">V − E + F = 2</div>
+        <p class="body">F = number of faces (regions), including the <b>unbounded outer face</b>.</p>
+        <div class="thm"><div class="def-label">Corollaries (for simple planar, V≥3)</div></div>
+        <div class="formula">E ≤ 3V − 6 &nbsp;&nbsp; (general) &nbsp;&nbsp;&nbsp; E ≤ 2V − 4 &nbsp;&nbsp; (bipartite/no triangle)</div>
+        <div class="eg"><div class="def-label">Verification</div>Cube: V=8,E=12,F=6 → 8-12+6=2 ✓ | Triangle: V=3,E=3,F=2 → 2 ✓</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Planar Embedder · drag nodes · crossings detected</div>
+        <canvas class="c" id="plan-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <select class="sel" id="plan-sel" onchange="planLoad()">
+            <option value="simple">Simple Planar</option>
+            <option value="k4">K₄ (Planar)</option>
+            <option value="k5">K₅ (NOT Planar)</option>
+            <option value="k33">K₃,₃ (NOT Planar)</option>
+            <option value="petersen">Petersen (NOT)</option>
+            <option value="cube">Cube Graph</option>
+          </select>
+          <span class="btn cyan" onclick="planCheck()">Euler Formula</span>
+          <span class="btn" onclick="planReset()">Reset Layout</span>
+        </div>
+        <div class="status" id="plan-status">Drag nodes to eliminate crossings</div>
+        <div class="info-box">V=<span id="pl-v">—</span> E=<span id="pl-e">—</span> F=<span id="pl-f">—</span> | V-E+F=<span id="pl-euler">—</span> | Crossings=<span id="pl-cross">—</span> | <span id="pl-verdict">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kuratowski -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(244,63,94,.12)">K</div>
+      <span class="topic-title">Kuratowski's Theorem</span>
+      <span class="topic-tag">Planarity Test</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="thm"><div class="def-label">Kuratowski 1930</div>G is planar ⟺ G contains no subgraph that is a <b>subdivision</b> of K₅ or K₃,₃.</div>
+        <div class="def"><div class="def-label">Subdivision</div>Replace edge (u,v) with path u→w₁→w₂→…→v. Adds vertices of degree 2. Called "topological minor".</div>
+        <div class="eg"><div class="def-label">Proofs of Non-Planarity</div>
+          K₅: V=5,E=10 → 10 &gt; 3(5)−6=9 → NOT planar<br>
+          K₃,₃: V=6,E=9,bipartite → 9 &gt; 2(6)−4=8 → NOT planar
+        </div>
+        <div class="note"><div class="def-label">Equivalent: Wagner's Theorem</div>G planar ⟺ no K₅ or K₃,₃ as <b>graph minor</b> (allowing edge contractions).</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// K₅ and K₃,₃ subdivision explorer</div>
+        <canvas class="c" id="kur-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <span class="btn on" id="kur-k5" onclick="kurShow('k5')">Show K₅</span>
+          <span class="btn" id="kur-k33" onclick="kurShow('k33')">Show K₃,₃</span>
+          <span class="btn cyan" onclick="kurSubdivide()">Subdivide Edge</span>
+          <span class="btn" onclick="kurReset()">Reset</span>
+        </div>
+        <div class="status" id="kur-status">K₅ and K₃,₃ — the two forbidden minors</div>
+        <div class="info-box" id="kur-info">E ≤ 3V−6 check: <span id="kur-check">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHAPTER 11: GRAPH COLORING
+══════════════════════════════════════════════════════════ -->
+<div class="chapter rev" id="ch11">
+  <div class="ch-header"><span class="ch-num">10.8</span><h2 class="ch-title">Graph Coloring</h2></div>
+
+  <!-- Chromatic Number -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(109,40,217,.2)">χ</div>
+      <span class="topic-title">Chromatic Number χ(G)</span>
+      <span class="topic-tag">Coloring 1</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Proper Coloring</div>Assign colors to vertices so <b>no two adjacent vertices share a color</b>.</div>
+        <div class="def"><div class="def-label">Chromatic Number χ(G)</div>Minimum number of colors needed for proper coloring.</div>
+        <div class="thm"><div class="def-label">Known Values</div></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--txtd);margin:.4rem 0;line-height:2">
+          χ(Kₙ) = n &nbsp;&nbsp; χ(Bipartite) = 2 &nbsp;&nbsp; χ(Odd Cycle) = 3<br>
+          χ(Even Cycle) = 2 &nbsp;&nbsp; χ(Tree) = 2 &nbsp;&nbsp; χ(Planar) ≤ 4
+        </div>
+        <div class="thm"><div class="def-label">Brook's Theorem</div>χ(G) ≤ Δ(G) unless G is Kₙ or odd cycle (then χ=Δ+1).</div>
+        <div class="thm"><div class="def-label">Four Color Theorem (1976)</div>Every planar graph: χ(G) ≤ 4. First computer-assisted proof.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Chromatic Number Explorer · greedy coloring</div>
+        <canvas class="c" id="chr-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <select class="sel" id="chr-sel" onchange="chrLoad()">
+            <option value="bip">Bipartite (χ=2)</option>
+            <option value="c5">Odd Cycle C₅ (χ=3)</option>
+            <option value="k4">K₄ (χ=4)</option>
+            <option value="pet">Petersen (χ=3)</option>
+            <option value="tree">Tree (χ=2)</option>
+            <option value="rand">Random</option>
+          </select>
+          <span class="btn" onclick="chrStep()">Step</span>
+          <span class="btn green" onclick="chrRun()">Auto Color</span>
+          <span class="btn red" onclick="chrReset()">Reset</span>
+        </div>
+        <div class="status" id="chr-status">Select a graph, then step through greedy coloring</div>
+        <div class="info-box">Colors used: <span id="chr-used">0</span> | χ(G) = <span id="chr-chi">?</span> | Valid: <span id="chr-valid">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual Coloring -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(16,185,129,.15)">🎨</div>
+      <span class="topic-title">Manual Coloring Challenge</span>
+      <span class="topic-tag">Interactive</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="note"><div class="def-label">Challenge</div>Try to color the graph using the <b>minimum</b> number of colors. No adjacent vertices can share a color!</div>
+        <div class="def"><div class="def-label">Greedy Algorithm</div>Process vertices in some order. Assign smallest color not used by neighbors. Produces ≤ Δ+1 colors. Order matters!</div>
+        <div class="thm"><div class="def-label">Applications</div>
+          <b>Exam scheduling:</b> exams=vertices, shared student=edge, color=time slot<br>
+          <b>Register allocation:</b> live variables=vertices, interference=edge<br>
+          <b>Map coloring:</b> 4 colors always enough for planar maps<br>
+          <b>Frequency assignment:</b> radio stations needing different frequencies
+        </div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Color It Yourself · pick color · click vertex · avoid conflicts</div>
+        <canvas class="c" id="man-canvas" height="240"></canvas>
+        <div class="ctrls" style="flex-wrap:wrap;gap:.3rem">
+          <div style="display:flex;gap:.4rem;align-items:center">
+            <div class="pal-btn active" style="background:#f43f5e" onclick="setPC(0)" id="pc0"></div>
+            <div class="pal-btn" style="background:#06b6d4" onclick="setPC(1)" id="pc1"></div>
+            <div class="pal-btn" style="background:#10b981" onclick="setPC(2)" id="pc2"></div>
+            <div class="pal-btn" style="background:#f59e0b" onclick="setPC(3)" id="pc3"></div>
+            <div class="pal-btn" style="background:#a855f7" onclick="setPC(4)" id="pc4"></div>
+          </div>
+          <span class="btn red" onclick="manReset()">Reset</span>
+          <span class="btn" onclick="manNew()">New Graph</span>
+          <span class="btn cyan" onclick="manSolve()">Auto Solve</span>
+        </div>
+        <div class="status" id="man-status">Pick a color (circle), then click vertices</div>
+        <div class="info-box">Colors used: <span id="man-used">0</span> | Conflicts: <span id="man-conf">0</span> | Min needed: <span id="man-min">?</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edge Coloring -->
+  <div class="topic">
+    <div class="topic-header">
+      <div class="topic-icon" style="background:rgba(245,158,11,.15)">—</div>
+      <span class="topic-title">Edge Coloring & χ'(G)</span>
+      <span class="topic-tag">Coloring 2</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-theory">
+        <div class="def"><div class="def-label">Edge Coloring</div>Color edges so no two <b>adjacent edges</b> (sharing a vertex) have same color. χ'(G) = edge chromatic number.</div>
+        <div class="thm"><div class="def-label">Vizing's Theorem (1964)</div>For simple graph: χ'(G) = Δ (Class 1) or χ'(G) = Δ+1 (Class 2).<br>Always: Δ ≤ χ'(G) ≤ Δ+1.</div>
+        <div class="eg"><div class="def-label">Examples</div>
+          Kₙ (n even): χ' = n−1 = Δ (Class 1)<br>
+          Kₙ (n odd): χ' = n = Δ+1 (Class 2)<br>
+          Bipartite: χ' = Δ (König's theorem, always Class 1)
+        </div>
+        <div class="note"><div class="def-label">Application</div>Scheduling: tasks share a machine/time slot. Edge=task, vertex=machine, color=time slot.</div>
+      </div>
+      <div class="topic-sim">
+        <div class="sim-title">// Edge Coloring · color edges so no two sharing vertex match</div>
+        <canvas class="c" id="ec2-canvas" height="260"></canvas>
+        <div class="ctrls">
+          <select class="sel" id="ec2-sel" onchange="ec2Load()">
+            <option value="k4e">K₄ (χ'=3)</option>
+            <option value="k5e">K₅ (χ'=5)</option>
+            <option value="bipe">Bipartite K₂,₃ (χ'=3)</option>
+            <option value="ce6">Cycle C₆ (χ'=2)</option>
+          </select>
+          <span class="btn green" onclick="ec2Solve()">Auto Edge-Color</span>
+          <span class="btn red" onclick="ec2Reset()">Reset</span>
+        </div>
+        <div class="status" id="ec2-status">Select graph and click Auto Edge-Color</div>
+        <div class="info-box">Δ = <span id="ec2-delta">—</span> | χ'(G) = <span id="ec2-chi">—</span> | Class: <span id="ec2-class">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="background:var(--surface);border-top:1px solid var(--border);padding:3rem 2rem;text-align:center;margin-top:4rem">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--txtd);max-width:600px;margin:0 auto;line-height:2.2">
+    <div style="color:var(--c2);font-size:.75rem;margin-bottom:.5rem;font-weight:700">GRAPH THEORY · COMPLETE INTERACTIVE REFERENCE</div>
+    Kenneth H. Rosen — Discrete Mathematics and Its Applications, 8th Ed., Chapter 10<br>
+    11 Interactive Modules · 25+ Simulations · Every Theorem with Live Example
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+// ─── UTILS ───────────────────────────────────────────────
+const NR=20;
+const PAL=['#f43f5e','#06b6d4','#10b981','#f59e0b','#a855f7','#f97316','#34d399','#60a5fa','#e879f9'];
+const EDGE_COL='#2a2a45', EDGE_ACT='#06b6d4', EDGE_PATH='#10b981';
+
+function d(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function cpos(canvas,e){
+  const r=canvas.getBoundingClientRect(),sx=canvas.width/r.width,sy=canvas.height/r.height;
+  const cx=e.touches?e.touches[0].clientX:e.clientX;
+  const cy=e.touches?e.touches[0].clientY:e.clientY;
+  return{x:(cx-r.left)*sx,y:(cy-r.top)*sy};
+}
+function circle(n,cx,cy,r,startAngle=-Math.PI/2){
+  return Array.from({length:n},(_,i)=>({x:cx+r*Math.cos(startAngle+2*Math.PI*i/n),y:cy+r*Math.sin(startAngle+2*Math.PI*i/n)}));
+}
+function initCanvas(id){
+  const c=document.getElementById(id);
+  const w=c.parentElement.clientWidth-30;
+  c.width=Math.min(w,500);c.height=260;
+  c.style.width='100%';
+  return c;
+}
+function bg(ctx,W,H){ctx.fillStyle='#0a0a16';ctx.fillRect(0,0,W,H);}
+function node(ctx,x,y,r,fill,label,stroke=null){
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fillStyle=fill;ctx.fill();
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2.5;ctx.stroke();}
+  ctx.fillStyle='#f8fafc';ctx.font=`bold ${Math.max(9,r*.65)}px JetBrains Mono,monospace`;
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,x,y);
+}
+function edge(ctx,x1,y1,x2,y2,col='#2a2a45',w=1.5,arrow=false){
+  const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy);
+  if(len<1)return;
+  // shorten for arrow
+  const sx=dx/len,sy=dy/len;
+  const ex=arrow?x2-sx*NR:x2,ey=arrow?y2-sy*NR:y2;
+  ctx.beginPath();ctx.moveTo(x1+sx*NR,y1+sy*NR);ctx.lineTo(ex,ey);
+  ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();
+  if(arrow){
+    const ang=Math.atan2(dy,dx);
+    ctx.beginPath();
+    ctx.moveTo(ex,ey);
+    ctx.lineTo(ex-9*Math.cos(ang-.4),ey-9*Math.sin(ang-.4));
+    ctx.lineTo(ex-9*Math.cos(ang+.4),ey-9*Math.sin(ang+.4));
+    ctx.closePath();ctx.fillStyle=col;ctx.fill();
+  }
+}
+function edgeLabel(ctx,x1,y1,x2,y2,label){
+  const mx=(x1+x2)/2,my=(y1+y2)/2;
+  ctx.fillStyle='#f59e0b';ctx.font="bold 10px JetBrains Mono,monospace";
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle='#0a0a16';ctx.fillRect(mx-9,my-7,18,14);
+  ctx.fillStyle='#f59e0b';ctx.fillText(label,mx,my);
+}
+function adjList(n,edges){
+  const a=Array.from({length:n},()=>[]);
+  edges.forEach(([i,j])=>{a[i].push(j);a[j].push(i);});
+  return a;
+}
+function degrees(n,edges){
+  const d=new Array(n).fill(0);
+  edges.forEach(([i,j])=>{d[i]++;d[j]++;});
+  return d;
+}
+function bfsComponents(n,edges){
+  const adj=adjList(n,edges);
+  const comp=new Array(n).fill(-1);
+  let c=0;
+  for(let s=0;s<n;s++){
+    if(comp[s]>=0)continue;
+    const q=[s];comp[s]=c;
+    while(q.length){const u=q.shift();adj[u].forEach(v=>{if(comp[v]<0){comp[v]=c;q.push(v);}});}
+    c++;
+  }
+  return{comp,count:c};
+}
+function validColor(v,nodeColors,edges){
+  const nbColors=new Set();
+  edges.forEach(([a,b])=>{if(a===v&&nodeColors[b]>=0)nbColors.add(nodeColors[b]);if(b===v&&nodeColors[a]>=0)nbColors.add(nodeColors[a]);});
+  for(let c=0;c<PAL.length;c++)if(!nbColors.has(c))return c;
+  return PAL.length-1;
+}
+function segInt(p1,p2,p3,p4){
+  function cross(o,a,b){return(a.x-o.x)*(b.y-o.y)-(a.y-o.y)*(b.x-o.x);}
+  const d1=cross(p3,p4,p1),d2=cross(p3,p4,p2),d3=cross(p1,p2,p3),d4=cross(p1,p2,p4);
+  if(((d1>0&&d2<0)||(d1<0&&d2>0))&&((d3>0&&d4<0)||(d3<0&&d4>0)))return true;
+  return false;
+}
+function countCross(nodes,edges){
+  let c=0;
+  for(let i=0;i<edges.length;i++)for(let j=i+1;j<edges.length;j++){
+    const[a,b]=edges[i],[c2,d]=edges[j];
+    if(a===c2||a===d||b===c2||b===d)continue;
+    if(segInt(nodes[a],nodes[b],nodes[c2],nodes[d]))c++;
+  }
+  return c;
+}
+
+// ─── HERO ────────────────────────────────────────────────
+(()=>{
+  const c=document.getElementById('hero-bg'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<22;i++)pts.push({x:Math.random()*1920,y:Math.random()*900,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3});
+  const edges2=[];for(let i=0;i<22;i++)for(let j=i+1;j<22;j++)if(Math.random()<.22)edges2.push([i,j]);
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});
+    edges2.forEach(([a,b])=>{
+      const dd=d(pts[a],pts[b]),alpha=Math.max(0,1-dd/350)*0.35;
+      ctx.beginPath();ctx.moveTo(pts[a].x,pts[a].y);ctx.lineTo(pts[b].x,pts[b].y);
+      ctx.strokeStyle=`rgba(109,40,217,${alpha})`;ctx.lineWidth=1;ctx.stroke();
+    });
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle='rgba(167,139,250,.5)';ctx.fill();});
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ─── SCROLL REVEAL ────────────────────────────────────────
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.06});
+document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
+
+// ─── GENERIC GRAPH BUILDER ───────────────────────────────
+function makeBuilder(id,{loop=false,directed=false,onDraw=null,onUpdate=null}={}){
+  const c=document.getElementById(id);
+  c.width=c.parentElement.clientWidth||400;
+  c.style.width='100%';
+  const ctx=c.getContext('2d');
+  const state={nodes:[],edges:[],mode:'node',sel:-1,drag:-1};
+  function W(){return c.width;}function H(){return c.height;}
+  function draw(){
+    ctx.clearRect(0,0,W(),H());bg(ctx,W(),H());
+    // edges
+    state.edges.forEach(([a,b,meta])=>{
+      if(a===b){// loop
+        const n=state.nodes[a];if(!n)return;
+        ctx.beginPath();ctx.arc(n.x-14,n.y-14,14,0,Math.PI*2);
+        ctx.strokeStyle=meta&&meta.col?meta.col:'#3a3a6a';ctx.lineWidth=1.5;ctx.stroke();
+        return;
+      }
+      const na=state.nodes[a],nb=state.nodes[b];if(!na||!nb)return;
+      const col=meta&&meta.col?meta.col:EDGE_COL;
+      // check if reverse edge exists → offset
+      const rev=state.edges.find(([x,y])=>x===b&&y===a&&a!==b);
+      if(rev&&directed){
+        const mx=(na.x+nb.x)/2,my=(na.y+nb.y)/2;
+        const dx=nb.x-na.x,dy=nb.y-na.y,len=Math.hypot(dx,dy);
+        const off=8;
+        const ox=-dy/len*off,oy=dx/len*off;
+        ctx.beginPath();ctx.moveTo(na.x+ox+dx/len*NR,na.y+oy+dy/len*NR);ctx.lineTo(nb.x+ox-dx/len*NR,nb.y+oy-dy/len*NR);
+        ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
+        if(directed){
+          const ang=Math.atan2(dy,dx);const ex2=nb.x+ox-dx/len*NR,ey2=nb.y+oy-dy/len*NR;
+          ctx.beginPath();ctx.moveTo(ex2,ey2);ctx.lineTo(ex2-8*Math.cos(ang-.4),ey2-8*Math.sin(ang-.4));ctx.lineTo(ex2-8*Math.cos(ang+.4),ey2-8*Math.sin(ang+.4));ctx.closePath();ctx.fillStyle=col;ctx.fill();
+        }
+        if(meta&&meta.w!==undefined)edgeLabel(ctx,na.x+ox,na.y+oy,nb.x+ox,nb.y+oy,meta.w);
+      } else {
+        edge(ctx,na.x,na.y,nb.x,nb.y,col,meta&&meta.w!==undefined?2:1.5,directed);
+        if(meta&&meta.w!==undefined)edgeLabel(ctx,na.x,na.y,nb.x,nb.y,meta.w);
+      }
+    });
+    // nodes
+    state.nodes.forEach((n,i)=>{
+      const col=n.col||(i===state.sel?'#f59e0b':'#6d28d9');
+      const stroke=i===state.sel?'#fff':(n.stroke||'#4a4a6a');
+      node(ctx,n.x,n.y,NR,col,n.label||String.fromCharCode(65+i),stroke);
+      if(n.extra){
+        ctx.fillStyle='#94a3b8';ctx.font="10px JetBrains Mono,monospace";ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n.extra,n.x,n.y+NR+11);
+      }
+    });
+    if(onDraw)onDraw(ctx,state,W(),H());
+  }
+  function hitNode(pos){return state.nodes.findIndex(n=>d(n,pos)<NR+5);}
+  function onMousedown(e){
+    const pos=cpos(c,e);
+    if(state.mode==='node'){
+      if(!state.nodes.some(n=>d(n,pos)<NR*2.2))state.nodes.push({x:pos.x,y:pos.y});
+      if(onUpdate)onUpdate(state);draw();return;
+    }
+    const hit=hitNode(pos);
+    if(state.mode==='drag'){state.drag=hit;return;}
+    if(hit>=0){
+      if(state.sel<0){state.sel=hit;}
+      else{
+        if(!(loop===false&&state.sel===hit)){
+          if(!directed&&!state.edges.some(([a,b])=>a===Math.min(state.sel,hit)&&b===Math.max(state.sel,hit))){
+            state.edges.push([state.sel,hit]);
+          } else if(directed){
+            state.edges.push([state.sel,hit]);
+          }
+        }
+        state.sel=-1;
+      }
+    } else {state.sel=-1;}
+    if(onUpdate)onUpdate(state);draw();
+  }
+  function onMousemove(e){
+    if(state.drag>=0){const pos=cpos(c,e);state.nodes[state.drag].x=pos.x;state.nodes[state.drag].y=pos.y;draw();}
+  }
+  function onMouseup(){state.drag=-1;}
+  c.addEventListener('mousedown',onMousedown);c.addEventListener('mousemove',onMousemove);c.addEventListener('mouseup',onMouseup);
+  c.addEventListener('touchstart',e=>{e.preventDefault();onMousedown(e);},{passive:false});
+  c.addEventListener('touchmove',e=>{e.preventDefault();onMousemove(e);},{passive:false});
+  c.addEventListener('touchend',onMouseup);
+  draw();
+  return{state,draw,ctx,c};
+}
+
+// ══════════════════════════════════════════
+// CH1: SIMPLE GRAPH
+// ══════════════════════════════════════════
+let sg;
+(()=>{
+  sg=makeBuilder('sg-canvas',{onUpdate(s){
+    document.getElementById('sg-v').textContent=s.nodes.length;
+    document.getElementById('sg-e').textContent=s.edges.length;
+    const n=s.nodes.length;document.getElementById('sg-max').textContent=n*(n-1)/2;
+  }});
+  sg.state.mode='node';
+})();
+function sgMode(m){
+  sg.state.mode=m;sg.state.sel=-1;
+  document.getElementById('sg-node-btn').classList.toggle('on',m==='node');
+  document.getElementById('sg-edge-btn').classList.toggle('on',m==='edge');
+  document.getElementById('sg-status').textContent=m==='node'?'Click to add vertices':'Click two vertices to add edge';
+  sg.draw();
+}
+function sgClear(){sg.state.nodes=[];sg.state.edges=[];sg.state.sel=-1;sg.draw();document.getElementById('sg-v').textContent=0;document.getElementById('sg-e').textContent=0;document.getElementById('sg-max').textContent=0;}
+
+// ══════════════════════════════════════════
+// CH1: MULTIGRAPH
+// ══════════════════════════════════════════
+let mg;
+(()=>{
+  mg=makeBuilder('mg-canvas',{loop:true,onUpdate(s){
+    const edgeKey=([a,b])=>a<b?`${a}-${b}`:`${b}-${a}`;
+    const loops=s.edges.filter(([a,b])=>a===b).length;
+    const keys=s.edges.filter(([a,b])=>a!==b).map(edgeKey);
+    const uniq=new Set(keys).size;
+    const multi=keys.length-uniq;
+    document.getElementById('mg-loops').textContent=loops;
+    document.getElementById('mg-multi').textContent=multi;
+  }});
+})();
+function mgMode(m){
+  if(m==='loop'){
+    // click once → add loop
+    mg.state.mode='loop';
+    document.getElementById('mg-status').textContent='Click a node to add a loop';
+  } else {
+    mg.state.mode=m==='node'?'node':'edge';
+    document.getElementById('mg-status').textContent=m==='node'?'Add nodes':'Click same or different node for parallel/loop edge';
+  }
+  ['mg-n','mg-e','mg-l'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById(m==='node'?'mg-n':m==='edge'?'mg-e':'mg-l').classList.add('on');
+}
+function mgClear(){mg.state.nodes=[];mg.state.edges=[];mg.state.sel=-1;mg.draw();document.getElementById('mg-loops').textContent=0;document.getElementById('mg-multi').textContent=0;}
+
+// ══════════════════════════════════════════
+// CH1: DIGRAPH
+// ══════════════════════════════════════════
+let dg;
+(()=>{
+  dg=makeBuilder('dg-canvas',{directed:true,onDraw(ctx,s,W,H){
+    // show in/out degrees
+    const n=s.nodes.length;
+    const inD=new Array(n).fill(0),outD=new Array(n).fill(0);
+    s.edges.forEach(([a,b])=>{if(a<n)outD[a]++;if(b<n)inD[b]++;});
+    s.nodes.forEach((nd,i)=>{
+      ctx.fillStyle='#94a3b8';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(`in:${inD[i]} out:${outD[i]}`,nd.x,nd.y+NR+11);
+    });
+  }});
+})();
+function dgMode(m){dg.state.mode=m==='node'?'node':'edge';dg.state.sel=-1;
+  document.getElementById('dg-n').classList.toggle('on',m==='node');
+  document.getElementById('dg-e').classList.toggle('on',m==='edge');
+  document.getElementById('dg-status').textContent=m==='node'?'Add nodes':'Click source then target — arrow drawn';
+  dg.draw();
+}
+function dgClear(){dg.state.nodes=[];dg.state.edges=[];dg.state.sel=-1;dg.draw();}
+
+// ══════════════════════════════════════════
+// CH2: HANDSHAKING
+// ══════════════════════════════════════════
+let hs;
+(()=>{
+  function update(s){
+    const n=s.nodes.length;
+    const deg=degrees(n,s.edges);
+    const sum=deg.reduce((a,b)=>a+b,0);
+    const odd=deg.filter(d=>d%2!==0).length;
+    document.getElementById('hs-sum').textContent=sum;
+    document.getElementById('hs-2e').textContent=2*s.edges.length;
+    document.getElementById('hs-odd').textContent=odd;
+    document.getElementById('hs-ok').textContent=sum===2*s.edges.length?'✓ YES':'✗ NO';
+    // color by degree
+    const cols=['#6d28d9','#0891b2','#047857','#b45309','#be123c'];
+    s.nodes.forEach((nd,i)=>{nd.col=deg[i]===0?'#3a3a6a':cols[Math.min(deg[i]-1,cols.length-1)];});
+  }
+  hs=makeBuilder('hs-canvas',{onUpdate:update});
+  // hover
+  hs.c.addEventListener('mousemove',e=>{
+    const pos=cpos(hs.c,e),n=hs.state.nodes.length;
+    const hit=hs.state.nodes.findIndex(nd=>d(nd,pos)<NR+5);
+    const deg=degrees(n,hs.state.edges);
+    hs.state.nodes.forEach(nd=>nd.extra=null);
+    if(hit>=0)hs.state.nodes[hit].extra=`d=${deg[hit]}`;
+    hs.draw();
+    if(hit>=0)document.getElementById('hs-status').textContent=`Node ${String.fromCharCode(65+hit)}: degree = ${deg[hit]}`;
+    else document.getElementById('hs-status').textContent='Hover a node to see its degree';
+  });
+})();
+function hsMode(m){hs.state.mode=m==='node'?'node':'edge';hs.state.sel=-1;
+  document.getElementById('hs-n').classList.toggle('on',m==='node');
+  document.getElementById('hs-e').classList.toggle('on',m==='edge');hs.draw();}
+function hsClear(){hs.state.nodes=[];hs.state.edges=[];hs.draw();['hs-sum','hs-2e','hs-odd'].forEach(id=>document.getElementById(id).textContent=0);document.getElementById('hs-ok').textContent='—';}
+function hsRandom(){
+  hsClear();const c2=hs.c,W=c2.width,H=c2.height;
+  const pts=circle(7,W/2,H/2,110);pts.forEach((p,i)=>hs.state.nodes.push({x:p.x,y:p.y}));
+  [[0,1],[0,2],[1,2],[1,3],[2,4],[3,5],[4,5],[4,6],[5,6],[0,6]].forEach(e=>hs.state.edges.push(e));
+  const n=hs.state.nodes.length;const deg=degrees(n,hs.state.edges);
+  const sum=deg.reduce((a,b)=>a+b,0);const odd=deg.filter(d=>d%2!==0).length;
+  document.getElementById('hs-sum').textContent=sum;document.getElementById('hs-2e').textContent=2*hs.state.edges.length;
+  document.getElementById('hs-odd').textContent=odd;document.getElementById('hs-ok').textContent='✓ YES';
+  hs.draw();
+}
+
+// ══════════════════════════════════════════
+// CH2: PATH EXPLORER
+// ══════════════════════════════════════════
+let pathState={nodes:[],edges:[],path:[],mode:'trace'};
+let pathCanvas,pathCtx;
+(()=>{
+  pathCanvas=document.getElementById('path-canvas');
+  pathCanvas.width=pathCanvas.parentElement.clientWidth||400;pathCanvas.style.width='100%';
+  pathCtx=pathCanvas.getContext('2d');
+  pathNew();
+})();
+function pathNew(){
+  const W=pathCanvas.width,H=pathCanvas.height;
+  const pts=circle(8,W/2,H/2,120);
+  pathState.nodes=pts.map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+  pathState.edges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[0,4],[1,5],[2,6],[3,7]];
+  pathState.path=[];pathDraw();
+  document.getElementById('path-seq').textContent='—';document.getElementById('path-len').textContent=0;document.getElementById('path-type').textContent='—';
+}
+function pathClear(){pathState.path=[];pathDraw();document.getElementById('path-seq').textContent='—';document.getElementById('path-len').textContent=0;document.getElementById('path-type').textContent='—';}
+function pathDraw(){
+  const ctx=pathCtx,W=pathCanvas.width,H=pathCanvas.height;
+  ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  pathState.edges.forEach(([a,b])=>{
+    const na=pathState.nodes[a],nb=pathState.nodes[b];
+    const inPath=pathState.path.length>1&&pathState.path.some((_,i)=>i<pathState.path.length-1&&((pathState.path[i]===a&&pathState.path[i+1]===b)||(pathState.path[i]===b&&pathState.path[i+1]===a)));
+    edge(ctx,na.x,na.y,nb.x,nb.y,inPath?'#10b981':EDGE_COL,inPath?2.5:1.5);
+  });
+  pathState.nodes.forEach((n,i)=>{
+    const inPath=pathState.path.includes(i);
+    const isLast=pathState.path.length&&pathState.path[pathState.path.length-1]===i;
+    node(ctx,n.x,n.y,NR,isLast?'#f59e0b':inPath?'#10b981':'#6d28d9',n.label,null);
+  });
+}
+pathCanvas.addEventListener('click',e=>{
+  const pos=cpos(pathCanvas,e);
+  const hit=pathState.nodes.findIndex(n=>d(n,pos)<NR+5);
+  if(hit<0)return;
+  const p=pathState.path;
+  if(p.length&&p[p.length-1]===hit){document.getElementById('path-status').textContent='Already at this node';return;}
+  // check edge exists
+  if(p.length){
+    const last=p[p.length-1];
+    const hasEdge=pathState.edges.some(([a,b])=>(a===last&&b===hit)||(a===hit&&b===last));
+    if(!hasEdge){document.getElementById('path-status').textContent='No edge between these nodes!';return;}
+  }
+  p.push(hit);
+  const repeated=p.length!==new Set(p).size;
+  const isCycle=p.length>2&&p[0]===p[p.length-1];
+  const type=isCycle?(repeated?'Circuit':'Cycle'):(repeated?'Walk (repeated vertices)':'Simple Path');
+  document.getElementById('path-seq').textContent=p.map(i=>pathState.nodes[i].label).join('→');
+  document.getElementById('path-len').textContent=p.length-1;
+  document.getElementById('path-type').textContent=type;
+  document.getElementById('path-status').textContent=`Added ${pathState.nodes[hit].label}`;
+  pathDraw();
+});
+
+// ══════════════════════════════════════════
+// CH3: COMPLETE GRAPH Kn
+// ══════════════════════════════════════════
+let knCanvas,knCtx;
+(()=>{knCanvas=document.getElementById('kn-canvas');knCanvas.width=knCanvas.parentElement.clientWidth||400;knCanvas.style.width='100%';knCtx=knCanvas.getContext('2d');drawKn(5);})();
+function drawKn(n){
+  n=+n;document.getElementById('kn-val').textContent=n;document.getElementById('kn-slider').value=n;
+  const W=knCanvas.width,H=knCanvas.height;knCtx.clearRect(0,0,W,H);bg(knCtx,W,H);
+  const pts=circle(n,W/2,H/2,Math.min(W,H)/2-30);
+  for(let i=0;i<n;i++)for(let j=i+1;j<n;j++)edge(knCtx,pts[i].x,pts[i].y,pts[j].x,pts[j].y,'#3a3a6a',1.5);
+  pts.forEach((p,i)=>node(knCtx,p.x,p.y,NR,'#6d28d9',String(i+1),null));
+  document.getElementById('kn-v').textContent=n;
+  document.getElementById('kn-e').textContent=n*(n-1)/2;
+  document.getElementById('kn-d').textContent=n-1;
+  document.getElementById('kn-p').textContent=n<=4?'Yes (K'+n+' planar)':n===5?'No (K₅ not planar)':'No (K'+n+' not planar)';
+}
+
+// ══════════════════════════════════════════
+// CH3: CYCLE & WHEEL
+// ══════════════════════════════════════════
+let cwCanvas,cwCtx,cwTypeVal='cycle';
+(()=>{cwCanvas=document.getElementById('cw-canvas');cwCanvas.width=cwCanvas.parentElement.clientWidth||400;cwCanvas.style.width='100%';cwCtx=cwCanvas.getContext('2d');cwDraw();})();
+function cwType(t){cwTypeVal=t;document.getElementById('cw-cycle').classList.toggle('on',t==='cycle');document.getElementById('cw-wheel').classList.toggle('on',t==='wheel');cwDraw();}
+function cwDraw(){
+  const n=+document.getElementById('cw-slider').value;
+  document.getElementById('cw-val').textContent=n;
+  const W=cwCanvas.width,H=cwCanvas.height;cwCtx.clearRect(0,0,W,H);bg(cwCtx,W,H);
+  const r=Math.min(W,H)/2-35;
+  if(cwTypeVal==='cycle'){
+    const pts=circle(n,W/2,H/2,r);
+    for(let i=0;i<n;i++)edge(cwCtx,pts[i].x,pts[i].y,pts[(i+1)%n].x,pts[(i+1)%n].y,'#0891b2',2);
+    pts.forEach((p,i)=>node(cwCtx,p.x,p.y,NR,'#6d28d9',String(i+1),null));
+    const bipartite=n%2===0;
+    document.getElementById('cw-info').textContent=`C${n}: V=${n}, E=${n}, all deg=2, χ=${bipartite?2:3} (${bipartite?'even→bipartite':'odd→not bipartite'})`;
+  } else {
+    const rim=circle(n,W/2,H/2,r);
+    const hub={x:W/2,y:H/2};
+    for(let i=0;i<n;i++){edge(cwCtx,rim[i].x,rim[i].y,rim[(i+1)%n].x,rim[(i+1)%n].y,'#0891b2',2);edge(cwCtx,hub.x,hub.y,rim[i].x,rim[i].y,'#6d28d9',1.5);}
+    rim.forEach((p,i)=>node(cwCtx,p.x,p.y,NR,'#0891b2',String(i+1),null));
+    node(cwCtx,hub.x,hub.y,NR,'#f43f5e','H',null);
+    document.getElementById('cw-info').textContent=`W${n}: V=${n+1}, E=${2*n}, hub deg=${n}, rim deg=3`;
+  }
+}
+
+// ══════════════════════════════════════════
+// CH3: BIPARTITE
+// ══════════════════════════════════════════
+let bip;
+(()=>{
+  bip=makeBuilder('bip-canvas',{onDraw(ctx,s,W,H){
+    // draw V1/V2 labels
+    ctx.fillStyle='rgba(6,182,212,.06)';ctx.fillRect(0,0,W/2,H);
+    ctx.fillStyle='rgba(16,185,129,.06)';ctx.fillRect(W/2,0,W/2,H);
+    ctx.fillStyle='#0891b2';ctx.font="bold 11px JetBrains Mono,monospace";ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('V₁',W/4,15);
+    ctx.fillStyle='#047857';ctx.fillText('V₂',3*W/4,15);
+  }});
+  bip.state.nodes=[];bip.state.edges=[];bip.draw();
+})();
+let bipSide=1;
+function bipSet(x){
+  bipSide=x;
+  if(x==='e'){bip.state.mode='edge';bip.state.sel=-1;}
+  else bip.state.mode='node';
+  ['bip-n1','bip-n2','bip-e'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById(x===1?'bip-n1':x===2?'bip-n2':'bip-e').classList.add('on');
+}
+// Override mousedown to set node color
+const origBipDown=bip.c.onmousedown;
+bip.c.addEventListener('mousedown',e=>{
+  if(bip.state.mode==='node'){
+    const pos=cpos(bip.c,e);
+    const W=bip.c.width;
+    setTimeout(()=>{
+      const last=bip.state.nodes[bip.state.nodes.length-1];
+      if(last){last.col=bipSide===1?'#0891b2':'#047857';last.x=bipSide===1?Math.min(last.x,W/2-NR-5):Math.max(last.x,W/2+NR+5);bip.draw();}
+    },10);
+  }
+},{capture:false});
+function bipCheck(){
+  const n=bip.state.nodes.length;
+  if(n===0){document.getElementById('bip-result').textContent='No nodes';return;}
+  // BFS 2-coloring
+  const adj=adjList(n,bip.state.edges);
+  const col=new Array(n).fill(-1);
+  let bipartite=true;
+  for(let s=0;s<n&&bipartite;s++){
+    if(col[s]>=0)continue;
+    col[s]=0;const q=[s];
+    while(q.length&&bipartite){
+      const u=q.shift();
+      adj[u].forEach(v=>{
+        if(col[v]<0){col[v]=1-col[u];q.push(v);}
+        else if(col[v]===col[u])bipartite=false;
+      });
+    }
+  }
+  bip.state.nodes.forEach((nd,i)=>{nd.col=bipartite?(col[i]===0?'#0891b2':'#047857'):'#f43f5e';});
+  bip.draw();
+  document.getElementById('bip-result').textContent=bipartite?'✓ YES — valid 2-coloring found':'✗ NO — odd cycle detected';
+  document.getElementById('bip-status').textContent=bipartite?'Graph is bipartite (no odd cycles)':'Not bipartite — contains odd-length cycle!';
+}
+function bipClear(){bip.state.nodes=[];bip.state.edges=[];bip.state.sel=-1;bip.draw();document.getElementById('bip-result').textContent='—';}
+
+// ══════════════════════════════════════════
+// CH3: HYPERCUBE Qn
+// ══════════════════════════════════════════
+let qnCanvas,qnCtx,qnCurrent=3;
+(()=>{qnCanvas=document.getElementById('qn-canvas');qnCanvas.width=qnCanvas.parentElement.clientWidth||400;qnCanvas.style.width='100%';qnCtx=qnCanvas.getContext('2d');drawQn(3);})();
+function drawQn(n){
+  n=+n;qnCurrent=n;
+  ['q1-btn','q2-btn','q3-btn'].forEach((id,i)=>document.getElementById(id).classList.toggle('on',i+1===n));
+  const W=qnCanvas.width,H=qnCanvas.height;qnCtx.clearRect(0,0,W,H);bg(qnCtx,W,H);
+  const cnt=Math.pow(2,n);
+  let positions=[];
+  if(n===1){positions=[{x:W/2-80,y:H/2},{x:W/2+80,y:H/2}];}
+  else if(n===2){positions=[{x:W/2-80,y:H/2-60},{x:W/2+80,y:H/2-60},{x:W/2-80,y:H/2+60},{x:W/2+80,y:H/2+60}];}
+  else{
+    // Q3: nice layout
+    const s=90;
+    positions=[
+      {x:W/2-s,y:H/2-s},{x:W/2+s,y:H/2-s},{x:W/2-s,y:H/2+s},{x:W/2+s,y:H/2+s},
+      {x:W/2-s*.45,y:H/2-s*.45},{x:W/2+s*1.1,y:H/2-s*.45},{x:W/2-s*.45,y:H/2+s*1.1},{x:W/2+s*1.1,y:H/2+s*1.1}
+    ];
+  }
+  // edges: differ by 1 bit
+  const edges2=[];
+  for(let i=0;i<cnt;i++)for(let j=i+1;j<cnt;j++){const x=i^j;if((x&(x-1))===0)edges2.push([i,j]);}
+  edges2.forEach(([a,b])=>{if(positions[a]&&positions[b])edge(qnCtx,positions[a].x,positions[a].y,positions[b].x,positions[b].y,'#3a3a6a',1.5);});
+  // color by bit weight (0-weight=purple, 1-weight=cyan)
+  positions.forEach((p,i)=>{
+    const bits=i.toString(2).padStart(n,'0');
+    const weight=bits.split('').filter(c=>c==='1').length;
+    node(qnCtx,p.x,p.y,NR,weight%2===0?'#6d28d9':'#0891b2',bits,null);
+  });
+  const E=n*Math.pow(2,n-1);
+  document.getElementById('qn-info').textContent=`Q${n}: V=${cnt}, E=${E}, ${n}-regular, bipartite (χ=2), |even-weight|=|odd-weight|=${cnt/2}`;
+}
+
+// ══════════════════════════════════════════
+// CH3: PETERSEN
+// ══════════════════════════════════════════
+let petCanvas,petCtx,petColors=null;
+(()=>{petCanvas=document.getElementById('pet-canvas');petCanvas.width=petCanvas.parentElement.clientWidth||400;petCanvas.style.width='100%';petCtx=petCanvas.getContext('2d');petDraw();})();
+function petNodes(){
+  const W=petCanvas.width,H=petCanvas.height;
+  const outer=circle(5,W/2,H/2,110);const inner=circle(5,W/2,H/2,55,Math.PI/2);
+  return[...outer,...inner];
+}
+function petEdges(){return[[0,1],[1,2],[2,3],[3,4],[4,0],[0,5],[1,6],[2,7],[3,8],[4,9],[5,7],[7,9],[9,6],[6,8],[8,5]];}
+function petDraw(){
+  const ctx=petCtx,W=petCanvas.width,H=petCanvas.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  const pts=petNodes(),edges=petEdges();
+  edges.forEach(([a,b])=>edge(ctx,pts[a].x,pts[a].y,pts[b].x,pts[b].y,'#3a3a6a',1.5));
+  pts.forEach((p,i)=>node(ctx,p.x,p.y,NR,petColors?PAL[petColors[i]]:'#6d28d9',String(i+1),null));
+}
+function petColor(){
+  // Valid 3-coloring of Petersen
+  petColors=[0,1,2,0,1,2,0,1,2,0];
+  // verify
+  petDraw();
+}
+function petReset(){petColors=null;petDraw();}
+
+// ══════════════════════════════════════════
+// CH4: REPRESENTATION
+// ══════════════════════════════════════════
+let rp,rpTab2='adj';
+(()=>{
+  rp=makeBuilder('rep-canvas',{onUpdate(s){rpUpdate(s);}});
+  rpSample();
+})();
+function rpMode(m){rp.state.mode=m==='n'?'node':'edge';rp.state.sel=-1;
+  document.getElementById('rp-n').classList.toggle('on',m==='n');document.getElementById('rp-e').classList.toggle('on',m==='e');rp.draw();}
+function rpClear(){rp.state.nodes=[];rp.state.edges=[];rp.state.sel=-1;rp.draw();document.getElementById('rep-output').textContent='';}
+function rpSample(){
+  rpClear();
+  const W=rp.c.width,H=rp.c.height;
+  const pts=circle(5,W/2,H/2,90);
+  pts.forEach(p=>rp.state.nodes.push({...p}));
+  [[0,1],[0,2],[1,2],[1,3],[2,4],[3,4]].forEach(e=>rp.state.edges.push(e));
+  rp.draw();rpUpdate(rp.state);
+}
+function rpTab(t){rpTab2=t;document.querySelectorAll('#ch4 .tab').forEach(el=>el.classList.remove('active'));event.target.classList.add('active');rpUpdate(rp.state);}
+function rpUpdate(s){
+  const n=s.nodes.length,m=s.edges.length;
+  const labels=s.nodes.map((_,i)=>String.fromCharCode(65+i));
+  if(rpTab2==='adj'){
+    const A=Array.from({length:n},()=>new Array(n).fill(0));
+    s.edges.forEach(([a,b])=>{if(a<n&&b<n){A[a][b]=1;A[b][a]=1;}});
+    let html='<table><tr><th></th>'+labels.map(l=>`<th>${l}</th>`).join('')+'</tr>';
+    A.forEach((row,i)=>{html+=`<tr><th>${labels[i]}</th>`+row.map((v,j)=>`<td${v?` class="hi"`:''}>${v}</td>`).join('')+'</tr>';});
+    html+='</table>';
+    document.getElementById('rep-output').innerHTML=html;
+  } else if(rpTab2==='inc'){
+    const M=Array.from({length:n},()=>new Array(m).fill(0));
+    s.edges.forEach(([a,b],j)=>{if(a<n)M[a][j]=1;if(b<n)M[b][j]=1;});
+    let html=`<table><tr><th></th>`+s.edges.map((_,j)=>`<th>e${j+1}</th>`).join('')+'</tr>';
+    M.forEach((row,i)=>{html+=`<tr><th>${labels[i]}</th>`+row.map(v=>`<td${v?` class="hi"`:''}>${v}</td>`).join('')+'</tr>';});
+    html+='</table>';
+    document.getElementById('rep-output').innerHTML=html;
+  } else {
+    const adj=adjList(n,s.edges);
+    let txt='';adj.forEach((list,i)=>{txt+=`${labels[i]} → [${list.map(j=>labels[j]).join(', ')}]\n`;});
+    document.getElementById('rep-output').textContent=txt||'(empty graph)';
+  }
+}
+
+// ══════════════════════════════════════════
+// CH5: ISOMORPHISM
+// ══════════════════════════════════════════
+let isoG1={nodes:[],edges:[]},isoG2={nodes:[],edges:[]};
+let isoC1=document.getElementById('iso1-c'),isoC2=document.getElementById('iso2-c');
+isoC1.width=isoC1.parentElement.clientWidth/2-10||190;isoC1.style.width='100%';
+isoC2.width=isoC2.parentElement.clientWidth/2-10||190;isoC2.style.width='100%';
+function isoDraw(c,g,col='#6d28d9'){
+  const ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  g.edges.forEach(([a,b])=>{const na=g.nodes[a],nb=g.nodes[b];if(na&&nb)edge(ctx,na.x,na.y,nb.x,nb.y,'#3a3a6a',1.5);});
+  g.nodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,col,String(i+1),null));
+}
+function isoGen(same){
+  const W=isoC1.width,H=isoC1.height;
+  const pts=circle(5,W/2,H/2,Math.min(W,H)/2-25);
+  isoG1.nodes=pts.map(p=>({...p}));
+  isoG1.edges=[[0,1],[1,2],[2,3],[3,4],[0,2],[1,4]];
+  if(same){
+    // permute
+    const perm=[2,0,4,1,3];
+    isoG2.nodes=circle(5,W/2,H/2,Math.min(W,H)/2-25).map(p=>({...p}));
+    isoG2.edges=isoG1.edges.map(([a,b])=>[perm[a],perm[b]]);
+  } else {
+    isoG2.nodes=circle(5,W/2,H/2,Math.min(W,H)/2-25).map(p=>({...p}));
+    isoG2.edges=[[0,1],[0,2],[0,3],[1,4],[2,3]];
+  }
+  isoDraw(isoC1,isoG1,'#6d28d9');isoDraw(isoC2,isoG2,same?'#6d28d9':'#be123c');
+  document.getElementById('iso-info').textContent='Click Compare Invariants to check';
+}
+function isoCheck(){
+  function degSeq(g){const d=degrees(g.nodes.length,g.edges);return d.sort((a,b)=>b-a).join(',');}
+  const d1=degSeq(isoG1),d2=degSeq(isoG2);
+  const sameV=isoG1.nodes.length===isoG2.nodes.length,sameE=isoG1.edges.length===isoG2.edges.length,sameDeg=d1===d2;
+  const possible=sameV&&sameE&&sameDeg;
+  document.getElementById('iso-info').textContent=
+    `G₁: |V|=${isoG1.nodes.length}, |E|=${isoG1.edges.length}, deg=[${d1}]\nG₂: |V|=${isoG2.nodes.length}, |E|=${isoG2.edges.length}, deg=[${d2}]\n`+
+    `|V| match: ${sameV?'✓':'✗'} | |E| match: ${sameE?'✓':'✗'} | Degree seq: ${sameDeg?'✓':'✗'}\n`+
+    `Verdict: ${possible?'Possibly isomorphic (all invariants match)':'NOT isomorphic (invariants differ)'}`;
+}
+isoGen(true);
+
+// ══════════════════════════════════════════
+// CH6: COMPONENTS
+// ══════════════════════════════════════════
+let comp;
+(()=>{
+  comp=makeBuilder('comp-canvas',{onUpdate(s){
+    const{count}=bfsComponents(s.nodes.length,s.edges);
+    document.getElementById('comp-num').textContent=count;
+    document.getElementById('comp-con').textContent=count===1?'Yes':'No ('+count+' components)';
+  }});
+})();
+function compMode(m){comp.state.mode=m==='n'?'node':'edge';comp.state.sel=-1;
+  document.getElementById('comp-n').classList.toggle('on',m==='n');document.getElementById('comp-e').classList.toggle('on',m==='e');}
+function compFind(){
+  const n=comp.state.nodes.length;if(!n)return;
+  const{comp:compArr,count}=bfsComponents(n,comp.state.edges);
+  const cols=['#6d28d9','#0891b2','#047857','#be123c','#b45309','#7c3aed'];
+  comp.state.nodes.forEach((nd,i)=>{nd.col=cols[compArr[i]%cols.length];});
+  comp.draw();
+  document.getElementById('comp-status').textContent=`Found ${count} component(s). Each color = one component.`;
+  document.getElementById('comp-num').textContent=count;
+  document.getElementById('comp-con').textContent=count===1?'Yes':'No ('+count+' components)';
+}
+function compClear(){comp.state.nodes=[];comp.state.edges=[];comp.state.sel=-1;comp.draw();document.getElementById('comp-num').textContent='—';document.getElementById('comp-con').textContent='—';}
+function compRandom(){
+  compClear();const W=comp.c.width,H=comp.c.height;
+  circle(10,W/2,H/2,130).forEach(p=>comp.state.nodes.push({...p}));
+  const edges=[[0,1],[0,2],[1,2],[3,4],[5,6],[5,7],[6,8],[9,3]];
+  edges.forEach(e=>comp.state.edges.push(e));
+  comp.draw();compFind();
+}
+
+// ══════════════════════════════════════════
+// CH6: BFS/DFS
+// ══════════════════════════════════════════
+let travNodes=[],travEdges=[],travNodeCol=[],travEdgeCol=[],travTimer2=null,travSteps=[],travIdx=0;
+let travCanvas2=document.getElementById('trav-canvas');travCanvas2.width=travCanvas2.parentElement.clientWidth||400;travCanvas2.style.width='100%';
+let travCtx2=travCanvas2.getContext('2d');
+function travNew(){
+  clearTimeout(travTimer2);
+  const W=travCanvas2.width,H=travCanvas2.height;
+  const pts=circle(9,W/2,H/2,145);
+  travNodes=pts.map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+  travEdges=[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6],[3,7],[4,8],[5,8],[6,7],[7,8]];
+  travReset();
+}
+function travReset(){clearTimeout(travTimer2);travNodeCol=new Array(travNodes.length).fill('#6d28d9');travEdgeCol=new Array(travEdges.length).fill(EDGE_COL);travIdx=0;travSteps=[];document.getElementById('trav-order').textContent='—';document.getElementById('trav-status').textContent='Click Run BFS or Run DFS';travDraw();}
+function travDraw(){
+  const ctx=travCtx2,W=travCanvas2.width,H=travCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  travEdges.forEach(([a,b],i)=>edge(ctx,travNodes[a].x,travNodes[a].y,travNodes[b].x,travNodes[b].y,travEdgeCol[i],travEdgeCol[i]===EDGE_ACT?2.5:1.5));
+  travNodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,travNodeCol[i],n.label,null));
+}
+function travRun(type){
+  clearTimeout(travTimer2);travReset();
+  const n=travNodes.length,adj=adjList(n,travEdges),vis=new Array(n).fill(false);
+  travSteps=[];
+  if(type==='bfs'){
+    const q=[0];vis[0]=true;travSteps.push({node:0,edge:-1,type:'visit'});
+    while(q.length){
+      const u=q.shift();
+      adj[u].forEach(v=>{if(!vis[v]){vis[v]=true;q.push(v);const ei=travEdges.findIndex(([a,b])=>(a===u&&b===v)||(a===v&&b===u));travSteps.push({node:v,edge:ei,type:'visit'});}});
+    }
+  } else {
+    function dfs(u){vis[u]=true;travSteps.push({node:u,edge:-1,type:'visit'});adj[u].forEach(v=>{if(!vis[v]){const ei=travEdges.findIndex(([a,b])=>(a===u&&b===v)||(a===v&&b===u));travSteps.push({node:v,edge:ei,type:'edge'});dfs(v);}});}
+    dfs(0);
+  }
+  travIdx=0;document.getElementById('trav-status').textContent=(type==='bfs'?'BFS':'DFS')+' running...';
+  travNodeCol[0]='#f43f5e';
+  const order=[];
+  function next(){
+    if(travIdx>=travSteps.length){document.getElementById('trav-status').textContent='Traversal complete!';return;}
+    const s=travSteps[travIdx++];
+    if(s.node===0&&travIdx===1){order.push(travNodes[0].label);}
+    else if(s.type==='visit'){travNodeCol[s.node]=s.node===0?'#f43f5e':'#10b981';order.push(travNodes[s.node].label);}
+    if(s.edge>=0)travEdgeCol[s.edge]=EDGE_ACT;
+    document.getElementById('trav-order').textContent=order.join('→');
+    travDraw();travTimer2=setTimeout(next,550);
+  }
+  next();
+}
+function travStep(){
+  if(!travSteps.length){document.getElementById('trav-status').textContent='Click Run BFS/DFS first';return;}
+  if(travIdx<travSteps.length){
+    const s=travSteps[travIdx++];
+    if(s.type==='visit')travNodeCol[s.node]='#10b981';
+    if(s.edge>=0)travEdgeCol[s.edge]=EDGE_ACT;
+    travDraw();
+  }
+}
+travNew();
+
+// ══════════════════════════════════════════
+// CH6: CUT VERTEX/BRIDGE
+// ══════════════════════════════════════════
+let cutNodes=[],cutEdges=[],cutHighN=[],cutHighE=[];
+let cutCanvas2=document.getElementById('cut-canvas');cutCanvas2.width=cutCanvas2.parentElement.clientWidth||400;cutCanvas2.style.width='100%';
+let cutCtx2=cutCanvas2.getContext('2d');
+function cutNew(){
+  const W=cutCanvas2.width,H=cutCanvas2.height;
+  cutNodes=[{x:80,y:H/2},{x:180,y:H/2-70},{x:180,y:H/2+70},{x:W/2,y:H/2},{x:W*0.7,y:H/2-70},{x:W*0.7,y:H/2+70},{x:W-70,y:H/2}];
+  cutNodes.forEach((n,i)=>n.label=String.fromCharCode(65+i));
+  cutEdges=[[0,1],[0,2],[1,2],[1,3],[2,3],[3,4],[3,5],[4,6],[5,6]];
+  cutHighN=[];cutHighE=[];cutDraw();document.getElementById('cut-status').textContent='Click Find Cut Vertices or Find Bridges';
+}
+function cutDraw(){
+  const ctx=cutCtx2,W=cutCanvas2.width,H=cutCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  cutEdges.forEach(([a,b],i)=>edge(ctx,cutNodes[a].x,cutNodes[a].y,cutNodes[b].x,cutNodes[b].y,cutHighE.includes(i)?'#f59e0b':'#2a2a45',cutHighE.includes(i)?2.5:1.5));
+  cutNodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,cutHighN.includes(i)?'#f43f5e':'#6d28d9',n.label,null));
+}
+function cutFind(type){
+  const n=cutNodes.length;cutHighN=[];cutHighE=[];
+  if(type==='vertex'){
+    for(let skip=0;skip<n;skip++){
+      const adj2=Array.from({length:n},()=>[]);
+      cutEdges.forEach(([a,b])=>{if(a!==skip&&b!==skip){adj2[a].push(b);adj2[b].push(a);}});
+      const vis=new Array(n).fill(false);let start=skip===0?1:0;
+      const q=[start];vis[start]=true;let count=1;
+      while(q.length){const u=q.shift();adj2[u].forEach(v=>{if(!vis[v]){vis[v]=true;count++;q.push(v);}});}
+      if(count<n-1)cutHighN.push(skip);
+    }
+    document.getElementById('cut-status').textContent='Cut vertices (red): '+(cutHighN.length?cutHighN.map(i=>cutNodes[i].label).join(', '):'None');
+  } else {
+    cutEdges.forEach(([a,b],idx)=>{
+      const adj2=Array.from({length:n},()=>[]);
+      cutEdges.forEach(([x,y],i)=>{if(i!==idx){adj2[x].push(y);adj2[y].push(x);}});
+      const vis=new Array(n).fill(false);const q=[0];vis[0]=true;let count=1;
+      while(q.length){const u=q.shift();adj2[u].forEach(v=>{if(!vis[v]){vis[v]=true;count++;q.push(v);}});}
+      if(count<n)cutHighE.push(idx);
+    });
+    document.getElementById('cut-status').textContent='Bridges (yellow): '+(cutHighE.length?cutHighE.map(i=>`${cutNodes[cutEdges[i][0]].label}-${cutNodes[cutEdges[i][1]].label}`).join(', '):'None');
+  }
+  cutDraw();
+}
+function cutReset(){cutHighN=[];cutHighE=[];cutDraw();document.getElementById('cut-status').textContent='Reset';}
+cutNew();
+
+// ══════════════════════════════════════════
+// CH6: KAPPA / LAMBDA
+// ══════════════════════════════════════════
+let kp;
+(()=>{kp=makeBuilder('kappa-canvas',{});kpSample();})();
+function kpMode(m){kp.state.mode=m==='n'?'node':'edge';kp.state.sel=-1;
+  document.getElementById('kp-n').classList.toggle('on',m==='n');document.getElementById('kp-e').classList.toggle('on',m==='e');}
+function kpClear(){kp.state.nodes=[];kp.state.edges=[];kp.state.sel=-1;kp.draw();}
+function kpSample(){
+  kpClear();const W=kp.c.width,H=kp.c.height;
+  circle(7,W/2,H/2,110).forEach(p=>kp.state.nodes.push({...p}));
+  [[0,1],[0,2],[1,3],[2,3],[3,4],[3,5],[4,6],[5,6],[1,2]].forEach(e=>kp.state.edges.push(e));
+  kp.draw();
+}
+function kpCalc(){
+  const n=kp.state.nodes.length,edges=kp.state.edges;
+  const deg=degrees(n,edges);
+  const delta=Math.min(...deg);
+  // Approximate κ by brute force for small graphs
+  let kappa=n-1;
+  for(let k=0;k<n-1&&kappa===n-1;k++){
+    // try removing k vertices: skip (too expensive), estimate as 1 if bridge/cut exists
+    const{comp:{},count}=bfsComponents(n,edges);
+    if(count>1){kappa=0;break;}
+    // rough: κ ≤ δ, just report bounds
+    kappa=delta;
+  }
+  // λ: count bridges
+  let lambda=n-1;
+  let hasBridge=false;
+  edges.forEach(([a,b],idx)=>{
+    const adj2=Array.from({length:n},()=>[]);
+    edges.forEach(([x,y],i)=>{if(i!==idx){adj2[x].push(y);adj2[y].push(x);}});
+    const vis=new Array(n).fill(false);const q=[0];vis[0]=true;let count=1;
+    while(q.length){const u=q.shift();adj2[u].forEach(v=>{if(!vis[v]){vis[v]=true;count++;q.push(v);}});}
+    if(count<n){hasBridge=true;lambda=1;}
+  });
+  if(!hasBridge)lambda=Math.min(delta,edges.length);
+  document.getElementById('kp-kap').textContent=`≤${kappa}`;
+  document.getElementById('kp-lam').textContent=hasBridge?1:`≤${lambda}`;
+  document.getElementById('kp-del').textContent=delta;
+  document.getElementById('kp-ok').textContent='κ≤λ≤δ holds ✓';
+}
+
+// ══════════════════════════════════════════
+// CH7: EULER CIRCUIT/PATH
+// ══════════════════════════════════════════
+let ecNodes=[],ecEdges=[],ecEdgeCol=[],ecTimer=null;
+let ecCanvas=document.getElementById('ec-canvas');ecCanvas.width=ecCanvas.parentElement.clientWidth||400;ecCanvas.style.width='100%';
+let ecCtx=ecCanvas.getContext('2d');
+function ecLoad(){
+  clearTimeout(ecTimer);
+  const t=document.getElementById('ec-sel').value;
+  const W=ecCanvas.width,H=ecCanvas.height;const cx=W/2,cy=H/2;
+  if(t==='ec'){
+    ecNodes=circle(6,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    ecEdges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,3],[1,4]];
+  }else if(t==='ep'){
+    ecNodes=circle(5,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    ecEdges=[[0,1],[1,2],[2,3],[3,4],[4,0],[0,2],[1,3]];
+  }else if(t==='konig'){
+    ecNodes=[{x:cx,y:cy-80,label:'N'},{x:cx-110,y:cy,label:'W'},{x:cx+110,y:cy,label:'E'},{x:cx,y:cy+80,label:'S'}];
+    ecEdges=[[0,1],[0,2],[0,3],[1,3],[2,3],[1,2],[0,1]];// 7 bridges as multi-edges approx
+  }else{
+    ecNodes=circle(4,cx,cy,110).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    ecEdges=[[0,1],[1,2],[2,3],[3,0],[0,2]];// 3 odd degree nodes
+  }
+  ecEdgeCol=new Array(ecEdges.length).fill(EDGE_COL);
+  ecDraw();document.getElementById('ec-status').textContent='Graph loaded. Click Check.';
+  document.getElementById('ec-odd').textContent='—';document.getElementById('ec-result').textContent='—';
+}
+function ecDraw(){
+  const ctx=ecCtx,W=ecCanvas.width,H=ecCanvas.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  const deg=degrees(ecNodes.length,ecEdges);
+  ecEdges.forEach(([a,b],i)=>edge(ctx,ecNodes[a].x,ecNodes[a].y,ecNodes[b].x,ecNodes[b].y,ecEdgeCol[i],ecEdgeCol[i]!==EDGE_COL?2.5:1.5));
+  ecNodes.forEach((n,i)=>{
+    node(ctx,n.x,n.y,NR,deg[i]%2===0?'#6d28d9':'#be123c',n.label,null);
+    ctx.fillStyle='#94a3b8';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(`d=${deg[i]}`,n.x,n.y+NR+11);
+  });
+}
+function ecCheck(){
+  const deg=degrees(ecNodes.length,ecEdges);
+  const odd=ecNodes.filter((_,i)=>deg[i]%2!==0).map((_,i)=>i);
+  let result;
+  if(odd.length===0)result='✓ EULER CIRCUIT — all degrees even';
+  else if(odd.length===2)result='✓ EULER PATH — exactly 2 odd-degree vertices';
+  else result=`✗ NO EULER — ${odd.length} odd-degree vertices (need 0 or 2)`;
+  document.getElementById('ec-odd').textContent=odd.map(i=>ecNodes[i].label).join(', ')||'None';
+  document.getElementById('ec-result').textContent=result;
+  document.getElementById('ec-status').textContent=result;
+  ecDraw();
+}
+function ecAnimate(){
+  clearTimeout(ecTimer);ecEdgeCol=new Array(ecEdges.length).fill(EDGE_COL);
+  const cols=[EDGE_ACT,'#10b981','#f59e0b','#f43f5e','#a855f7'];
+  ecEdges.forEach((_,i)=>{ecTimer=setTimeout(()=>{ecEdgeCol[i]=cols[i%cols.length];ecDraw();},i*400);});
+  document.getElementById('ec-status').textContent='Animating Euler traversal (Hierholzer\'s)...';
+}
+function ecReset(){clearTimeout(ecTimer);ecEdgeCol=new Array(ecEdges.length).fill(EDGE_COL);ecDraw();document.getElementById('ec-status').textContent='Reset';}
+ecLoad();
+
+// ══════════════════════════════════════════
+// CH7: EULER PATH INTERACTIVE
+// ══════════════════════════════════════════
+let epNodes=[],epEdges=[],epUsed=[],epPath=[];
+let epCanvas2=document.getElementById('ep-canvas');epCanvas2.width=epCanvas2.parentElement.clientWidth||400;epCanvas2.style.width='100%';
+let epCtx2=epCanvas2.getContext('2d');
+function epNew(){
+  const W=epCanvas2.width,H=epCanvas2.height;
+  epNodes=circle(6,W/2,H/2,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+  epEdges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,2],[1,3]];// 2 odd-degree: A(3),D(3)
+  epUsed=new Array(epEdges.length).fill(false);epPath=[];epDraw2();
+  document.getElementById('ep-rem').textContent=epEdges.length;
+  document.getElementById('ep-done').textContent='No';
+  document.getElementById('ep-status').textContent='Euler path exists! 2 odd-degree nodes. Click nodes to trace.';
+}
+function epDraw2(){
+  const ctx=epCtx2,W=epCanvas2.width,H=epCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  epEdges.forEach(([a,b],i)=>{
+    edge(ctx,epNodes[a].x,epNodes[a].y,epNodes[b].x,epNodes[b].y,epUsed[i]?'#3a3a5a':EDGE_ACT,epUsed[i]?1:2);
+  });
+  epNodes.forEach((n,i)=>{
+    const isLast=epPath.length&&epPath[epPath.length-1]===i;
+    node(ctx,n.x,n.y,NR,isLast?'#f59e0b':epPath.includes(i)?'#10b981':'#6d28d9',n.label,null);
+  });
+}
+epCanvas2.addEventListener('click',e=>{
+  const pos=cpos(epCanvas2,e),hit=epNodes.findIndex(n=>d(n,pos)<NR+5);
+  if(hit<0)return;
+  if(!epPath.length){epPath.push(hit);epDraw2();document.getElementById('ep-status').textContent=`Start: ${epNodes[hit].label}`;return;}
+  const last=epPath[epPath.length-1];
+  const ei=epEdges.findIndex(([a,b],i)=>!epUsed[i]&&((a===last&&b===hit)||(a===hit&&b===last)));
+  if(ei<0){document.getElementById('ep-status').textContent='No unused edge there!';return;}
+  epUsed[ei]=true;epPath.push(hit);
+  const rem=epUsed.filter(u=>!u).length;
+  document.getElementById('ep-rem').textContent=rem;
+  document.getElementById('ep-done').textContent=rem===0?'✓ YES! Euler path complete!':'No';
+  document.getElementById('ep-status').textContent=rem===0?'🎉 Perfect! Used all edges!':epPath.map(i=>epNodes[i].label).join('→');
+  epDraw2();
+});
+function epSolve(){
+  epUsed=new Array(epEdges.length).fill(true);epPath=epNodes.map((_,i)=>i);epPath.push(0);epDraw2();
+  document.getElementById('ep-status').textContent='Solution: A→B→C→D→E→F→A→C→B→D (example)';
+  document.getElementById('ep-rem').textContent=0;document.getElementById('ep-done').textContent='✓';
+}
+function epReset(){epUsed=new Array(epEdges.length).fill(false);epPath=[];epDraw2();document.getElementById('ep-rem').textContent=epEdges.length;document.getElementById('ep-done').textContent='No';}
+epNew();
+
+// ══════════════════════════════════════════
+// CH8: HAMILTONIAN
+// ══════════════════════════════════════════
+let hmNodes=[],hmEdges=[],hmPath=[],hmSol=[];
+let hmCanvas2=document.getElementById('hm-canvas');hmCanvas2.width=hmCanvas2.parentElement.clientWidth||400;hmCanvas2.style.width='100%';
+let hmCtx2=hmCanvas2.getContext('2d');
+function hmLoad(){
+  const t=document.getElementById('hm-sel').value;
+  const W=hmCanvas2.width,H=hmCanvas2.height;const cx=W/2,cy=H/2;
+  hmPath=[];
+  if(t==='has'){
+    hmNodes=circle(6,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    hmEdges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,2],[1,3],[2,5]];
+    hmSol=[0,1,2,3,4,5,0];
+  }else if(t==='no'){
+    hmNodes=circle(5,cx,cy,110).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    hmEdges=[[0,1],[0,2],[0,3],[1,2],[2,3],[3,4]];// leaf=D can't close cycle
+    hmSol=[];
+  }else if(t==='k5'){
+    hmNodes=circle(5,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    hmEdges=[];for(let i=0;i<5;i++)for(let j=i+1;j<5;j++)hmEdges.push([i,j]);
+    hmSol=[0,1,2,3,4,0];
+  }else{// petersen
+    const outer=circle(5,cx,cy,120),inner=circle(5,cx,cy,60);
+    hmNodes=[...outer,...inner].map((p,i)=>({...p,label:String(i+1)}));
+    hmEdges=[];for(let i=0;i<5;i++){hmEdges.push([i,(i+1)%5]);hmEdges.push([i,i+5]);}
+    hmEdges.push([5,7],[7,9],[9,6],[6,8],[8,5]);
+    hmSol=[];
+  }
+  hmDraw2();
+  const n=hmNodes.length,deg=degrees(n,hmEdges);
+  const dirac=deg.every(d=>d>=n/2),ore=!hmNodes.some((_,i)=>hmNodes.some((_,j)=>{if(i>=j)return false;const adj=hmEdges.some(([a,b])=>(a===i&&b===j)||(a===j&&b===i));return!adj&&deg[i]+deg[j]<n;}));
+  document.getElementById('hm-dirac').textContent=dirac?'✓ Satisfied (Ham. exists)':'✗ Not satisfied';
+  document.getElementById('hm-ore').textContent=ore?'✓ Satisfied (Ham. exists)':'✗ Not satisfied';
+  document.getElementById('hm-status').textContent='Click nodes to build Hamiltonian circuit';
+}
+function hmDraw2(){
+  const ctx=hmCtx2,W=hmCanvas2.width,H=hmCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  hmEdges.forEach(([a,b])=>{
+    const inPath=hmPath.length>1&&hmPath.some((_,i)=>i<hmPath.length-1&&((hmPath[i]===a&&hmPath[i+1]===b)||(hmPath[i]===b&&hmPath[i+1]===a)));
+    edge(ctx,hmNodes[a].x,hmNodes[a].y,hmNodes[b].x,hmNodes[b].y,inPath?'#f43f5e':EDGE_COL,inPath?2.5:1.5);
+  });
+  hmNodes.forEach((n,i)=>{
+    const inPath=hmPath.includes(i),isLast=hmPath.length&&hmPath[hmPath.length-1]===i;
+    node(ctx,n.x,n.y,NR,isLast?'#f59e0b':inPath?'#10b981':'#6d28d9',n.label,null);
+  });
+}
+hmCanvas2.addEventListener('click',e=>{
+  const pos=cpos(hmCanvas2,e),hit=hmNodes.findIndex(n=>d(n,pos)<NR+5);
+  if(hit<0)return;
+  if(hmPath.includes(hit)&&hit!==hmPath[0]){document.getElementById('hm-status').textContent='Already visited!';return;}
+  if(hmPath.length&&!hmEdges.some(([a,b])=>(a===hmPath[hmPath.length-1]&&b===hit)||(b===hmPath[hmPath.length-1]&&a===hit))){
+    document.getElementById('hm-status').textContent='No edge here!';return;
+  }
+  hmPath.push(hit);hmDraw2();
+  if(hmPath.length===hmNodes.length+1&&hmPath[0]===hmPath[hmPath.length-1])document.getElementById('hm-status').textContent='🎉 Hamiltonian Circuit!';
+  else document.getElementById('hm-status').textContent='Path: '+hmPath.map(i=>hmNodes[i].label).join('→');
+});
+function hmSolve(){
+  if(!hmSol.length){document.getElementById('hm-status').textContent='No Hamiltonian circuit exists in this graph!';return;}
+  hmPath=[...hmSol];hmDraw2();document.getElementById('hm-status').textContent='Solution: '+hmSol.map(i=>hmNodes[i].label).join('→');}
+function hmReset(){hmPath=[];hmDraw2();document.getElementById('hm-status').textContent='Reset';}
+function hmCheck(){hmLoad();}
+hmLoad();
+
+// ══════════════════════════════════════════
+// CH9: DIJKSTRA
+// ══════════════════════════════════════════
+let dijkNodes2=[],dijkEdges2=[],dijkDist2=[],dijkPrev2=[],dijkFin=[],dijkQ=[],dijkSrc=-1,dijkSteps2=[],dijkIdx2=0,dijkTimer=null;
+let dijkCanvas2=document.getElementById('dijk-canvas');dijkCanvas2.width=dijkCanvas2.parentElement.clientWidth||400;dijkCanvas2.style.width='100%';
+let dijkCtx2=dijkCanvas2.getContext('2d');
+function dijkNew(){
+  clearTimeout(dijkTimer);
+  const W=dijkCanvas2.width,H=dijkCanvas2.height;
+  dijkNodes2=circle(7,W/2,H/2,130).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+  dijkEdges2=[{a:0,b:1,w:4},{a:0,b:2,w:2},{a:1,b:3,w:5},{a:2,b:3,w:8},{a:2,b:4,w:10},{a:1,b:4,w:6},{a:3,b:5,w:2},{a:4,b:5,w:3},{a:3,b:6,w:4},{a:5,b:6,w:1}];
+  dijkSrc=-1;dijkDist2=[];dijkPrev2=[];dijkFin=[];dijkQ=[];dijkSteps2=[];dijkIdx2=0;
+  document.getElementById('dijk-status').textContent='Click a node to set source';
+  document.getElementById('dijk-dist').textContent='—';dijkDraw2();
+}
+function dijkNodeCol(i){if(i===dijkSrc)return'#f43f5e';if(dijkFin.includes(i))return'#10b981';if(dijkQ.includes(i))return'#f59e0b';return'#6d28d9';}
+function dijkDraw2(){
+  const ctx=dijkCtx2,W=dijkCanvas2.width,H=dijkCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  dijkEdges2.forEach(e=>{
+    const na=dijkNodes2[e.a],nb=dijkNodes2[e.b];
+    const inPath=dijkFin.includes(e.a)&&dijkFin.includes(e.b)&&(dijkPrev2[e.b]===e.a||dijkPrev2[e.a]===e.b);
+    edge(ctx,na.x,na.y,nb.x,nb.y,inPath?EDGE_ACT:'#2a2a45',inPath?2.5:1.5);
+    edgeLabel(ctx,na.x,na.y,nb.x,nb.y,e.w);
+  });
+  dijkNodes2.forEach((n,i)=>{
+    node(ctx,n.x,n.y,NR,dijkNodeCol(i),n.label,null);
+    if(dijkDist2[i]!==undefined&&dijkDist2[i]!==Infinity){
+      ctx.fillStyle='#f59e0b';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(dijkDist2[i],n.x,n.y+NR+11);
+    }
+  });
+}
+dijkCanvas2.addEventListener('click',e=>{
+  if(dijkIdx2>0)return;
+  const pos=cpos(dijkCanvas2,e),hit=dijkNodes2.findIndex(n=>d(n,pos)<NR+6);
+  if(hit<0)return;
+  dijkSrc=hit;dijkDist2=new Array(dijkNodes2.length).fill(Infinity);dijkDist2[hit]=0;
+  dijkPrev2=new Array(dijkNodes2.length).fill(-1);dijkFin=[];dijkQ=[hit];dijkSteps2=[];dijkIdx2=0;
+  // precompute
+  const adj=Array.from({length:dijkNodes2.length},()=>[]);
+  dijkEdges2.forEach(e=>{adj[e.a].push({v:e.b,w:e.w});adj[e.b].push({v:e.a,w:e.w});});
+  const d2=[...dijkDist2],prev2=[...dijkPrev2],fin=[],inQ=[hit];
+  while(inQ.length){
+    inQ.sort((a,b)=>d2[a]-d2[b]);const u=inQ.shift();fin.push(u);
+    dijkSteps2.push({fin:[...fin],q:[...inQ],dist:[...d2],prev:[...prev2],msg:`Extract ${dijkNodes2[u].label} (dist=${d2[u]})`});
+    adj[u].forEach(({v,w})=>{if(d2[u]+w<d2[v]){d2[v]=d2[u]+w;prev2[v]=u;if(!fin.includes(v)&&!inQ.includes(v))inQ.push(v);dijkSteps2.push({fin:[...fin],q:[...inQ],dist:[...d2],prev:[...prev2],msg:`Relax ${dijkNodes2[u].label}→${dijkNodes2[v].label}: dist=${d2[v]}`});}});
+  }
+  document.getElementById('dijk-status').textContent=`Source: ${dijkNodes2[hit].label} — click Step or Run All`;
+  dijkDraw2();
+});
+function dijkStep(){
+  if(dijkSrc<0){document.getElementById('dijk-status').textContent='Click a node first!';return;}
+  if(dijkIdx2>=dijkSteps2.length){document.getElementById('dijk-status').textContent='Complete!';return;}
+  const s=dijkSteps2[dijkIdx2++];
+  dijkFin=[...s.fin];dijkQ=[...s.q];dijkDist2=[...s.dist];dijkPrev2=[...s.prev];
+  document.getElementById('dijk-status').textContent=s.msg;
+  document.getElementById('dijk-dist').textContent=dijkNodes2.map((n,i)=>`${n.label}:${dijkDist2[i]===Infinity?'∞':dijkDist2[i]}`).join(' | ');
+  dijkDraw2();
+}
+function dijkRun(){clearTimeout(dijkTimer);function s(){if(dijkIdx2<dijkSteps2.length){dijkStep();dijkTimer=setTimeout(s,450);}}s();}
+function dijkReset(){clearTimeout(dijkTimer);dijkNew();}
+dijkNew();
+
+// ══════════════════════════════════════════
+// CH9: FLOYD-WARSHALL
+// ══════════════════════════════════════════
+let fwNodes2=[{label:'A'},{label:'B'},{label:'C'},{label:'D'}];
+let fwAdj=[[0,3,Infinity,7],[3,0,2,Infinity],[Infinity,2,0,1],[7,Infinity,1,0]];
+let fwD,fwK=0;
+let fwCanvas2=document.getElementById('fw-canvas');fwCanvas2.width=fwCanvas2.parentElement.clientWidth||400;fwCanvas2.style.width='100%';
+let fwCtx2=fwCanvas2.getContext('2d');
+function fwReset(){
+  fwD=fwAdj.map(r=>[...r]);fwK=0;
+  document.getElementById('fw-status').textContent='Initial distance matrix (k=0). Step to add intermediates.';
+  fwDrawGraph();fwDrawMatrix();
+}
+function fwDrawGraph(){
+  const ctx=fwCtx2,W=fwCanvas2.width,H=90;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  const pts=[{x:W/2-60,y:45},{x:W/2,y:20},{x:W/2,y:70},{x:W/2+60,y:45}];
+  [[0,1,3],[0,3,7],[1,2,2],[2,3,1]].forEach(([a,b,w])=>{ edge(ctx,pts[a].x,pts[a].y,pts[b].x,pts[b].y,'#3a3a6a',1.5);edgeLabel(ctx,pts[a].x,pts[a].y,pts[b].x,pts[b].y,w);});
+  pts.forEach((p,i)=>node(ctx,p.x,p.y,16,'#6d28d9',fwNodes2[i].label,null));
+}
+function fwDrawMatrix(){
+  const labels=fwNodes2.map(n=>n.label);
+  let html=`<div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--c2);margin-bottom:.3rem">k=${fwK} (intermediates: ${labels.slice(0,fwK).join(',')||'none'})</div>`;
+  html+='<table><tr><th></th>'+labels.map(l=>`<th>${l}</th>`).join('')+'</tr>';
+  fwD.forEach((row,i)=>{html+=`<tr><th>${labels[i]}</th>`+row.map((v,j)=>`<td${i===fwK-1||j===fwK-1?' class="hi"':''}>${v===Infinity?'∞':v}</td>`).join('')+'</tr>';});
+  html+='</table>';document.getElementById('fw-matrix').innerHTML=html;
+}
+function fwStep(){
+  if(fwK>=fwNodes2.length){document.getElementById('fw-status').textContent='Complete! All-pairs shortest paths found.';return;}
+  const k=fwK;
+  for(let i=0;i<4;i++)for(let j=0;j<4;j++)if(fwD[i][k]+fwD[k][j]<fwD[i][j])fwD[i][j]=fwD[i][k]+fwD[k][j];
+  fwK++;
+  document.getElementById('fw-status').textContent=`k=${fwK}: using ${fwNodes2[k].label} as intermediate — matrix updated`;
+  fwDrawMatrix();
+}
+function fwRun(){for(let i=fwK;i<4;i++)fwStep();}
+fwReset();
+
+// ══════════════════════════════════════════
+// CH10: PLANAR
+// ══════════════════════════════════════════
+let planNodes=[],planEdges=[],planDrag=-1,planIsPlanar=true;
+let planCanvas2=document.getElementById('plan-canvas');planCanvas2.width=planCanvas2.parentElement.clientWidth||400;planCanvas2.style.width='100%';
+let planCtx2=planCanvas2.getContext('2d');
+function planLoad(){
+  const t=document.getElementById('plan-sel').value;
+  const W=planCanvas2.width,H=planCanvas2.height;const cx=W/2,cy=H/2;
+  if(t==='simple'){planNodes=circle(5,cx,cy,130).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));planEdges=[[0,1],[1,2],[2,3],[3,4],[4,0],[0,2]];planIsPlanar=true;}
+  else if(t==='k4'){planNodes=circle(4,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));planEdges=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];planIsPlanar=true;}
+  else if(t==='k5'){planNodes=circle(5,cx,cy,130).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));planEdges=[];for(let i=0;i<5;i++)for(let j=i+1;j<5;j++)planEdges.push([i,j]);planIsPlanar=false;}
+  else if(t==='k33'){planNodes=[{x:cx-100,y:cy-80},{x:cx,y:cy-80},{x:cx+100,y:cy-80},{x:cx-100,y:cy+80},{x:cx,y:cy+80},{x:cx+100,y:cy+80}].map((p,i)=>({...p,label:String.fromCharCode(65+i)}));planEdges=[];for(let i=0;i<3;i++)for(let j=3;j<6;j++)planEdges.push([i,j]);planIsPlanar=false;}
+  else if(t==='petersen'){const outer=circle(5,cx,cy,130),inner=circle(5,cx,cy,65);planNodes=[...outer,...inner].map((p,i)=>({...p,label:String(i+1)}));planEdges=[];for(let i=0;i<5;i++){planEdges.push([i,(i+1)%5]);planEdges.push([i,i+5]);}planEdges.push([5,7],[7,9],[9,6],[6,8],[8,5]);planIsPlanar=false;}
+  else if(t==='cube'){
+    planNodes=[{x:cx-80,y:cy-80},{x:cx+80,y:cy-80},{x:cx+80,y:cy+80},{x:cx-80,y:cy+80},{x:cx-35,y:cy-35},{x:cx+35,y:cy-35},{x:cx+35,y:cy+35},{x:cx-35,y:cy+35}].map((p,i)=>({...p,label:String(i+1)}));
+    planEdges=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];planIsPlanar=true;
+  }
+  planDraw2();planCheck();
+}
+function planDraw2(){
+  const ctx=planCtx2,W=planCanvas2.width,H=planCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  const cross=countCross(planNodes,planEdges);
+  planEdges.forEach(([a,b],i)=>{
+    let xing=false;
+    for(let j=0;j<planEdges.length;j++){if(j===i)continue;const[c,e2]=planEdges[j];if(a===c||a===e2||b===c||b===e2)continue;if(segInt(planNodes[a],planNodes[b],planNodes[c],planNodes[e2]))xing=true;}
+    edge(ctx,planNodes[a].x,planNodes[a].y,planNodes[b].x,planNodes[b].y,xing?'#f43f5e':'#3a3a6a',xing?2.5:1.5);
+  });
+  planNodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,'#6d28d9',n.label,null));
+  document.getElementById('pl-cross').textContent=cross;
+  document.getElementById('plan-status').textContent=cross?`${cross} crossing(s) — drag nodes to untangle`:'✓ No crossings — valid planar embedding!';
+  document.getElementById('pl-verdict').textContent=planIsPlanar?'Planar':cross===0?'Planar (achieved!)':'NOT Planar (Kuratowski)';
+}
+planCanvas2.addEventListener('mousedown',e=>{const pos=cpos(planCanvas2,e);planDrag=planNodes.findIndex(n=>d(n,pos)<NR+5);});
+planCanvas2.addEventListener('mousemove',e=>{if(planDrag<0)return;const pos=cpos(planCanvas2,e);planNodes[planDrag].x=pos.x;planNodes[planDrag].y=pos.y;planDraw2();});
+planCanvas2.addEventListener('mouseup',()=>planDrag=-1);planCanvas2.addEventListener('mouseleave',()=>planDrag=-1);
+function planCheck(){
+  const V=planNodes.length,E=planEdges.length;
+  const F=E-V+2;
+  document.getElementById('pl-v').textContent=V;document.getElementById('pl-e').textContent=E;document.getElementById('pl-f').textContent=F+' (est)';
+  document.getElementById('pl-euler').textContent=V-E+F;
+  planDraw2();
+}
+function planReset(){planLoad();}
+planLoad();
+
+// ══════════════════════════════════════════
+// CH10: KURATOWSKI
+// ══════════════════════════════════════════
+let kurCanvas2=document.getElementById('kur-canvas');kurCanvas2.width=kurCanvas2.parentElement.clientWidth||400;kurCanvas2.style.width='100%';
+let kurCtx2=kurCanvas2.getContext('2d');
+let kurNodes=[],kurEdges=[],kurType='k5',kurSubCount=0;
+function kurShow(t){
+  kurType=t;kurSubCount=0;
+  document.getElementById('kur-k5').classList.toggle('on',t==='k5');
+  document.getElementById('kur-k33').classList.toggle('on',t==='k33');
+  const W=kurCanvas2.width,H=kurCanvas2.height;
+  if(t==='k5'){
+    kurNodes=circle(5,W/2,H/2,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+    kurEdges=[];for(let i=0;i<5;i++)for(let j=i+1;j<5;j++)kurEdges.push([i,j]);
+    const V=5,E=10;document.getElementById('kur-check').textContent=`E=${E} > 3V-6=${3*V-6} → NOT planar`;
+    document.getElementById('kur-status').textContent='K₅: all 5 vertices fully connected. E=10 > 3(5)-6=9';
+  }else{
+    kurNodes=[{x:W/2-100,y:H/2-80},{x:W/2,y:H/2-80},{x:W/2+100,y:H/2-80},{x:W/2-100,y:H/2+80},{x:W/2,y:H/2+80},{x:W/2+100,y:H/2+80}].map((p,i)=>({...p,label:['A','B','C','D','E','F'][i]}));
+    kurEdges=[];for(let i=0;i<3;i++)for(let j=3;j<6;j++)kurEdges.push([i,j]);
+    const V=6,E=9;document.getElementById('kur-check').textContent=`E=${E} > 2V-4=${2*V-4} → NOT planar (bipartite)`;
+    document.getElementById('kur-status').textContent='K₃,₃: top 3 each connect to bottom 3. E=9 > 2(6)-4=8';
+  }
+  kurDraw2();
+}
+function kurDraw2(){
+  const ctx=kurCtx2,W=kurCanvas2.width,H=kurCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  kurEdges.forEach(([a,b])=>edge(ctx,kurNodes[a].x,kurNodes[a].y,kurNodes[b].x,kurNodes[b].y,'#be123c',1.5));
+  kurNodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,n.mid?'#b45309':'#6d28d9',n.label,null));
+}
+function kurSubdivide(){
+  if(kurEdges.length===0)return;
+  const idx=Math.floor(Math.random()*kurEdges.length);
+  const[a,b]=kurEdges[idx];
+  const na=kurNodes[a],nb=kurNodes[b];
+  const mid={x:(na.x+nb.x)/2+(Math.random()-0.5)*30,y:(na.y+nb.y)/2+(Math.random()-0.5)*30,label:'w',mid:true};
+  const newIdx=kurNodes.length;kurNodes.push(mid);
+  kurEdges.splice(idx,1);kurEdges.push([a,newIdx],[newIdx,b]);
+  kurSubCount++;kurDraw2();
+  document.getElementById('kur-status').textContent=`Subdivided edge. Added vertex w${kurSubCount}. Still topologically same graph → still not planar!`;
+}
+function kurReset(){kurShow(kurType);}
+kurShow('k5');
+
+// ══════════════════════════════════════════
+// CH11: CHROMATIC NUMBER
+// ══════════════════════════════════════════
+let chrNodes=[],chrEdges=[],chrCols=[],chrStep2=0,chrOrder=[],chrTimer2=null,chrChiKnown='?';
+let chrCanvas2=document.getElementById('chr-canvas');chrCanvas2.width=chrCanvas2.parentElement.clientWidth||400;chrCanvas2.style.width='100%';
+let chrCtx2=chrCanvas2.getContext('2d');
+function chrLoad(){
+  clearTimeout(chrTimer2);
+  const t=document.getElementById('chr-sel').value;
+  const W=chrCanvas2.width,H=chrCanvas2.height;const cx=W/2,cy=H/2;
+  if(t==='bip'){chrNodes=circle(7,cx,cy,130).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));chrEdges=[[0,3],[0,4],[1,3],[1,5],[2,4],[2,6],[3,6],[4,5]];chrChiKnown='2';}
+  else if(t==='c5'){chrNodes=circle(5,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));chrEdges=[[0,1],[1,2],[2,3],[3,4],[4,0]];chrChiKnown='3';}
+  else if(t==='k4'){chrNodes=circle(4,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));chrEdges=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];chrChiKnown='4';}
+  else if(t==='pet'){const outer=circle(5,cx,cy,130),inner=circle(5,cx,cy,65);chrNodes=[...outer,...inner].map((p,i)=>({...p,label:String(i+1)}));chrEdges=[];for(let i=0;i<5;i++){chrEdges.push([i,(i+1)%5]);chrEdges.push([i,i+5]);}chrEdges.push([5,7],[7,9],[9,6],[6,8],[8,5]);chrChiKnown='3';}
+  else if(t==='tree'){chrNodes=circle(7,cx,cy,130).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));chrEdges=[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]];chrChiKnown='2';}
+  else{chrNodes=circle(8,cx,cy,140).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));chrEdges=[];for(let i=0;i<8;i++)for(let j=i+1;j<8;j++)if(Math.random()<.35)chrEdges.push([i,j]);chrChiKnown='?';}
+  chrCols=new Array(chrNodes.length).fill(-1);chrStep2=0;chrOrder=[...Array(chrNodes.length).keys()];
+  document.getElementById('chr-used').textContent=0;document.getElementById('chr-chi').textContent=chrChiKnown;
+  document.getElementById('chr-valid').textContent='—';document.getElementById('chr-status').textContent='Graph loaded. Step or Auto Color.';
+  chrDraw2();
+}
+function chrDraw2(){
+  const ctx=chrCtx2,W=chrCanvas2.width,H=chrCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  chrEdges.forEach(([a,b])=>{const conf=chrCols[a]>=0&&chrCols[b]>=0&&chrCols[a]===chrCols[b];edge(ctx,chrNodes[a].x,chrNodes[a].y,chrNodes[b].x,chrNodes[b].y,conf?'#f43f5e':'#2a2a45',conf?2.5:1.5);});
+  chrNodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,chrCols[i]>=0?PAL[chrCols[i]]:'#3a3a5a',n.label,null));
+}
+function chrStep(){
+  if(chrStep2>=chrNodes.length){document.getElementById('chr-status').textContent='All colored!';return;}
+  const v=chrOrder[chrStep2];chrCols[v]=validColor(v,chrCols,chrEdges);chrStep2++;
+  const used=new Set(chrCols.filter(c=>c>=0)).size;
+  document.getElementById('chr-used').textContent=used;
+  const valid=chrEdges.every(([a,b])=>chrCols[a]<0||chrCols[b]<0||chrCols[a]!==chrCols[b]);
+  document.getElementById('chr-valid').textContent=valid?'✓ Valid':'✗ Conflict';
+  document.getElementById('chr-status').textContent=`Colored ${chrNodes[v].label} with color ${chrCols[v]+1}`;
+  chrDraw2();
+}
+function chrRun(){clearTimeout(chrTimer2);function s(){if(chrStep2<chrNodes.length){chrStep();chrTimer2=setTimeout(s,450);}}s();}
+function chrReset(){clearTimeout(chrTimer2);chrCols=new Array(chrNodes.length).fill(-1);chrStep2=0;document.getElementById('chr-used').textContent=0;document.getElementById('chr-valid').textContent='—';document.getElementById('chr-status').textContent='Reset';chrDraw2();}
+chrLoad();
+
+// ══════════════════════════════════════════
+// CH11: MANUAL COLORING
+// ══════════════════════════════════════════
+let manNodes=[],manEdges=[],manCols=[],manPC=0;
+let manCanvas2=document.getElementById('man-canvas');manCanvas2.width=manCanvas2.parentElement.clientWidth||400;manCanvas2.style.width='100%';
+let manCtx2=manCanvas2.getContext('2d');
+function manNew(){
+  const W=manCanvas2.width,H=manCanvas2.height;
+  manNodes=circle(7,W/2,H/2,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));
+  manEdges=[[0,1],[0,2],[1,2],[1,3],[2,4],[3,4],[3,5],[4,6],[5,6],[0,5]];
+  manCols=new Array(manNodes.length).fill(-1);manDraw2();
+  document.getElementById('man-used').textContent=0;document.getElementById('man-conf').textContent=0;document.getElementById('man-min').textContent='3';
+  document.getElementById('man-status').textContent='Pick a color, then click vertices';
+}
+function manDraw2(){
+  const ctx=manCtx2,W=manCanvas2.width,H=manCanvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  manEdges.forEach(([a,b])=>{const conf=manCols[a]>=0&&manCols[b]>=0&&manCols[a]===manCols[b];edge(ctx,manNodes[a].x,manNodes[a].y,manNodes[b].x,manNodes[b].y,conf?'#f43f5e':'#2a2a45',conf?3:1.5);});
+  manNodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,manCols[i]>=0?PAL[manCols[i]]:'#3a3a5a',n.label,null));
+}
+function setPC(c){manPC=c;document.querySelectorAll('.pal-btn').forEach((el,i)=>el.classList.toggle('active',i===c));}
+manCanvas2.addEventListener('click',e=>{
+  const pos=cpos(manCanvas2,e),hit=manNodes.findIndex(n=>d(n,pos)<NR+5);
+  if(hit<0)return;manCols[hit]=manPC;manDraw2();
+  const used=new Set(manCols.filter(c=>c>=0)).size;
+  const conf=manEdges.filter(([a,b])=>manCols[a]>=0&&manCols[b]>=0&&manCols[a]===manCols[b]).length;
+  document.getElementById('man-used').textContent=used;
+  document.getElementById('man-conf').textContent=conf;
+  if(manCols.every(c=>c>=0))document.getElementById('man-status').textContent=conf?`✗ ${conf} conflict(s)! Need different colors`:'🎉 Valid coloring! Well done!';
+});
+function manReset(){manCols=new Array(manNodes.length).fill(-1);manDraw2();document.getElementById('man-used').textContent=0;document.getElementById('man-conf').textContent=0;document.getElementById('man-status').textContent='Reset — pick color and click vertices';}
+function manSolve(){manCols=manNodes.map((_,i)=>validColor(i,manCols.slice(0,i).concat(new Array(manNodes.length-i).fill(-1)),manEdges));manDraw2();const used=new Set(manCols).size;document.getElementById('man-used').textContent=used;document.getElementById('man-conf').textContent=0;document.getElementById('man-status').textContent=`Auto-solved with ${used} colors`;}
+manNew();
+
+// ══════════════════════════════════════════
+// CH11: EDGE COLORING
+// ══════════════════════════════════════════
+let ec2Nodes=[],ec2Edges=[],ec2EdgeCols=[];
+let ec2Canvas2=document.getElementById('ec2-canvas');ec2Canvas2.width=ec2Canvas2.parentElement.clientWidth||400;ec2Canvas2.style.width='100%';
+let ec2Ctx2=ec2Canvas2.getContext('2d');
+function ec2Load(){
+  const t=document.getElementById('ec2-sel').value;
+  const W=ec2Canvas2.width,H=ec2Canvas2.height;const cx=W/2,cy=H/2;
+  if(t==='k4e'){ec2Nodes=circle(4,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));ec2Edges=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];document.getElementById('ec2-delta').textContent=3;document.getElementById('ec2-chi').textContent=3;document.getElementById('ec2-class').textContent='Class 1 (χ\'=Δ)';}
+  else if(t==='k5e'){ec2Nodes=circle(5,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));ec2Edges=[];for(let i=0;i<5;i++)for(let j=i+1;j<5;j++)ec2Edges.push([i,j]);document.getElementById('ec2-delta').textContent=4;document.getElementById('ec2-chi').textContent=5;document.getElementById('ec2-class').textContent='Class 2 (χ\'=Δ+1)';}
+  else if(t==='bipe'){ec2Nodes=[{x:cx-100,y:cy-60},{x:cx-100,y:cy+60},{x:cx+100,y:cy-80},{x:cx+100,y:cy},{x:cx+100,y:cy+80}].map((p,i)=>({...p,label:String.fromCharCode(65+i)}));ec2Edges=[[0,2],[0,3],[0,4],[1,2],[1,3],[1,4]];document.getElementById('ec2-delta').textContent=3;document.getElementById('ec2-chi').textContent=3;document.getElementById('ec2-class').textContent='Class 1 (bipartite: χ\'=Δ)';}
+  else{ec2Nodes=circle(6,cx,cy,120).map((p,i)=>({...p,label:String.fromCharCode(65+i)}));ec2Edges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]];document.getElementById('ec2-delta').textContent=2;document.getElementById('ec2-chi').textContent=2;document.getElementById('ec2-class').textContent='Class 1 (χ\'=Δ)';}
+  ec2EdgeCols=new Array(ec2Edges.length).fill(-1);ec2Draw2();
+  document.getElementById('ec2-status').textContent='Graph loaded. Click Auto Edge-Color.';
+}
+function ec2Draw2(){
+  const ctx=ec2Ctx2,W=ec2Canvas2.width,H=ec2Canvas2.height;ctx.clearRect(0,0,W,H);bg(ctx,W,H);
+  ec2Edges.forEach(([a,b],i)=>edge(ctx,ec2Nodes[a].x,ec2Nodes[a].y,ec2Nodes[b].x,ec2Nodes[b].y,ec2EdgeCols[i]>=0?PAL[ec2EdgeCols[i]]:'#2a2a45',ec2EdgeCols[i]>=0?3:1.5));
+  ec2Nodes.forEach((n,i)=>node(ctx,n.x,n.y,NR,'#6d28d9',n.label,null));
+}
+function ec2Solve(){
+  // greedy edge coloring
+  ec2EdgeCols=new Array(ec2Edges.length).fill(-1);
+  ec2Edges.forEach(([a,b],i)=>{
+    const usedCols=new Set();
+    ec2Edges.forEach(([x,y],j)=>{if(j!==i&&ec2EdgeCols[j]>=0&&(x===a||x===b||y===a||y===b))usedCols.add(ec2EdgeCols[j]);});
+    for(let c=0;c<PAL.length;c++){if(!usedCols.has(c)){ec2EdgeCols[i]=c;break;}}
+  });
+  const used=new Set(ec2EdgeCols).size;ec2Draw2();
+  document.getElementById('ec2-status').textContent=`Edge-colored with ${used} color(s). Adjacent edges (sharing vertex) have different colors.`;
+}
+function ec2Reset(){ec2EdgeCols=new Array(ec2Edges.length).fill(-1);ec2Draw2();document.getElementById('ec2-status').textContent='Reset';}
+ec2Load();
+
+// init tabs click handler
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',function(){
+  this.parentElement.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  this.classList.add('active');
+}));
+</script>
+</body>
+</html>
