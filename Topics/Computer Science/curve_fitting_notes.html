@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curve Fitting by Least Squares — Exam Notes</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+:root{
+  --paper:#FBFBF6;
+  --grid: rgba(27,42,74,0.05);
+  --ink:#1B2A4A;
+  --text:#262A31;
+  --text-soft:#5C6270;
+  --teal:#0E7A6C;
+  --teal-dark:#0A5C51;
+  --teal-tint:#E6F3F0;
+  --amber:#C97A12;
+  --amber-dark:#9C5E0C;
+  --amber-tint:#FBF0DE;
+  --card:#FFFFFF;
+  --border:#E6E2D4;
+  --border-soft:#EFEBDD;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(27,42,74,.06),0 10px 26px -16px rgba(27,42,74,.28);
+  --font-display: Georgia,'Iowan Old Style','Palatino Linotype','Book Antiqua',serif;
+  --font-body: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-mono: ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--text);
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/100% 34px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/34px 100%,
+    var(--paper);
+  font-size:16px;
+  line-height:1.65;
+}
+h1,h2,h3,h4{font-family:var(--font-display); color:var(--ink); line-height:1.22; font-weight:700;}
+a{color:var(--teal-dark);}
+p{margin:.6em 0 1em;}
+.app{display:flex; max-width:1360px; margin:0 auto;}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:272px; flex:0 0 272px; position:sticky; top:0; align-self:flex-start;
+  height:100vh; overflow-y:auto; padding:22px 14px 40px 22px; border-right:1px solid var(--border);
+  background:rgba(251,251,246,.9); backdrop-filter:blur(4px);
+}
+.brand{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+.brand svg{flex:0 0 30px;}
+.brand-text{font-family:var(--font-display); font-weight:700; color:var(--ink); font-size:1.02rem; line-height:1.15;}
+.brand-sub{font-size:.72rem; color:var(--text-soft); letter-spacing:.04em; text-transform:uppercase; margin:2px 0 22px;}
+.toc{list-style:none; margin:0; padding:0;}
+.toc li{margin:0;}
+.toc a{
+  display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--text-soft);
+  font-size:.86rem; padding:7px 10px; border-radius:9px; border-left:2px solid transparent;
+}
+.toc a .num{font-family:var(--font-mono); font-size:.72rem; color:var(--amber-dark); flex:0 0 auto;}
+.toc a:hover{background:var(--teal-tint); color:var(--teal-dark);}
+.toc a.active{background:var(--teal-tint); color:var(--teal-dark); border-left-color:var(--teal); font-weight:600;}
+.nav-toggle{display:none;}
+
+/* ---------- Content ---------- */
+.content{flex:1; min-width:0; padding:0 0 80px;}
+.hero{
+  padding:56px 48px 40px; border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));
+}
+.eyebrow{font-family:var(--font-mono); font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-dark); margin-bottom:10px;}
+.hero h1{font-size:2.5rem; margin:0 0 10px; max-width:16ch;}
+.hero p.lead{font-size:1.08rem; color:var(--text-soft); max-width:62ch; margin:0 0 24px;}
+.hero-meta{display:flex; flex-wrap:wrap; gap:10px;}
+.pill{font-size:.78rem; font-family:var(--font-mono); background:var(--card); border:1px solid var(--border); padding:5px 11px; border-radius:99px; color:var(--text-soft);}
+.hero-illustration{margin-top:26px;}
+
+section{padding:44px 48px; border-bottom:1px solid var(--border-soft); scroll-margin-top:14px;}
+section:target, section.flash{animation:none;}
+.sec-num{font-family:var(--font-mono); color:var(--amber-dark); font-size:.82rem; letter-spacing:.05em;}
+section h2{font-size:1.65rem; margin:2px 0 6px;}
+section > p.dek{color:var(--text-soft); max-width:70ch; margin-top:0;}
+
+/* ---------- Cards / boxes ---------- */
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px 22px; margin:18px 0;}
+.box-teal{border-left:4px solid var(--teal);}
+.box-amber{border-left:4px solid var(--amber);}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+@media (max-width:900px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+table{border-collapse:collapse; width:100%; margin:10px 0 4px; font-size:.92rem;}
+table.data th, table.data td{border:1px solid var(--border); padding:6px 10px; text-align:center; font-family:var(--font-mono); font-variant-numeric:tabular-nums;}
+table.data th{background:var(--teal-tint); color:var(--teal-dark); font-family:var(--font-body); font-weight:600; font-size:.82rem;}
+table.data tr:last-child td{background:var(--amber-tint); font-weight:700;}
+table.compare{width:100%; margin:14px 0;}
+table.compare th, table.compare td{border:1px solid var(--border); padding:10px 12px; text-align:left; font-size:.92rem;}
+table.compare th{background:var(--ink); color:#fff; font-family:var(--font-body);}
+table.compare tr:nth-child(even) td{background:#F7F6EF;}
+
+/* recipe / steps */
+ol.recipe{margin:10px 0; padding-left:0; list-style:none; counter-reset:step;}
+ol.recipe li{counter-increment:step; position:relative; padding:6px 0 6px 40px; margin-bottom:2px;}
+ol.recipe li::before{content:counter(step); position:absolute; left:0; top:5px; width:26px; height:26px; border-radius:50%; background:var(--ink); color:#fff; font-family:var(--font-mono); font-size:.78rem; display:flex; align-items:center; justify-content:center;}
+
+/* details / examples */
+details{border:1px solid var(--border); border-radius:12px; margin:12px 0; background:#fff; overflow:hidden;}
+summary{
+  cursor:pointer; list-style:none; padding:12px 16px; font-weight:600; color:var(--teal-dark);
+  display:flex; align-items:center; gap:8px; background:var(--teal-tint); user-select:none;
+}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:'▸'; transition:transform .18s ease; display:inline-block; color:var(--teal);}
+details[open] summary::before{transform:rotate(90deg);}
+details.answer summary{background:var(--amber-tint); color:var(--amber-dark);}
+details.answer summary::before{color:var(--amber);}
+details > .d-body{padding:14px 18px 18px;}
+
+.example{border:1px solid var(--border); border-left:5px solid var(--ink); border-radius:12px; padding:16px 20px; margin:16px 0; background:#fff;}
+.example .tag{font-family:var(--font-mono); font-size:.72rem; color:#fff; background:var(--ink); padding:2px 9px; border-radius:99px; margin-bottom:8px; display:inline-block;}
+.practice{border:1px dashed var(--amber); border-radius:12px; padding:16px 20px; margin:16px 0; background:var(--amber-tint);}
+.practice .tag{font-family:var(--font-mono); font-size:.72rem; color:#fff; background:var(--amber-dark); padding:2px 9px; border-radius:99px; margin-bottom:8px; display:inline-block;}
+
+.formula{background:#F6F5EE; border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin:12px 0; overflow-x:auto;}
+.tip{background:var(--teal-tint); border-radius:10px; padding:10px 14px; font-size:.9rem; color:var(--teal-dark); margin:10px 0;}
+.warn{background:#FBEDE6; border-radius:10px; padding:10px 14px; font-size:.9rem; color:#8A3A16; margin:10px 0;}
+
+/* app cards for section 10 */
+.app-card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);}
+.app-card h4{margin:2px 0 4px; font-size:1.02rem;}
+.app-card .model-tag{font-family:var(--font-mono); font-size:.72rem; color:var(--teal-dark); background:var(--teal-tint); padding:2px 8px; border-radius:99px;}
+.app-card .result{font-family:var(--font-mono); font-weight:700; color:var(--amber-dark); margin-top:6px;}
+
+/* Calculator */
+.calc-wrap{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+@media (max-width:900px){.calc-wrap{grid-template-columns:1fr;}}
+textarea{width:100%; min-height:170px; font-family:var(--font-mono); font-size:.92rem; border:1px solid var(--border); border-radius:10px; padding:10px 12px; resize:vertical;}
+button{
+  font-family:var(--font-body); font-weight:600; font-size:.92rem; border:none; border-radius:99px;
+  padding:11px 20px; cursor:pointer; background:var(--teal); color:#fff; min-height:44px;
+}
+button:hover{background:var(--teal-dark);}
+button.secondary{background:var(--card); color:var(--ink); border:1px solid var(--border);}
+button.secondary:hover{background:#F1EFE4;}
+canvas{width:100%; height:280px; background:#fff; border:1px solid var(--border); border-radius:10px;}
+.calc-results{font-family:var(--font-mono); font-size:.9rem; background:#F6F5EE; border-radius:10px; padding:12px 14px; margin-top:12px; white-space:pre-wrap;}
+
+/* Flashcards */
+.flash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+@media (max-width:700px){.flash-grid{grid-template-columns:1fr;}}
+.flashcard{perspective:1200px; height:150px;}
+.flashcard .inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d; cursor:pointer;}
+.flashcard.flipped .inner{transform:rotateY(180deg);}
+.flashcard .face{position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; padding:16px; display:flex; align-items:center; justify-content:center; text-align:center; box-shadow:var(--shadow); font-size:.94rem;}
+.flashcard .front{background:var(--ink); color:#fff; font-weight:600;}
+.flashcard .back{background:var(--teal); color:#fff; transform:rotateY(180deg);}
+.flash-hint{font-size:.72rem; color:var(--text-soft); text-align:center; margin-top:22px;}
+
+/* Quiz */
+.quiz-item{border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:14px; background:#fff;}
+.quiz-item p.q{font-weight:600; margin:0 0 8px;}
+.quiz-item label{display:block; padding:6px 8px; border-radius:8px; cursor:pointer; font-size:.92rem;}
+.quiz-item label:hover{background:#F6F5EE;}
+.quiz-item input{margin-right:8px;}
+.quiz-item.correct{border-color:var(--teal);}
+.quiz-item.wrong{border-color:#C2492A;}
+.quiz-item .fb{font-size:.85rem; margin-top:6px; display:none; font-weight:600;}
+.quiz-item.correct .fb.ok{display:block; color:var(--teal-dark);}
+.quiz-item.wrong .fb.no{display:block; color:#C2492A;}
+#quizScore{font-weight:700; font-family:var(--font-mono);}
+
+/* checklist */
+.progress-wrap{display:flex; align-items:center; gap:10px; margin:6px 0 18px;}
+.progress-bar{flex:1; height:8px; background:var(--border); border-radius:99px; overflow:hidden;}
+.progress-fill{height:100%; width:0%; background:var(--teal); transition:width .3s;}
+#progressLabel{font-family:var(--font-mono); font-size:.78rem; color:var(--text-soft); white-space:nowrap;}
+.check-row{display:flex; align-items:center; gap:10px; padding:5px 0;}
+.check-row input{width:18px; height:18px;}
+
+footer{padding:30px 48px; color:var(--text-soft); font-size:.85rem;}
+
+@media (max-width:900px){
+  .sidebar{position:fixed; left:-300px; top:0; z-index:40; width:270px; height:100%; box-shadow:var(--shadow); transition:left .25s ease; background:var(--paper);}
+  .sidebar.open{left:0;}
+  .nav-toggle{
+    display:flex; position:sticky; top:10px; z-index:30; margin:10px 0 0 14px; align-items:center; gap:8px;
+    background:var(--ink); color:#fff; border:none; border-radius:99px; padding:10px 16px; min-height:44px;
+  }
+  .hero{padding:34px 22px 26px;}
+  section{padding:30px 22px;}
+  .hero h1{font-size:1.9rem;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="sidebar">☰ Contents</button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <svg viewBox="0 0 40 40" width="30" height="30"><circle cx="20" cy="20" r="19" fill="none" stroke="#0E7A6C" stroke-width="2"/><circle cx="11" cy="26" r="2.2" fill="#C97A12"/><circle cx="17" cy="20" r="2.2" fill="#C97A12"/><circle cx="23" cy="23" r="2.2" fill="#C97A12"/><circle cx="29" cy="14" r="2.2" fill="#C97A12"/><line x1="8" y1="29" x2="32" y2="11" stroke="#1B2A4A" stroke-width="2"/></svg>
+    <div class="brand-text">Least Squares<br>Curve Fitting</div>
+  </div>
+  <div class="brand-sub">Ch. 4 · Sastry · Exam Notes</div>
+  <ul class="toc" id="tocList">
+    <li><a href="#big-picture"><span class="num">01</span>Interpolation vs Curve Fitting</a></li>
+    <li><a href="#principle"><span class="num">02</span>The Least-Squares Principle</a></li>
+    <li><a href="#history"><span class="num">03</span>Gauss &amp; Legendre</a></li>
+    <li><a href="#line-fit"><span class="num">04</span>Straight-Line Fit &amp; cc</a></li>
+    <li><a href="#multi-linear"><span class="num">05</span>Multiple Linear LS</a></li>
+    <li><a href="#linearization"><span class="num">06</span>Linearizing Nonlinear Laws</a></li>
+    <li><a href="#polynomial"><span class="num">07</span>Polynomial Curve Fitting</a></li>
+    <li><a href="#sum-exp"><span class="num">08</span>Sum of Exponentials</a></li>
+    <li><a href="#weighted"><span class="num">09</span>Weighted Least Squares</a></li>
+    <li><a href="#applications"><span class="num">10</span>Real-World Applications</a></li>
+    <li><a href="#extensions"><span class="num">11</span>Beyond §4.3 (4.4–4.6)</a></li>
+    <li><a href="#calculator"><span class="num">12</span>Try It: Line-Fit Tool</a></li>
+    <li><a href="#cheatsheet"><span class="num">13</span>Formula Cheat-Sheet</a></li>
+    <li><a href="#flashcards"><span class="num">14</span>Flashcards</a></li>
+    <li><a href="#quiz"><span class="num">15</span>Self-Test Quiz</a></li>
+    <li><a href="#tips"><span class="num">16</span>Exam Pitfalls</a></li>
+  </ul>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <span id="progressLabel">0/16 read</span>
+  </div>
+</nav>
+
+<main class="content">
+
+  <header class="hero">
+    <div class="eyebrow">RUET · CSE · Numerical Analysis</div>
+    <h1>Curve Fitting by the Method of Least Squares</h1>
+    <p class="lead">A from-scratch, exam-ready walkthrough of Chapter 4 (§4.1–4.3) of S.S. Sastry's <em>Introductory Methods of Numerical Analysis</em> — every formula derived, every textbook example solved step by step, plus original practice problems, a live calculator, flashcards and a self-test quiz.</p>
+    <div class="hero-meta">
+      <span class="pill">10 worked examples (4.1–4.10)</span>
+      <span class="pill">9 real-world scenarios</span>
+      <span class="pill">6 fresh practice problems</span>
+      <span class="pill">Interactive calculator</span>
+      <span class="pill">6-question quiz</span>
+    </div>
+  </header>
+
+  <!-- ============ 1. BIG PICTURE ============ -->
+  <section id="big-picture">
+    <div class="sec-num">01 / 16</div>
+    <h2>Interpolation vs. Curve Fitting — Why This Chapter Exists</h2>
+    <p class="dek">Same raw material — points \((x_i,y_i)\) — two very different jobs.</p>
+
+    <p>In Chapter 3 you met <strong>interpolation</strong>: given exact tabulated values, you built a curve (Newton, Lagrange, …) that passes through <em>every single point</em>. That only makes sense when the data itself is trustworthy — e.g. values of a known function, or precise readings with no noise.</p>
+    <p>Real experiments are messier. If you measure voltage across a resistor five times, each reading carries small errors from the instrument, human timing, temperature drift, etc. Forcing a curve through all five noisy points would just fit the noise, not the underlying law. <strong>Curve fitting</strong> instead asks for a curve that runs <em>close to</em> the data — the discrepancy between the curve and the points is made as small as possible, without requiring exact contact anywhere.</p>
+
+    <table class="compare">
+      <tr><th></th><th>Interpolation (Ch. 3)</th><th>Curve Fitting (Ch. 4)</th></tr>
+      <tr><td>Data assumed</td><td>Exact, error-free</td><td>Noisy / experimental</td></tr>
+      <tr><td>Curve behaviour</td><td>Passes through every point</td><td>Passes near the points, minimising overall error</td></tr>
+      <tr><td>Number of points vs. parameters</td><td>Parameters = points (exact match)</td><td>Points usually &gt;&gt; parameters (over-determined)</td></tr>
+      <tr><td>Typical use</td><td>Filling in a value between known, reliable entries</td><td>Discovering the underlying law behind scattered lab/field data</td></tr>
+    </table>
+
+    <div class="card box-teal">
+      <strong>The residual (error).</strong> For an approximating function \(Y=f(x)\), the error at the \(i\)-th point is
+      \[ e_i = y_i - f(x_i) \]
+      Curve fitting chooses the free parameters of \(f\) so that these residuals are, collectively, as small as possible — that is the entire idea of the chapter.
+    </div>
+    <p style="font-size:.85rem;color:var(--text-soft);">The rest of the classical numerical-methods syllabus builds on the same \(e_i\): §4.4 extends it to continuous functions, §4.5 to orthogonal/Chebyshev polynomials, §4.6 to Fourier series — all covered briefly in section 11 below for a complete picture of the chapter.</p>
+  </section>
+
+  <!-- ============ 2. PRINCIPLE ============ -->
+  <section id="principle">
+    <div class="sec-num">02 / 16</div>
+    <h2>The Least-Squares Principle</h2>
+    <p class="dek">One idea powers every formula in this chapter: minimise the sum of squared errors.</p>
+
+    <p>Let the curve \(Y=f(x)\) be fitted to \(m\) data points \((x_i,y_i)\), \(i=1,\dots,m\). Collect all the residuals into one number:</p>
+    <div class="formula">
+      \[ S = e_1^2+e_2^2+\cdots+e_m^2 = \sum_{i=1}^{m}\big[y_i-f(x_i)\big]^2 \tag{4.1–4.2}\]
+    </div>
+    <p>The <strong>method of least squares</strong> chooses whatever parameters live inside \(f\) (call them \(a_0,a_1,\dots\)) to make \(S\) as small as possible. Because \(S\) is a smooth function of those parameters, calculus does the rest: set every partial derivative to zero.</p>
+    <div class="formula">\[ \frac{\partial S}{\partial a_0}=0,\quad \frac{\partial S}{\partial a_1}=0,\quad \dots \]</div>
+    <p>Each equation you get this way is called a <strong>normal equation</strong>. Solve the resulting system (linear, if \(f\) is linear in its parameters) and you have the best-fit curve.</p>
+
+    <div class="card">
+      <strong>Why squares, and not just \(|e_i|\)?</strong>
+      <ol style="margin:8px 0 0 18px; padding:0;">
+        <li><strong>No cancellation.</strong> A large positive error and a large negative error would cancel in a plain sum \(\sum e_i\); squaring makes every term positive.</li>
+        <li><strong>Differentiable everywhere.</strong> \(e^2\) is smooth at \(e=0\); \(|e|\) has a sharp corner there, which breaks the "set derivative = 0" trick.</li>
+        <li><strong>Penalises big misses more.</strong> Doubling an error quadruples its contribution to \(S\) — the fit actively avoids leaving any one point far off.</li>
+        <li><strong>Statistical justification.</strong> If the noise in \(y_i\) is independent and normally (Gaussian) distributed, the least-squares solution is exactly the maximum-likelihood estimate of the parameters — this is the link Gauss made (see next section).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 3. HISTORY ============ -->
+  <section id="history">
+    <div class="sec-num">03 / 16</div>
+    <h2>Who Devised Least Squares? — Gauss &amp; Legendre</h2>
+    <p class="dek">A textbook favourite for a one-mark viva/MCQ question.</p>
+    <div class="grid2">
+      <div class="card">
+        <strong>Adrien-Marie Legendre</strong> (1752–1833)<br>
+        Was the <em>first to publish</em> the method, in 1805, naming it <em>moindres carrés</em> — "least squares."
+      </div>
+      <div class="card">
+        <strong>Carl Friedrich Gauss</strong> (1777–1855)<br>
+        Published his own treatment in 1809 (<em>Theoria Motus</em>) but claimed to have used it since 1795 to predict the orbit of the asteroid Ceres. He also tied the method to probability, deriving it from the normal (Gaussian) error law.
+      </div>
+    </div>
+    <div class="tip">Exam one-liner: <strong>Legendre published first (1805)</strong>; <strong>Gauss gave it a probabilistic foundation</strong> and claimed prior use since 1795. Both names are legitimately attached to the method.</div>
+  </section>
+
+  <!-- ============ 4. STRAIGHT LINE ============ -->
+  <section id="line-fit">
+    <div class="sec-num">04 / 16</div>
+    <h2>4.2.1 Fitting a Straight Line \(Y=a_0+a_1x\)</h2>
+    <p class="dek">The workhorse case — master this and every other model in the chapter is a variation on it.</p>
+
+    <p>With \(f(x_i)=a_0+a_1x_i\),</p>
+    <div class="formula">\[ S=\sum_{i=1}^{m}\big[y_i-(a_0+a_1x_i)\big]^2 \]</div>
+
+    <details>
+      <summary>Show the derivation of the normal equations</summary>
+      <div class="d-body">
+        <p>Differentiate \(S\) with respect to each parameter and set the result to zero:</p>
+        <p>\(\dfrac{\partial S}{\partial a_0}=-2\sum\big[y_i-a_0-a_1x_i\big]=0\ \Rightarrow\ \sum y_i = m\,a_0+a_1\sum x_i\)</p>
+        <p>\(\dfrac{\partial S}{\partial a_1}=-2\sum x_i\big[y_i-a_0-a_1x_i\big]=0\ \Rightarrow\ \sum x_iy_i = a_0\sum x_i+a_1\sum x_i^2\)</p>
+        <p>These two simultaneous equations in the unknowns \(a_0,a_1\) are the <strong>normal equations</strong>.</p>
+      </div>
+    </details>
+
+    <div class="formula">
+      \[ m\,a_0+a_1\sum x_i=\sum y_i \qquad (4.6a)\]
+      \[ a_0\sum x_i+a_1\sum x_i^2=\sum x_iy_i \qquad (4.6b)\]
+    </div>
+    <p>Solving this \(2\times2\) system (e.g. by Cramer's rule) gives closed-form formulas — no system-solving needed in practice:</p>
+    <div class="formula">
+      \[ a_1=\frac{m\sum x_iy_i-\sum x_i\sum y_i}{m\sum x_i^2-\left(\sum x_i\right)^2}\qquad (4.7)\]
+      \[ a_0=\bar y-a_1\bar x \qquad (4.8)\]
+    </div>
+    <div class="tip">Because \(a_0=\bar y - a_1\bar x\) rearranges to \(a_0+a_1\bar x=\bar y\), the fitted line <strong>always passes through the centroid</strong> \((\bar x,\bar y)\) of the data — a fast sanity check on any answer.</div>
+
+    <h3>Goodness of fit — the correlation coefficient</h3>
+    <div class="formula">
+      \[ cc=\sqrt{\frac{S_T-S}{S_T}}\qquad (4.9)\qquad\qquad S_T=\sum (y_i-\bar y)^2\qquad (4.10)\]
+    </div>
+    <p>\(S_T\) is the <em>total</em> variation of \(y\) about its mean; \(S\) is whatever variation is <em>left over</em> after the line is fitted (using the residuals \(y_i-\hat y_i\), with \(\hat y_i=a_0+a_1x_i\)). So \((S_T-S)/S_T\) is the fraction of the variation the line "explains." \(cc\) close to 1 ⇒ excellent linear fit; close to 0 ⇒ the line explains almost nothing.</p>
+
+    <div class="card box-amber">
+      <strong>Exam recipe for a straight-line fit</strong>
+      <ol class="recipe">
+        <li>Draw a table with columns \(x_i,\ y_i,\ x_i^2,\ x_iy_i\) and sum each column.</li>
+        <li>Read off \(m,\ \sum x,\ \sum y,\ \sum x^2,\ \sum xy\).</li>
+        <li>Plug into (4.7) for \(a_1\), then (4.8) for \(a_0\).</li>
+        <li>If \(cc\) is asked: compute \(\bar y\), then \(S_T=\sum(y_i-\bar y)^2\) and \(S=\sum(y_i-a_0-a_1x_i)^2\) (extra table columns), then apply (4.9).</li>
+        <li>State the fitted equation and interpret the slope/intercept in the problem's own units.</li>
+      </ol>
+    </div>
+
+    <div class="example">
+      <span class="tag">Example 4.1 — Textbook, worked in full</span>
+      <p>Fit \(Y=a_0+a_1x\) to \((1,0.6),(2,2.4),(3,3.5),(4,4.8),(5,5.7)\) and find \(cc\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <table class="data">
+          <tr><th>\(x_i\)</th><th>\(y_i\)</th><th>\(x_i^2\)</th><th>\(x_iy_i\)</th><th>\((y_i-\bar y)^2\)</th><th>\((y_i-a_0-a_1x_i)^2\)</th></tr>
+          <tr><td>1</td><td>0.6</td><td>1</td><td>0.6</td><td>7.84</td><td>0.0784</td></tr>
+          <tr><td>2</td><td>2.4</td><td>4</td><td>4.8</td><td>1.00</td><td>0.0676</td></tr>
+          <tr><td>3</td><td>3.5</td><td>9</td><td>10.5</td><td>0.01</td><td>0.0100</td></tr>
+          <tr><td>4</td><td>4.8</td><td>16</td><td>19.2</td><td>1.96</td><td>0.0196</td></tr>
+          <tr><td>5</td><td>5.7</td><td>25</td><td>28.5</td><td>5.29</td><td>0.0484</td></tr>
+          <tr><td>Σ = 15</td><td>17.0</td><td>55</td><td>63.6</td><td>16.10</td><td>0.2240</td></tr>
+        </table>
+        <p>\(\bar x=3,\ \bar y=3.4\). From (4.7)–(4.8):</p>
+        <p>\(a_1=\dfrac{5(63.6)-15(17)}{5(55)-15^2}=\dfrac{63}{50}=1.26\)</p>
+        <p>\(a_0=3.4-1.26(3)=-0.38\)</p>
+        <p><strong>\(Y=-0.38+1.26x\)</strong></p>
+        <p>\(cc=\sqrt{\dfrac{16.10-0.2240}{16.10}}=0.9930\) — an excellent fit.</p>
+      </div></details>
+    </div>
+
+    <div class="example">
+      <span class="tag">Example 4.2 — Textbook, worked in full</span>
+      <p>Fit \(Y=a_0+a_1x\) to \((0,-1),(2,5),(5,12),(7,20)\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <table class="data">
+          <tr><th>\(x\)</th><th>\(y\)</th><th>\(x^2\)</th><th>\(xy\)</th></tr>
+          <tr><td>0</td><td>−1</td><td>0</td><td>0</td></tr>
+          <tr><td>2</td><td>5</td><td>4</td><td>10</td></tr>
+          <tr><td>5</td><td>12</td><td>25</td><td>60</td></tr>
+          <tr><td>7</td><td>20</td><td>49</td><td>140</td></tr>
+          <tr><td>Σ = 14</td><td>36</td><td>78</td><td>210</td></tr>
+        </table>
+        <p>Normal equations: \(4a_0+14a_1=36,\qquad 14a_0+78a_1=210\)</p>
+        <p><strong>\(a_0=-1.1381,\ a_1=2.8966\ \Rightarrow\ Y=-1.1381+2.8966x\)</strong></p>
+        <p style="font-size:.85rem;color:var(--text-soft);">This exact data set returns later, first with a weight of 10 and then 100 on the point \((5,12)\) — see Examples 4.9 and 4.10 in section 09.</p>
+      </div></details>
+    </div>
+
+    <div class="practice">
+      <span class="tag">Practice A — solve it yourself</span>
+      <p>A student records exam-prep hours \(x\) against score gain \(y\): \((1,2.2),(2,4.1),(3,5.9),(4,8.3),(5,9.8)\). Fit \(Y=a_0+a_1x\) and find \(cc\).</p>
+      <details class="answer"><summary>Reveal worked answer</summary><div class="d-body">
+        <table class="data">
+          <tr><th>\(x\)</th><th>\(y\)</th><th>\(x^2\)</th><th>\(xy\)</th></tr>
+          <tr><td>1</td><td>2.2</td><td>1</td><td>2.2</td></tr>
+          <tr><td>2</td><td>4.1</td><td>4</td><td>8.2</td></tr>
+          <tr><td>3</td><td>5.9</td><td>9</td><td>17.7</td></tr>
+          <tr><td>4</td><td>8.3</td><td>16</td><td>33.2</td></tr>
+          <tr><td>5</td><td>9.8</td><td>25</td><td>49.0</td></tr>
+          <tr><td>Σ = 15</td><td>30.3</td><td>55</td><td>110.3</td></tr>
+        </table>
+        <p>\(a_1=\dfrac{5(110.3)-15(30.3)}{5(55)-225}=\dfrac{97}{50}=1.94\)</p>
+        <p>\(a_0=6.06-1.94(3)=0.24\)</p>
+        <p><strong>\(Y=0.24+1.94x\)</strong>, and \(cc\approx0.998\) (a near-perfect linear trend).</p>
+      </div></details>
+    </div>
+
+    <div class="warn"><strong>Conceptual check:</strong> why must the fitted line pass through \((\bar x,\bar y)\)? — Because \(a_0=\bar y-a_1\bar x\) rearranges to \(a_0+a_1\bar x=\bar y\); substituting \(x=\bar x\) into the fitted line always returns \(\bar y\).</div>
+  </section>
+
+  <!-- ============ 5. MULTIPLE LINEAR ============ -->
+  <section id="multi-linear">
+    <div class="sec-num">05 / 16</div>
+    <h2>4.2.2 Multiple Linear Least Squares</h2>
+    <p class="dek">Same idea, one more predictor: fit \(z=a_0+a_1x+a_2y\) to triples \((x_i,y_i,z_i)\).</p>
+
+    <p>Minimising \(S=\sum(z_i-a_0-a_1x_i-a_2y_i)^2\) and setting all three partial derivatives to zero gives three normal equations:</p>
+    <div class="formula">
+      \[ m\,a_0+a_1\sum x_i+a_2\sum y_i=\sum z_i \]
+      \[ a_0\sum x_i+a_1\sum x_i^2+a_2\sum x_iy_i=\sum x_iz_i \]
+      \[ a_0\sum y_i+a_1\sum x_iy_i+a_2\sum y_i^2=\sum y_iz_i \qquad (4.11)\]
+    </div>
+    <div class="tip">General pattern: a model linear in its parameters — with <em>k</em> predictors — always yields <em>k+1</em> linear normal equations, one per parameter. In matrix form this is the familiar <code>(XᵀX)a = Xᵀz</code>, where \(X\) is the "design matrix" whose first column is all 1's, followed by one column per predictor — exactly the same object behind multiple regression in statistics.</div>
+
+    <div class="example">
+      <span class="tag">Example 4.3 — Textbook, worked in full</span>
+      <p>Fit \(z=a_0+a_1x+a_2y\) to \((x,y,z)=(0,0,2),(1,1,4),(2,3,3),(4,2,16),(6,8,8)\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <table class="data">
+          <tr><th>x</th><th>y</th><th>z</th><th>x²</th><th>xy</th><th>zx</th><th>y²</th><th>yz</th></tr>
+          <tr><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td><td>4</td><td>1</td><td>1</td><td>4</td><td>1</td><td>4</td></tr>
+          <tr><td>2</td><td>3</td><td>3</td><td>4</td><td>6</td><td>6</td><td>9</td><td>9</td></tr>
+          <tr><td>4</td><td>2</td><td>16</td><td>16</td><td>8</td><td>64</td><td>4</td><td>32</td></tr>
+          <tr><td>6</td><td>8</td><td>8</td><td>36</td><td>48</td><td>48</td><td>64</td><td>64</td></tr>
+          <tr><td>Σ=13</td><td>14</td><td>33</td><td>57</td><td>63</td><td>122</td><td>78</td><td>109</td></tr>
+        </table>
+        <p>\(5a_0+13a_1+14a_2=33\)<br>\(13a_0+57a_1+63a_2=122\)<br>\(14a_0+63a_1+78a_2=109\)</p>
+        <p><strong>\(a_0=2,\ a_1=5,\ a_2=-3\ \Rightarrow\ z=2+5x-3y\)</strong></p>
+      </div></details>
+    </div>
+
+    <div class="practice">
+      <span class="tag">Practice B — solve it yourself</span>
+      <p>Fit \(z=a_0+a_1x+a_2y\) to \((x,y,z)=(0,0,3),(1,0,5),(0,1,2),(2,1,6),(1,2,3)\).</p>
+      <details class="answer"><summary>Reveal worked answer</summary><div class="d-body">
+        <p>Sums: \(m=5,\ \sum x=4,\ \sum y=4,\ \sum z=19,\ \sum x^2=6,\ \sum xy=4,\ \sum y^2=6,\ \sum zx=20,\ \sum zy=14\).</p>
+        <p>\(5a_0+4a_1+4a_2=19\)<br>\(4a_0+6a_1+4a_2=20\)<br>\(4a_0+4a_1+6a_2=14\)</p>
+        <p><strong>\(a_0=3,\ a_1=2,\ a_2=-1\ \Rightarrow\ z=3+2x-y\)</strong> (an exact fit — every point satisfies the equation).</p>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 6. LINEARIZATION ============ -->
+  <section id="linearization">
+    <div class="sec-num">06 / 16</div>
+    <h2>4.2.3 Linearization of Nonlinear Laws</h2>
+    <p class="dek">Most "curve fitting" problems you'll actually be given are not straight lines — but an algebraic substitution turns them into one.</p>
+
+    <p>If a nonlinear law can be rearranged into the form \(Y=A_0+A_1X\) for some new variables \(X,Y\) built from the original \(x,y\), then the straight-line formulas (4.7)–(4.8) apply directly to the transformed data. Fit the line, then convert \(A_0,A_1\) back into the original constants.</p>
+
+    <table class="compare">
+      <tr><th>Law</th><th>Linearised form</th><th>Substitution</th></tr>
+      <tr><td>\(y=ax+\dfrac{b}{x}\)</td><td>\(xy=ax^2+b\)</td><td>\(Y=xy,\ X=x^2\)</td></tr>
+      <tr><td>\(xy^a=b\)</td><td>\(\log x+a\log y=\log b\)</td><td>\(Y=\log y,\ X=\log x\)</td></tr>
+      <tr><td>\(y=ab^x\)</td><td>\(\log y=\log a+x\log b\)</td><td>\(A_0=\log a,\ A_1=\log b\)</td></tr>
+      <tr><td>\(y=ax^b\)</td><td>\(\log y=\log a+b\log x\)</td><td>\(A_0=\log a,\ A_1=b,\ X=\log x\)</td></tr>
+      <tr><td>\(y=ae^{bx}\)</td><td>\(\ln y=\ln a+bx\)</td><td>\(A_0=\ln a,\ A_1=b,\ X=x\)</td></tr>
+      <tr><td>\(y=\dfrac{x}{a+bx}\)</td><td>\(\dfrac{1}{y}=b+a\cdot\dfrac{1}{x}\)</td><td>\(Y=1/y,\ X=1/x\)</td></tr>
+    </table>
+    <p style="font-size:.85rem;color:var(--text-soft);">Two more you'll meet in practice, by the same idea: <strong>\(y=\dfrac{1}{a+bx}\)</strong> inverts directly to \(\dfrac1y=a+bx\) (so \(Y=1/y,\ X=x\)); and <strong>\(y=a+\dfrac{b}{x}\)</strong> is already linear in \(1/x\) (so \(X=1/x\) with no other change needed). Any law you can algebraically bend into "constant + constant × (something)" is fair game for the line-fit machinery.</p>
+
+    <div class="example">
+      <span class="tag">Example 4.4 — Exponential \(y=ae^{bx}\), textbook</span>
+      <p>Fit \(y=ae^{bx}\) to \((1,2.473),(3,6.722),(5,18.274),(7,49.673),(9,135.026)\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <p>Put \(\ln y=\ln a+bx\), i.e. \(Y=A_0+A_1X\) with \(Y=\ln y,\ X=x\).</p>
+        <table class="data">
+          <tr><th>X=x</th><th>Y=ln y</th><th>X²</th><th>XY</th></tr>
+          <tr><td>1</td><td>0.905</td><td>1</td><td>0.905</td></tr>
+          <tr><td>3</td><td>1.905</td><td>9</td><td>5.715</td></tr>
+          <tr><td>5</td><td>2.905</td><td>25</td><td>14.525</td></tr>
+          <tr><td>7</td><td>3.905</td><td>49</td><td>27.335</td></tr>
+          <tr><td>9</td><td>4.905</td><td>81</td><td>44.145</td></tr>
+          <tr><td>Σ=25</td><td>14.525</td><td>165</td><td>92.625</td></tr>
+        </table>
+        <p>\(\bar X=5,\ \bar Y=2.905\): \(A_1=\dfrac{5(92.625)-25(14.525)}{5(165)-625}=0.5=b\)</p>
+        <p>\(A_0=2.905-0.5(5)=0.405,\quad a=e^{0.405}=1.499\)</p>
+        <p><strong>\(y=1.499\,e^{0.5x}\)</strong></p>
+      </div></details>
+    </div>
+
+    <div class="example">
+      <span class="tag">Example 4.5 — \(y=\dfrac{x}{a+bx}\), textbook</span>
+      <p>Fit to \((3,7.148),(5,10.231),(8,13.509),(12,16.434)\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <p>Invert: \(\dfrac1y=\dfrac{a+bx}{x}=b+a\cdot\dfrac1x\), so \(Y=1/y,\ X=1/x,\ A_0=b,\ A_1=a\).</p>
+        <table class="data">
+          <tr><th>X=1/x</th><th>Y=1/y</th><th>X²</th><th>XY</th></tr>
+          <tr><td>0.333</td><td>0.140</td><td>0.111</td><td>0.047</td></tr>
+          <tr><td>0.200</td><td>0.098</td><td>0.040</td><td>0.020</td></tr>
+          <tr><td>0.125</td><td>0.074</td><td>0.016</td><td>0.009</td></tr>
+          <tr><td>0.083</td><td>0.061</td><td>0.007</td><td>0.005</td></tr>
+          <tr><td>Σ=0.741</td><td>0.373</td><td>0.174</td><td>0.081</td></tr>
+        </table>
+        <p>\(A_1=a=\dfrac{4(0.081)-0.741(0.373)}{4(0.174)-0.741^2}=0.324,\qquad A_0=b=0.093-0.324(0.185)=0.0331\)</p>
+        <p><strong>\(y=\dfrac{x}{0.324+0.0331x}\)</strong></p>
+      </div></details>
+    </div>
+
+    <div class="practice">
+      <span class="tag">Practice C — exponential</span>
+      <p>Fit \(y=ae^{bx}\) to \((0,2.000),(2,3.644),(4,6.640),(6,12.099),(8,22.046)\).</p>
+      <details class="answer"><summary>Reveal worked answer</summary><div class="d-body">
+        <p>Take \(Y=\ln y\): values are \(0.693,\ 1.293,\ 1.893,\ 2.493,\ 3.093\). Regressing on \(X=x\) gives slope \(A_1=0.3=b\) and intercept \(A_0=0.693=\ln a\Rightarrow a=e^{0.693}=2\).</p>
+        <p><strong>\(y=2\,e^{0.3x}\)</strong> — recovered exactly, since this data was generated noise-free (use it to check your own hand arithmetic).</p>
+      </div></details>
+    </div>
+
+    <div class="practice">
+      <span class="tag">Practice C2 — power law (ties into Kleiber's law, section 10)</span>
+      <p>Fit \(y=ax^b\) to \((1,5.000),(2,14.142),(4,40.000),(8,113.137),(16,320.000)\).</p>
+      <details class="answer"><summary>Reveal worked answer</summary><div class="d-body">
+        <p>Regress \(Y=\log y\) on \(X=\log x\): slope \(b=1.5\), intercept \(\Rightarrow a=5\).</p>
+        <p><strong>\(y=5x^{1.5}\)</strong></p>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 7. POLYNOMIAL ============ -->
+  <section id="polynomial">
+    <div class="sec-num">07 / 16</div>
+    <h2>4.2.4 Curve Fitting by Polynomials</h2>
+    <p class="dek">When the data bends more than once, or a straight line just won't do — fit a polynomial.</p>
+
+    <div class="formula">\[ Y=a_0+a_1x+a_2x^2+\cdots+a_nx^n \qquad (4.12)\]</div>
+    <p>Minimising \(S\) gives \(n+1\) normal equations (4.14). For the common case of a parabola (\(n=2\)):</p>
+    <div class="formula">
+      \[ m\,a_0+a_1\sum x+a_2\sum x^2=\sum y\]
+      \[ a_0\sum x+a_1\sum x^2+a_2\sum x^3=\sum xy\]
+      \[ a_0\sum x^2+a_1\sum x^3+a_2\sum x^4=\sum x^2y\]
+    </div>
+    <div class="warn"><strong>Watch out:</strong> for large \(n\) the coefficient matrix becomes <em>ill-conditioned</em> — the power columns \(1,x,x^2,x^3,\dots\) start to look increasingly alike, so tiny rounding errors in the data blow up into large swings in the \(a_i\). In practice, orthogonal (Chebyshev) polynomials are used instead for high-degree fits — see section 11.</div>
+
+    <div class="example">
+      <span class="tag">Example 4.6 — Exact parabola, textbook</span>
+      <p>Fit a 2nd-degree polynomial to \((0,1),(1,6),(2,17)\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <table class="data">
+          <tr><th>x</th><th>y</th><th>x²</th><th>x³</th><th>x⁴</th><th>xy</th><th>x²y</th></tr>
+          <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>6</td><td>1</td><td>1</td><td>1</td><td>6</td><td>6</td></tr>
+          <tr><td>2</td><td>17</td><td>4</td><td>8</td><td>16</td><td>34</td><td>68</td></tr>
+          <tr><td>Σ=3</td><td>24</td><td>5</td><td>9</td><td>17</td><td>40</td><td>74</td></tr>
+        </table>
+        <p>\(3a_0+3a_1+5a_2=24,\quad 3a_0+5a_1+9a_2=40,\quad 5a_0+9a_1+17a_2=74\)</p>
+        <p><strong>\(a_0=1,\ a_1=2,\ a_2=3\ \Rightarrow\ Y=1+2x+3x^2\)</strong> — with only 3 points and 3 parameters, this fit is exact.</p>
+      </div></details>
+    </div>
+
+    <div class="example">
+      <span class="tag">Example 4.7 — Least-squares parabola, textbook</span>
+      <p>Fit \(y=a_0+a_1x+a_2x^2\) to \((1,0.63),(3,2.05),(4,4.08),(6,10.78)\).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <table class="data">
+          <tr><th>x</th><th>y</th><th>x²</th><th>x³</th><th>x⁴</th><th>xy</th><th>x²y</th></tr>
+          <tr><td>1</td><td>0.63</td><td>1</td><td>1</td><td>1</td><td>0.63</td><td>0.63</td></tr>
+          <tr><td>3</td><td>2.05</td><td>9</td><td>27</td><td>81</td><td>6.15</td><td>18.45</td></tr>
+          <tr><td>4</td><td>4.08</td><td>16</td><td>64</td><td>256</td><td>16.32</td><td>65.28</td></tr>
+          <tr><td>6</td><td>10.78</td><td>36</td><td>216</td><td>1296</td><td>64.68</td><td>388.08</td></tr>
+          <tr><td>Σ=14</td><td>17.54</td><td>62</td><td>308</td><td>1634</td><td>87.78</td><td>472.44</td></tr>
+        </table>
+        <p>\(4a_0+14a_1+62a_2=17.54\)<br>\(14a_0+62a_1+308a_2=87.78\)<br>\(62a_0+308a_1+1634a_2=472.44\)</p>
+        <p><strong>\(a_0=1.24,\ a_1=-1.05,\ a_2=0.44\ \Rightarrow\ Y=1.24-1.05x+0.44x^2\)</strong></p>
+      </div></details>
+    </div>
+
+    <div class="practice">
+      <span class="tag">Practice D — parabola</span>
+      <p>Fit \(y=a_0+a_1x+a_2x^2\) to \((0,2),(1,0),(2,0),(3,2),(4,6)\).</p>
+      <details class="answer"><summary>Reveal worked answer</summary><div class="d-body">
+        <p>Sums: \(m=5,\ \sum x=10,\ \sum x^2=30,\ \sum x^3=100,\ \sum x^4=354,\ \sum y=10,\ \sum xy=30,\ \sum x^2y=114\).</p>
+        <p>\(5a_0+10a_1+30a_2=10\)<br>\(10a_0+30a_1+100a_2=30\)<br>\(30a_0+100a_1+354a_2=114\)</p>
+        <p><strong>\(a_0=2,\ a_1=-3,\ a_2=1\ \Rightarrow\ Y=2-3x+x^2\)</strong> (again an exact recovery — useful to check your elimination technique on a 3×3 system).</p>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 8. SUM OF EXPONENTIALS ============ -->
+  <section id="sum-exp">
+    <div class="sec-num">08 / 16</div>
+    <h2>4.2.5 Sum of Exponentials — Overview</h2>
+    <p class="dek">A model that can't be linearised by a single log — worth recognising, rarely examined in full.</p>
+    <p>A model like \(y=Ae^{r_1x}+Be^{r_2x}+\cdots\) is <em>nonlinear in the rate parameters</em> \(r_1,r_2,\dots\) — because it's a <em>sum</em> of exponentials rather than a single power or exponential, no single logarithm turns it into a straight line. Two classical ways around this:</p>
+    <ul>
+      <li><strong>Prony's method</strong> — for equally-spaced data, converts the fitting problem into finding the roots of a polynomial built from the data, which is a linear-algebra problem in disguise.</li>
+      <li><strong>Nonlinear least squares</strong> — start from a guess and refine iteratively (Gauss–Newton, Levenberg–Marquardt); this is what most software (Excel Solver, scipy, MATLAB <code>lsqcurvefit</code>) actually does.</li>
+    </ul>
+    <div class="tip">Exam scope note: recognise the model and know <em>why</em> it resists direct linearisation — full derivations are normally beyond an introductory course.</div>
+  </section>
+
+  <!-- ============ 9. WEIGHTED ============ -->
+  <section id="weighted">
+    <div class="sec-num">09 / 16</div>
+    <h2>4.3 Weighted Least Squares</h2>
+    <p class="dek">Not all data points deserve equal trust — let the fit know that.</p>
+
+    <p>If some points come from a more precise instrument, more repeated trials, or are otherwise known to be more reliable, we can attach a <strong>weight</strong> \(W_i>0\) to each point and minimise a weighted sum of squared errors instead:</p>
+    <div class="formula">\[ S=\sum_{i} W_i\big[y_i-f(x_i)\big]^2 \qquad (4.26)\]</div>
+    <p>If every \(W_i=1\) this collapses back to ordinary least squares — weighting is a generalisation, not a different technique. For a line \(Y=a_0+a_1x\), every sum in the normal equations simply picks up a factor of \(W_i\):</p>
+    <div class="formula">
+      \[ a_0\sum W_i+a_1\sum W_ix_i=\sum W_iy_i \qquad (4.31)\]
+      \[ a_0\sum W_ix_i+a_1\sum W_ix_i^2=\sum W_ix_iy_i \qquad (4.32)\]
+    </div>
+    <p>The same trick extends to a weighted polynomial fit — every sum in (4.14) gains a \(W_i\):</p>
+    <div class="formula">\[ S=\sum W_i\big[y_i-(a_0+a_1x_i+\cdots+a_nx_i^n)\big]^2 \qquad (4.34)\]</div>
+
+    <div class="example">
+      <span class="tag">Example 4.9 — W = 10 on one point, textbook</span>
+      <p>Re-fit Example 4.2's data, but \((5,12)\) is more reliable — give it weight \(W=10\) (others \(W=1\)).</p>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <table class="data">
+          <tr><th>x</th><th>y</th><th>W</th><th>Wx</th><th>Wx²</th><th>Wy</th><th>Wxy</th></tr>
+          <tr><td>0</td><td>−1</td><td>1</td><td>0</td><td>0</td><td>−1</td><td>0</td></tr>
+          <tr><td>2</td><td>5</td><td>1</td><td>2</td><td>4</td><td>5</td><td>10</td></tr>
+          <tr><td>5</td><td>12</td><td>10</td><td>50</td><td>250</td><td>120</td><td>600</td></tr>
+          <tr><td>7</td><td>20</td><td>1</td><td>7</td><td>49</td><td>20</td><td>140</td></tr>
+          <tr><td>Σ</td><td></td><td>13</td><td>59</td><td>303</td><td>144</td><td>750</td></tr>
+        </table>
+        <p>\(13a_0+59a_1=144,\qquad 59a_0+303a_1=750\)</p>
+        <p><strong>\(a_0=-1.3493,\ a_1=2.7380\)</strong> — compare to the unweighted \(a_0=-1.1381,\ a_1=2.8966\): the line has already tilted toward the trusted point.</p>
+      </div></details>
+    </div>
+
+    <div class="example">
+      <span class="tag">Example 4.10 — Increasing the weight to W = 100, textbook</span>
+      <details><summary>Show full solution</summary><div class="d-body">
+        <p>\(\sum W=103,\ \sum Wx=509,\ \sum Wx^2=2553,\ \sum Wy=1224,\ \sum Wxy=6150\)</p>
+        <p>\(103a_0+509a_1=1224,\qquad 509a_0+2553a_1=6150\)</p>
+        <p><strong>\(a_0=-1.4126,\ a_1=2.6906\)</strong>, and now \(\hat y(5)=12.04\) — almost exactly the trusted reading of 12. As the weight grows, the line is pulled harder toward that point.</p>
+      </div></details>
+    </div>
+
+    <div class="practice">
+      <span class="tag">Practice E — weighted line</span>
+      <p>Fit \(y=a_0+a_1x\) to \((1,3),(2,5),(3,6),(4,10)\), giving the third point weight \(W=4\) (others \(W=1\)).</p>
+      <details class="answer"><summary>Reveal worked answer</summary><div class="d-body">
+        <p>Weighted sums: \(\sum W=7,\ \sum Wx=19,\ \sum Wx^2=57,\ \sum Wy=42,\ \sum Wxy=125\).</p>
+        <p>\(7a_0+19a_1=42,\qquad 19a_0+57a_1=125\)</p>
+        <p><strong>Weighted: \(a_0=0.50,\ a_1=2.03\)</strong> vs. <strong>Unweighted: \(a_0=0.50,\ a_1=2.20\)</strong> — the slope shifts to bring the fitted line closer to the up-weighted point \((3,6)\) (unweighted prediction there was 7.10; weighted brings it down to 6.58).</p>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ============ 10. APPLICATIONS ============ -->
+  <section id="applications">
+    <div class="sec-num">10 / 16</div>
+    <h2>Real-World Applications — Which Fit for Which Data?</h2>
+    <p class="dek">Nine scenario problems: read the shape of the data, choose the model, trust the formulas above.</p>
+
+    <table class="compare">
+      <tr><th>Clue in the data</th><th>Model to fit</th></tr>
+      <tr><td>Straight-line trend / constant rate</td><td>Line \(y=a+bx\)</td></tr>
+      <tr><td>Bends, with one turning point</td><td>Parabola \(y=a+bx+cx^2\)</td></tr>
+      <tr><td>Fixed % growth/decay per step</td><td>Exponential \(y=ae^{bx}\) (or geometric \(y=ab^x\))</td></tr>
+      <tr><td>Power-law / straight on a log–log plot</td><td>Power \(y=ax^b\)</td></tr>
+      <tr><td>Output depends on two predictors</td><td>Multiple linear \(z=a_0+a_1x+a_2y\)</td></tr>
+      <tr><td>Some points more trustworthy than others</td><td>Weighted least squares</td></tr>
+    </table>
+
+    <div class="grid3">
+      <div class="app-card"><span class="model-tag">Line</span><h4>Ohm's Law</h4><p>\(I=1..5\)A, \(V=3.1,5.9,9.2,12.1,14.9\)V. Fit \(V=a+bI\); the slope <em>is</em> the resistance.</p><div class="result">V = 0.10 + 2.98 I → R ≈ 2.98 Ω</div></div>
+      <div class="app-card"><span class="model-tag">Line</span><h4>Hooke's Law</h4><p>Extension \(x=1..5\)cm, force \(F=2.1,3.9,6.2,8.1,9.8\)N. Fit \(F=a+bx\); slope = stiffness.</p><div class="result">F = 0.14 + 1.96x → k ≈ 1.96 N/cm</div></div>
+      <div class="app-card"><span class="model-tag">Exponential ↓</span><h4>Discharging Capacitor</h4><p>\(V\) logged at \(t=0..5\)s: \(10, 6.1, 3.7, 2.2, 1.35, 0.82\)V. Fit \(V=V_0e^{-kt}\) via \(\ln V\) vs \(t\).</p><div class="result">V = 10.0 e^(−0.50t) → τ ≈ 1.99 s</div></div>
+      <div class="app-card"><span class="model-tag">Exponential ↑</span><h4>Bacterial Growth</h4><p>Hourly count \(t=0..4\): \(100,150,228,340,510\). Fit \(N=N_0e^{kt}\), find doubling time.</p><div class="result">N = 100 e^(0.408t) → t½ ≈ 1.70 hr</div></div>
+      <div class="app-card"><span class="model-tag">Power</span><h4>Metabolic Scaling</h4><p>Body mass \(1,2,3,5,8\)kg vs metabolic rate \(70,118,160,230,330\)W. Fit \(rate=am^b\) on log–log axes.</p><div class="result">rate ≈ 70.3 m^0.743 → Kleiber's ¾ law</div></div>
+      <div class="app-card"><span class="model-tag">Parabola</span><h4>A Ball's Trajectory</h4><p>Height filmed at \(t=0..4\)s: \(2,27,42,47,42\)m. Fit \(h=a+bt+ct^2\); \(c=-g/2\).</p><div class="result">h = 2 + 30t − 5t² → g ≈ 10 m/s²</div></div>
+      <div class="app-card"><span class="model-tag">Geometric</span><h4>Compound Investment</h4><p>Yearly value \(x=0..5\): \(1000,1120,1254,1405,1574,1762\). Fit \(value=ab^x\) via \(\log(value)\) vs \(x\).</p><div class="result">value = 1000(1.12)^x → 12%/yr</div></div>
+      <div class="app-card"><span class="model-tag">Multiple linear</span><h4>A Two-Setting Process</h4><p>Output \(z\) from settings \(x,y\): same 5 runs as Example 4.3.</p><div class="result">z = 2 + 5x − 3y</div></div>
+      <div class="app-card"><span class="model-tag">Weighted</span><h4>A Trusted Benchmark</h4><p>Surveyor fits \(y=a_0+a_1x\) to 4 benchmarks; the 3rd reading is 10× more reliable — same data as Example 4.9.</p><div class="result">y = −1.3493 + 2.7380x</div></div>
+    </div>
+    <div class="tip" style="margin-top:16px;"><strong>Five-step recipe for any scenario problem:</strong> (1) plot the data first, the eye spots the shape → (2) pick the model from that shape → (3) linearise if nonlinear (log/reciprocal) → (4) solve the normal equations → (5) quote the fit with units and interpret it physically.</div>
+  </section>
+
+  <!-- ============ 11. EXTENSIONS ============ -->
+  <section id="extensions">
+    <div class="sec-num">11 / 16</div>
+    <h2>Beyond §4.3 — Completing the Chapter (§4.4–4.6)</h2>
+    <p class="dek">These sections extend the same idea further; Sastry treats them after weighted least squares. Brief overviews only — check your syllabus for how much depth is examined.</p>
+    <div class="grid3">
+      <div class="card">
+        <strong>§4.4 Continuous Data</strong>
+        <p style="font-size:.9rem;">Instead of a finite list of points, approximate a continuous function \(f(x)\) on \([a,b]\) by minimising \(\int_a^b [f(x)-\varphi(x)]^2\,w(x)\,dx\) over a polynomial \(\varphi\). The discrete sums \(\sum x_i^k\) are simply replaced by integrals (moments) \(\int x^k w(x)\,dx\) — the same normal-equation idea, continuous version.</p>
+      </div>
+      <div class="card">
+        <strong>§4.5 Chebyshev / Orthogonal Polynomials</strong>
+        <p style="font-size:.9rem;">The power basis \(1,x,x^2,\dots\) gets ill-conditioned fast (see §4.2.4's warning). Using <em>orthogonal</em> polynomials as the basis instead makes the normal-equation matrix diagonal — each coefficient is found independently, with no ill-conditioning. A related idea, <strong>minimax</strong> approximation, minimises the worst-case error instead of the sum of squares; its optimal error curve famously oscillates equally between + and − extremes (the equioscillation property).</p>
+      </div>
+      <div class="card">
+        <strong>§4.6 Fourier Approximation &amp; FFT</strong>
+        <p style="font-size:.9rem;">For periodic data, fit \(a_0+\sum(a_k\cos kx+b_k\sin kx)\). Sines and cosines are mutually orthogonal over one period, so the normal equations decouple into a simple independent formula for every \(a_k,b_k\) — no matrix solve at all. The Fast Fourier Transform computes all these coefficients for \(n\) points in \(O(n\log n)\) time instead of \(O(n^2)\), which is why it underlies practically all digital signal processing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 12. CALCULATOR ============ -->
+  <section id="calculator">
+    <div class="sec-num">12 / 16</div>
+    <h2>Try It — Live Straight-Line Fit Calculator</h2>
+    <p class="dek">Enter your own \((x,y)\) pairs, one per line, and check your hand calculation instantly.</p>
+    <div class="calc-wrap">
+      <div>
+        <textarea id="calcInput">1,0.6
+2,2.4
+3,3.5
+4,4.8
+5,5.7</textarea>
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button id="calcRun">Compute fit</button>
+          <button class="secondary" id="calcReset">Reset to Example 4.1</button>
+        </div>
+        <div class="calc-results" id="calcOut">Results will appear here.</div>
+      </div>
+      <div>
+        <canvas id="calcCanvas" width="560" height="280"></canvas>
+        <p style="font-size:.78rem;color:var(--text-soft);text-align:center;">Teal dots = your data · Amber line = least-squares fit</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 13. CHEATSHEET ============ -->
+  <section id="cheatsheet">
+    <div class="sec-num">13 / 16</div>
+    <h2>Formula Cheat-Sheet</h2>
+    <p class="dek">Everything on one screen for last-minute review.</p>
+    <div class="grid2">
+      <div class="card">
+        <strong>Core principle</strong>
+        <p>\(S=\sum e_i^2,\quad e_i=y_i-f(x_i)\)</p>
+        <strong>Straight line</strong>
+        <p>\(a_1=\dfrac{m\sum xy-\sum x\sum y}{m\sum x^2-(\sum x)^2}\)</p>
+        <p>\(a_0=\bar y-a_1\bar x\)</p>
+        <strong>Correlation</strong>
+        <p>\(cc=\sqrt{\dfrac{S_T-S}{S_T}},\ S_T=\sum(y_i-\bar y)^2\)</p>
+      </div>
+      <div class="card">
+        <strong>Multiple linear (3 eqns)</strong>
+        <p>\(m a_0+a_1\sum x+a_2\sum y=\sum z\)<br>\(a_0\sum x+a_1\sum x^2+a_2\sum xy=\sum xz\)<br>\(a_0\sum y+a_1\sum xy+a_2\sum y^2=\sum yz\)</p>
+        <strong>Weighted (line)</strong>
+        <p>\(a_0\sum W+a_1\sum Wx=\sum Wy\)<br>\(a_0\sum Wx+a_1\sum Wx^2=\sum Wxy\)</p>
+      </div>
+      <div class="card">
+        <strong>Linearisation quick table</strong>
+        <p>\(y=ae^{bx}\to \ln y=\ln a+bx\)</p>
+        <p>\(y=ax^b\to \log y=\log a+b\log x\)</p>
+        <p>\(y=ab^x\to \log y=\log a+x\log b\)</p>
+      </div>
+      <div class="card">
+        <strong>Polynomial (degree n)</strong>
+        <p>\(n+1\) normal equations; parabola needs sums up to \(\sum x^4\) and \(\sum x^2y\).</p>
+        <strong>History</strong>
+        <p>Legendre published first (1805); Gauss gave the probabilistic basis (1809, since 1795).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 14. FLASHCARDS ============ -->
+  <section id="flashcards">
+    <div class="sec-num">14 / 16</div>
+    <h2>Flashcards — Tap to Flip</h2>
+    <p class="dek">Quick self-quiz on formula recall.</p>
+    <div class="flash-grid" id="flashGrid"></div>
+    <p class="flash-hint">Click any card to reveal the formula on the back.</p>
+  </section>
+
+  <!-- ============ 15. QUIZ ============ -->
+  <section id="quiz">
+    <div class="sec-num">15 / 16</div>
+    <h2>Self-Test Quiz</h2>
+    <p class="dek">Six quick MCQs. Pick an answer for each, then check.</p>
+    <div id="quizContainer"></div>
+    <div style="display:flex; align-items:center; gap:16px; margin-top:6px;">
+      <button id="quizCheck">Check answers</button>
+      <span id="quizScore"></span>
+    </div>
+  </section>
+
+  <!-- ============ 16. TIPS ============ -->
+  <section id="tips">
+    <div class="sec-num">16 / 16</div>
+    <h2>Common Exam Pitfalls</h2>
+    <ul>
+      <li><strong>Sign slip in the derivation.</strong> Both partial derivatives start with a factor of \(-2\) — dropping the sign flips every normal equation.</li>
+      <li><strong>Mixing up \(a_0\) and \(a_1\).</strong> Only \(a_1\) needs the "cross term" \(m\sum xy-\sum x\sum y\); \(a_0\) is simply \(\bar y-a_1\bar x\) once \(a_1\) is known.</li>
+      <li><strong>Wrong \(S\) inside \(cc\).</strong> \(S_T\) uses \(\bar y\); \(S\) uses the <em>fitted</em> \(\hat y_i=a_0+a_1x_i\), not the raw \(y_i\) again.</li>
+      <li><strong>Forgetting to convert back.</strong> After linearising, \(A_0,A_1\) are properties of the transformed line — always convert back (e.g. \(a=e^{A_0}\), not \(A_0\) itself).</li>
+      <li><strong>Wrong equation count for polynomials.</strong> Degree \(n\) needs exactly \(n+1\) normal equations, with sums running up to \(\sum x^{2n}\).</li>
+      <li><strong>Dropping \(W_i\) from the plain-sum equation.</strong> In weighted problems, even the "\(\sum W_i\)" term in the first normal equation must carry the weights — a very common miss.</li>
+      <li><strong>Rounding too early.</strong> Carry 4–5 decimal places through intermediate sums; round only the final reported answer.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Reference: S.S. Sastry, <em>Introductory Methods of Numerical Analysis</em>, 5th ed., PHI — Chapter 4, §4.1–4.3 (worked examples reproduced from course slides by Md. Azmain Yakin Srizon, Dept. of CSE, RUET). Sections 11's overviews of §4.4–4.6 are original summaries for completeness, not verbatim textbook text.
+  </footer>
+
+</main>
+</div>
+
+<script>
+// ---------- Mobile nav ----------
+const navToggle = document.getElementById('navToggle');
+const sidebar = document.getElementById('sidebar');
+navToggle.addEventListener('click', ()=>{
+  sidebar.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', sidebar.classList.contains('open'));
+});
+sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=> sidebar.classList.remove('open')));
+
+// ---------- Active TOC + progress ----------
+const sections = Array.from(document.querySelectorAll('main section[id]'));
+const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+const readSet = new Set();
+function updateProgress(){
+  const pct = Math.round((readSet.size/sections.length)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = readSet.size+'/'+sections.length+' read';
+}
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    const id = e.target.getAttribute('id');
+    const link = tocLinks.find(a=>a.getAttribute('href')==='#'+id);
+    if(e.isIntersecting){
+      tocLinks.forEach(a=>a.classList.remove('active'));
+      if(link) link.classList.add('active');
+      readSet.add(id);
+      updateProgress();
+    }
+  });
+},{rootMargin:'-40% 0px -50% 0px', threshold:0});
+sections.forEach(s=>io.observe(s));
+
+// ---------- Flashcards ----------
+const flashData = [
+  ["Sum minimised in Least Squares", "S = Σ(yᵢ − f(xᵢ))²"],
+  ["Slope of best-fit line, a₁", "a₁ = (mΣxy − ΣxΣy) / (mΣx² − (Σx)²)"],
+  ["Intercept of best-fit line, a₀", "a₀ = ȳ − a₁x̄"],
+  ["Correlation coefficient, cc", "cc = √((S_T − S)/S_T),  S_T = Σ(yᵢ − ȳ)²"],
+  ["Linearise y = a·e^(bx)", "ln y = ln a + bx  →  Y = ln y, X = x"],
+  ["Linearise y = a·x^b", "log y = log a + b·log x  →  Y = log y, X = log x"],
+  ["1st weighted normal eqn (line)", "a₀ΣWᵢ + a₁ΣWᵢxᵢ = ΣWᵢyᵢ"],
+  ["# normal eqns for degree-n polynomial", "n + 1  (matches the n+1 unknown coefficients)"],
+  ["Who published Least Squares first?", "Legendre, 1805 — Gauss gave the probabilistic basis in 1809"],
+  ["Effect of increasing a point's weight", "Pulls the fitted curve closer to that point"]
+];
+const flashGrid = document.getElementById('flashGrid');
+flashData.forEach(([front, back])=>{
+  const card = document.createElement('div');
+  card.className = 'flashcard';
+  card.innerHTML = `<div class="inner">
+      <div class="face front">${front}</div>
+      <div class="face back">${back}</div>
+    </div>`;
+  card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+  flashGrid.appendChild(card);
+});
+
+// ---------- Quiz ----------
+const quizData = [
+  {q:"Least squares chooses parameters to minimise:", opts:["The sum of errors","The sum of squared errors","The maximum error","The product of all errors"], correct:1},
+  {q:"The least-squares straight line always passes through:", opts:["The origin","The point with the largest y","The centroid (x̄, ȳ)","The first data point"], correct:2},
+  {q:"A correlation coefficient cc close to 1 indicates:", opts:["A poor fit","An excellent linear fit","A strongly nonlinear relation","Equal weights on all points"], correct:1},
+  {q:"To fit y = a·e^(bx), we linearise by taking:", opts:["√y","ln y","1/y","y²"], correct:1},
+  {q:"Increasing the weight on one data point pulls the fitted line:", opts:["Away from that point","Toward that point","It has no effect","Always makes the fit worse"], correct:1},
+  {q:"Who first published the method of least squares (1805)?", opts:["Carl Friedrich Gauss","Isaac Newton","Adrien-Marie Legendre","Leonhard Euler"], correct:2}
+];
+const quizContainer = document.getElementById('quizContainer');
+quizData.forEach((item,i)=>{
+  const div = document.createElement('div');
+  div.className = 'quiz-item';
+  div.dataset.correct = item.correct;
+  let optsHtml = item.opts.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('');
+  div.innerHTML = `<p class="q">${i+1}. ${item.q}</p>${optsHtml}
+    <div class="fb ok">✓ Correct!</div>
+    <div class="fb no">✗ Not quite — review this topic above.</div>`;
+  quizContainer.appendChild(div);
+});
+document.getElementById('quizCheck').addEventListener('click', ()=>{
+  let score = 0;
+  document.querySelectorAll('.quiz-item').forEach((div,i)=>{
+    const selected = div.querySelector('input[type=radio]:checked');
+    div.classList.remove('correct','wrong');
+    if(selected){
+      if(parseInt(selected.value)===parseInt(div.dataset.correct)){
+        div.classList.add('correct'); score++;
+      } else {
+        div.classList.add('wrong');
+      }
+    } else {
+      div.classList.add('wrong');
+    }
+  });
+  document.getElementById('quizScore').textContent = 'Score: '+score+' / '+quizData.length;
+});
+
+// ---------- Calculator ----------
+function parsePoints(text){
+  return text.split('\n').map(l=>l.trim()).filter(l=>l.length>0).map(l=>{
+    const parts = l.split(',').map(s=>parseFloat(s.trim()));
+    return {x:parts[0], y:parts[1]};
+  }).filter(p=>!isNaN(p.x) && !isNaN(p.y));
+}
+function computeFit(points){
+  const n = points.length;
+  let sx=0, sy=0, sx2=0, sxy=0;
+  points.forEach(p=>{ sx+=p.x; sy+=p.y; sx2+=p.x*p.x; sxy+=p.x*p.y; });
+  const denom = n*sx2 - sx*sx;
+  const a1 = (n*sxy - sx*sy)/denom;
+  const ybar = sy/n;
+  const xbar = sx/n;
+  const a0 = ybar - a1*xbar;
+  let ST=0, S=0;
+  points.forEach(p=>{
+    ST += (p.y-ybar)*(p.y-ybar);
+    const yhat = a0 + a1*p.x;
+    S += (p.y-yhat)*(p.y-yhat);
+  });
+  const cc = ST>0 ? Math.sqrt(Math.max(0,(ST-S))/ST) : NaN;
+  return {n, sx, sy, sx2, sxy, a0, a1, ST, S, cc};
+}
+function drawPlot(points, a0, a1){
+  const canvas = document.getElementById('calcCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, pad = 36;
+  ctx.clearRect(0,0,W,H);
+  if(points.length===0) return;
+  const xs = points.map(p=>p.x), ys = points.map(p=>p.y);
+  let xmin=Math.min(...xs), xmax=Math.max(...xs), ymin=Math.min(...ys), ymax=Math.max(...ys);
+  const yFit = points.map(p=>a0+a1*p.x);
+  ymin = Math.min(ymin, ...yFit); ymax = Math.max(ymax, ...yFit);
+  if(xmax===xmin){xmax+=1; xmin-=1;}
+  if(ymax===ymin){ymax+=1; ymin-=1;}
+  const xr = xmax-xmin, yr = ymax-ymin;
+  const xpad = xr*0.1, ypad = yr*0.15;
+  xmin-=xpad; xmax+=xpad; ymin-=ypad; ymax+=ypad;
+  const sx = (vx)=> pad + (vx-xmin)/(xmax-xmin)*(W-2*pad);
+  const sy = (vy)=> H-pad - (vy-ymin)/(ymax-ymin)*(H-2*pad);
+  // axes
+  ctx.strokeStyle = '#E6E2D4'; ctx.lineWidth = 1;
+  ctx.strokeRect(pad,pad,W-2*pad,H-2*pad);
+  // fitted line
+  ctx.strokeStyle = '#C97A12'; ctx.lineWidth = 2.4;
+  ctx.beginPath();
+  ctx.moveTo(sx(xmin), sy(a0+a1*xmin));
+  ctx.lineTo(sx(xmax), sy(a0+a1*xmax));
+  ctx.stroke();
+  // points
+  ctx.fillStyle = '#0E7A6C';
+  points.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(sx(p.x), sy(p.y), 5, 0, Math.PI*2);
+    ctx.fill();
+  });
+}
+function runCalc(){
+  const points = parsePoints(document.getElementById('calcInput').value);
+  const out = document.getElementById('calcOut');
+  if(points.length<2){ out.textContent = 'Enter at least 2 points, one "x,y" pair per line.'; return; }
+  const r = computeFit(points);
+  const sign = r.a0>=0 ? '+' : '−';
+  out.textContent =
+`n = ${r.n}
+Σx = ${r.sx.toFixed(4)}   Σy = ${r.sy.toFixed(4)}
+Σx² = ${r.sx2.toFixed(4)}  Σxy = ${r.sxy.toFixed(4)}
+
+a1 = (n·Σxy − Σx·Σy) / (n·Σx² − (Σx)²) = ${r.a1.toFixed(4)}
+a0 = ȳ − a1·x̄ = ${r.a0.toFixed(4)}
+
+Fitted line:  Y = ${r.a0.toFixed(4)} ${a1_sign(r.a1)}
+S_T = ${r.ST.toFixed(4)}   S = ${r.S.toFixed(4)}
+cc = ${isNaN(r.cc) ? 'n/a' : r.cc.toFixed(4)}`;
+  drawPlot(points, r.a0, r.a1);
+}
+function a1_sign(a1){
+  return (a1>=0 ? '+ ' : '− ') + Math.abs(a1).toFixed(4) + 'x';
+}
+document.getElementById('calcRun').addEventListener('click', runCalc);
+document.getElementById('calcReset').addEventListener('click', ()=>{
+  document.getElementById('calcInput').value = "1,0.6\n2,2.4\n3,3.5\n4,4.8\n5,5.7";
+  runCalc();
+});
+runCalc();
+</script>
+</body>
+</html>
