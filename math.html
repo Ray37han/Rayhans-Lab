@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math 2213: Type-Wise Solved Problem Bank (RUET CSE)</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            },
+            accent: {
+              500: '#f97316',
+              600: '#ea580c'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Crimson Pro', 'Georgia', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for High Performance Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    .math-block {
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+    .badge-tier1 {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+    .badge-tier2 {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .badge-tier3 {
+      background-color: #f3f4f6;
+      color: #4b5563;
+      border: 1px solid #e5e7eb;
+    }
+    .dark .badge-tier1 {
+      background-color: rgba(21, 128, 61, 0.2);
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.3);
+    }
+    .dark .badge-tier2 {
+      background-color: rgba(180, 83, 9, 0.2);
+      color: #fcd34d;
+      border-color: rgba(252, 211, 77, 0.3);
+    }
+    .dark .badge-tier3 {
+      background-color: rgba(75, 85, 99, 0.2);
+      color: #9ca3af;
+      border-color: rgba(156, 163, 175, 0.3);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-200">
+
+  <!-- Sticky Top Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Left: Course Branding -->
+        <div class="flex items-center space-x-3">
+          <a href="index.html" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition text-xs font-bold flex items-center gap-1.5" title="Back to Rayhan's Lab">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <span class="hidden sm:inline">Lab Home</span>
+          </a>
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-bold shadow-md shadow-brand-500/20 text-lg">
+            ∑
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-extrabold tracking-tight text-slate-900 dark:text-white text-base sm:text-lg">MATH 2213</span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300">RUET CSE</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Type-Wise Solved Problem Bank (2022–2024)</p>
+          </div>
+        </div>
+
+        <!-- Center: Search Input -->
+        <div class="flex-1 max-w-md mx-4 hidden md:block">
+          <div class="relative">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="globalSearch" placeholder="Search by question, formula, or type..." 
+              class="w-full pl-9 pr-4 py-1.5 text-sm rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-transparent focus:border-brand-500 dark:focus:border-brand-500 focus:bg-white dark:focus:bg-slate-900 outline-none transition text-slate-800 dark:text-slate-100 placeholder-slate-400">
+          </div>
+        </div>
+
+        <!-- Right: Actions & Tools -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <!-- Readiness Progress Indicator -->
+          <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-medium">
+            <span class="text-slate-500 dark:text-slate-400">Mastered:</span>
+            <span id="readinessPercent" class="text-brand-600 dark:text-brand-400 font-bold">0%</span>
+            <div class="w-16 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+              <div id="readinessBar" class="h-full bg-brand-600 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle Button -->
+          <button id="themeToggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" title="Toggle Dark/Light Mode">
+            <svg id="sunIcon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg id="moonIcon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+
+          <!-- Print Button -->
+          <button onclick="window.print()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition" title="Print Problem Bank">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Search Bar -->
+      <div class="py-2 pb-3 md:hidden">
+        <input type="text" id="mobileSearch" placeholder="Search questions, formulas, or types..." 
+          class="w-full px-3 py-1.5 text-sm rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-brand-500 outline-none text-slate-800 dark:text-slate-100">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Top Navigation Tabs -->
+    <div class="flex items-center space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2 overflow-x-auto">
+      <button onclick="switchTab('tab-types')" id="btn-types" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-brand-600 text-white shadow-sm transition">
+        📂 Type-Wise Problem Bank (12 Types)
+      </button>
+      <button onclick="switchTab('tab-blueprint')" id="btn-blueprint" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        📊 Syllabus & Distribution Matrix
+      </button>
+      <button onclick="switchTab('tab-visualizer')" id="btn-visualizer" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        📐 Argand Root Visualizer
+      </button>
+      <button onclick="switchTab('tab-cheatsheet')" id="btn-cheatsheet" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        ⚡ Formula Sheet
+      </button>
+    </div>
+
+    <!-- ================= TAB: TYPE-WISE PROBLEM BANK ================= -->
+    <section id="tab-types" class="tab-content space-y-6">
+
+      <!-- Type Quick Navigation Filter Pills -->
+      <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Quick Jump by Problem Type:</div>
+          <div class="flex items-center space-x-2">
+            <button onclick="toggleAllAccordions(true)" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">Expand All</button>
+            <button onclick="toggleAllAccordions(false)" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">Collapse All</button>
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap gap-1.5 text-xs">
+          <button onclick="filterTypeGroup('all', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-brand-600 text-white font-bold transition">All Types</button>
+          <span class="text-slate-300 dark:text-slate-700 self-center">|</span>
+          <span class="text-slate-400 self-center font-bold text-[11px]">SEC A:</span>
+          <button onclick="filterTypeGroup('type-1', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">1. Inequalities & Polar</button>
+          <button onclick="filterTypeGroup('type-2', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">2. Complex Roots</button>
+          <button onclick="filterTypeGroup('type-3', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">3. Analyticity & C-R</button>
+          <button onclick="filterTypeGroup('type-4', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">4. Harmonic & Milne-Thomson</button>
+          <button onclick="filterTypeGroup('type-5', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">5. Contour Integrals</button>
+          <button onclick="filterTypeGroup('type-6', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">6. Bilinear & Rouché</button>
+          <span class="text-slate-300 dark:text-slate-700 self-center">|</span>
+          <span class="text-slate-400 self-center font-bold text-[11px]">SEC B:</span>
+          <button onclick="filterTypeGroup('type-7', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">7. PDE Formation</button>
+          <button onclick="filterTypeGroup('type-8', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">8. Lagrange Method</button>
+          <button onclick="filterTypeGroup('type-9', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">9. Charpit's Method</button>
+          <button onclick="filterTypeGroup('type-10', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">10. Wave & Heat BVP</button>
+          <button onclick="filterTypeGroup('type-11', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">11. Fourier Series</button>
+          <button onclick="filterTypeGroup('type-12', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">12. Fourier Transforms</button>
+          <button onclick="filterTypeGroup('type-13', this)" class="type-filter-btn px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">13. Laplace & Circuits</button>
+        </div>
+      </div>
+
+      <!-- Problem Bank Types Container -->
+      <div id="typesProblemContainer" class="space-y-8">
+
+        <!-- ================= TYPE 1 ================= -->
+        <div class="type-section space-y-3" id="type-1" data-type="type-1">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs">01</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 1: Complex Number Definitions, Modulus Inequalities & Vectors</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec A: Q.1(a) & Q.1(c) • 100% Frequency • Triangle Inequality proofs</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2023 Q.1(a) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.1(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Sum Modulus Inequality</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Define complex number. Show that $|z_1 + z_2| \le |z_1| + |z_2|$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <p><strong>Definition:</strong> An ordered pair $(x, y) \in \mathbb{R}^2$ expressed as $z = x+iy$ with $i = \sqrt{-1}$.</p>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold mb-1">Proof:</p>
+                  $$|z_1 + z_2|^2 = (z_1 + z_2)(\overline{z_1 + z_2}) = (z_1 + z_2)(\bar{z}_1 + \bar{z}_2) = z_1\bar{z}_1 + (z_1\bar{z}_2 + \bar{z}_1 z_2) + z_2\bar{z}_2$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">
+                    Note $z_1\bar{z}_2 + \overline{z_1\bar{z}_2} = 2\text{Re}(z_1\bar{z}_2) \le 2|z_1\bar{z}_2| = 2|z_1||z_2|$:
+                  </p>
+                  $$|z_1 + z_2|^2 \le |z_1|^2 + 2|z_1||z_2| + |z_2|^2 = (|z_1| + |z_2|)^2$$
+                  $$\implies \mathbf{|z_1 + z_2| \le |z_1| + |z_2|}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.1(a) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.1(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Difference Modulus Inequality</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Define complex number. Prove that $|z_1 - z_2| \ge ||z_1| - |z_2||$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold mb-1">Proof:</p>
+                  $$|z_1| = |(z_1 - z_2) + z_2| \le |z_1 - z_2| + |z_2| \implies |z_1| - |z_2| \le |z_1 - z_2| \quad \text{--- (1)}$$
+                  $$|z_2| = |(z_2 - z_1) + z_1| \le |z_2 - z_1| + |z_1| \implies -(|z_1| - |z_2|) \le |z_1 - z_2| \quad \text{--- (2)}$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">Combining (1) and (2) establishes:</p>
+                  $$\mathbf{|z_1 - z_2| \ge ||z_1| - |z_2||}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2024 Q.1(a) & Q.1(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.1(a), (c)</span>
+                    <span class="text-xs text-slate-500 font-medium">Real/Imaginary Separation & Vector Representation</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Separate real and imaginary parts of $\sin(x+iy)$ and explain complex numbers as vectors.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold mb-1">Part (a): Separation of $\sin(x+iy)$:</p>
+                  $$\sin(x+iy) = \sin x \cos(iy) + \cos x \sin(iy) = \sin x \cosh y + i\cos x \sinh y$$
+                  $$\text{Re}\{\sin(z)\} = \sin x \cosh y, \quad \text{Im}\{\sin(z)\} = \cos x \sinh y$$
+                </div>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold mb-1">Part (c): Vector Representation:</p>
+                  <p class="text-xs text-slate-600 dark:text-slate-400">
+                    A complex number $z = x+iy$ corresponds to point $P(x,y)$, defining position vector $\vec{OP} = x\hat{i} + y\hat{j}$.
+                    Magnitude $|\vec{OP}| = \sqrt{x^2+y^2} = |z|$ equals the modulus; direction angle $\theta = \arg(z)$ equals the argument.
+                    Complex addition $z_1+z_2$ obeys the parallelogram law of vector addition.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 2 ================= -->
+        <div class="type-section space-y-3" id="type-2" data-type="type-2">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs">02</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 2: Roots of Complex Numbers & De Moivre's Theorem</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec A: Q.1(b) & Q.1(c) • 100% Guaranteed Problem with Argand Plotting</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2024 Q.1(b) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.1(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Fourth Roots</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Find the roots of $(-2\sqrt{3}-2i)^{1/4}$ and locate them graphically in the complex plane.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <p>Modulus: $r = \sqrt{(-2\sqrt{3})^2 + (-2)^2} = \sqrt{12+4} = 4$. Angle $\theta = -\pi + \tan^{-1}(2 / 2\sqrt{3}) = -\frac{5\pi}{6} \equiv \frac{7\pi}{6}$.</p>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$z_k = 4^{1/4} \left[ \cos\left(\frac{7\pi/6 + 2k\pi}{4}\right) + i\sin\left(\frac{7\pi/6 + 2k\pi}{4}\right) \right] = \sqrt{2} e^{i\frac{(12k+7)\pi}{24}}, \quad k \in \{0, 1, 2, 3\}$$
+                  <ul class="list-disc list-inside mt-2 text-xs space-y-1">
+                    <li>$k=0: \quad z_0 = \sqrt{2} e^{i\frac{7\pi}{24}} \quad (\theta_0 = 52.5^\circ)$</li>
+                    <li>$k=1: \quad z_1 = \sqrt{2} e^{i\frac{19\pi}{24}} \quad (\theta_1 = 142.5^\circ)$</li>
+                    <li>$k=2: \quad z_2 = \sqrt{2} e^{i\frac{31\pi}{24}} \quad (\theta_2 = 232.5^\circ)$</li>
+                    <li>$k=3: \quad z_3 = \sqrt{2} e^{i\frac{43\pi}{24}} \quad (\theta_3 = 322.5^\circ)$</li>
+                  </ul>
+                </div>
+                <p class="text-xs text-slate-500 italic">
+                  <strong>Argand plane:</strong> Form vertices of a square inscribed in a circle of radius $R = \sqrt{2} \approx 1.414$ with $90^\circ$ angular separation.
+                </p>
+              </div>
+            </div>
+
+            <!-- 2022 Q.1(b) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.1(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Cube Roots</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Find the indicated roots and locate them in the complex plane for $(-1+i)^{1/3}$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <p>Modulus: $r = \sqrt{2}$, argument $\theta = \frac{3\pi}{4}$.</p>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$z_k = 2^{1/6} \left[ \cos\left(\frac{(8k+3)\pi}{12}\right) + i\sin\left(\frac{(8k+3)\pi}{12}\right) \right], \quad k \in \{0, 1, 2\}$$
+                  <ul class="list-disc list-inside mt-2 text-xs space-y-1">
+                    <li>$k=0: \quad z_0 = 2^{1/6} e^{i\frac{\pi}{4}} = 2^{-1/3}(1+i) \quad (\theta = 45^\circ)$</li>
+                    <li>$k=1: \quad z_1 = 2^{1/6} e^{i\frac{11\pi}{12}} \quad (\theta = 165^\circ)$</li>
+                    <li>$k=2: \quad z_2 = 2^{1/6} e^{i\frac{19\pi}{12}} \quad (\theta = 285^\circ)$</li>
+                  </ul>
+                </div>
+                <p class="text-xs text-slate-500 italic">
+                  <strong>Argand plane:</strong> Form an equilateral triangle on circle with radius $R = 2^{1/6} \approx 1.122$, spaced $120^\circ$ apart.
+                </p>
+              </div>
+            </div>
+
+            <!-- 2023 Q.1(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.1(c)</span>
+                    <span class="text-xs text-slate-500 font-medium">7th Roots of Unity</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Solve the equation with the help of De Moivre's theorem: $x^7 - 1 = 0$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$x^7 = 1 = \cos(2k\pi) + i\sin(2k\pi) = e^{i 2k\pi}$$
+                  $$x_k = \cos\left(\frac{2k\pi}{7}\right) + i\sin\left(\frac{2k\pi}{7}\right), \quad k = 0, 1, 2, 3, 4, 5, 6$$
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 3 ================= -->
+        <div class="type-section space-y-3" id="type-3" data-type="type-3">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs">03</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 3: Limits, Continuity, Differentiability & Analyticity</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec A: Q.1(c), Q.2(a), Q.2(b), Q.2(c) • Uniqueness & Path Differentiability</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2023 Q.2(a) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.2(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Path Dependence</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Prove that $f(z) = |z|^2$ is continuous everywhere but nowhere differentiable except at origin.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <p>Continuous everywhere as $f(z) = x^2+y^2$ is a real polynomial. At any point $z$:</p>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$\frac{f(z+\Delta z) - f(z)}{\Delta z} = \frac{|z+\Delta z|^2 - |z|^2}{\Delta z} = \bar{z} + \overline{\Delta z} + z\frac{\overline{\Delta z}}{\Delta z}$$
+                  <ul class="list-disc list-inside mt-2 text-xs space-y-1">
+                    <li><strong>At $z = 0$:</strong> Limit is $\lim_{\Delta z \to 0} \overline{\Delta z} = 0$. Hence $f'(0) = 0$ exists.</li>
+                    <li><strong>At $z \neq 0$:</strong> Real path ($\Delta z = \Delta x$) yields $\bar{z}+z$. Imaginary path ($\Delta z = i\Delta y$) yields $\bar{z}-z$. Since $\bar{z}+z \neq \bar{z}-z$, the limit is path-dependent and does not exist.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.1(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.1(c)</span>
+                    <span class="text-xs text-slate-500 font-medium">Uniqueness Proof</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    If $\lim_{z \to z_0} f(z)$ exists, prove that it must be unique.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Suppose two distinct limits $L_1 \neq L_2$. Let $\epsilon = \frac{1}{2}|L_1 - L_2| > 0$.</p>
+                  $$|L_1 - L_2| = |(L_1 - f(z)) + (f(z) - L_2)| \le |f(z) - L_1| + |f(z) - L_2| &lt; \epsilon + \epsilon = 2\epsilon = |L_1 - L_2|$$
+                  <p class="text-xs text-rose-500 font-semibold mt-2">Contradiction: $|L_1 - L_2| &lt; |L_1 - L_2|$. Thus $L_1 = L_2$.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2023 Q.2(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.2(c)</span>
+                    <span class="text-xs text-slate-500 font-medium">C-R Equations</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Show that $f(z) = z^3$ is analytic in the entire $z$-plane.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <p>$z^3 = (x+iy)^3 = (x^3 - 3xy^2) + i(3x^2y - y^3) \implies u = x^3-3xy^2, v = 3x^2y-y^3$.</p>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$u_x = 3x^2 - 3y^2, \quad v_y = 3x^2 - 3y^2 \implies u_x = v_y$$
+                  $$u_y = -6xy, \quad v_x = 6xy \implies u_y = -v_x$$
+                  <p class="text-xs text-slate-500 mt-1">C-R satisfied and partial derivatives continuous everywhere $\implies$ analytic in $\mathbb{C}$.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 4 ================= -->
+        <div class="type-section space-y-3" id="type-4" data-type="type-4">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs">04</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 4: Harmonic Functions, Conjugates & Milne-Thomson Method</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec A: Q.2(c), Q.3(a) • 100% Guaranteed Problem in every exam</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2024 Q.2(a) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.2(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Harmonic Verification & Conjugate</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Show $u(x,y) = 3x^2y + 2x^2 - y^3 - 2y^2$ is harmonic, find $v$, and express $f(z)$ in terms of $z$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$u_{xx} + u_{yy} = (6y+4) + (-6y-4) = 0 \quad (\text{Harmonic verified})$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Conjugate via $v_y = u_x$ and $v_x = -u_y$:</p>
+                  $$\mathbf{v(x,y) = 3xy^2 + 4xy - x^3 + C}$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">By Milne-Thomson ($f'(z) = u_x(z,0) - i u_y(z,0) = 4z - i(3z^2)$):</p>
+                  $$\mathbf{f(z) = 2z^2 - iz^3 + iC}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.2(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.2(c)</span>
+                    <span class="text-xs text-slate-500 font-medium">Exponential Form</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    If $u = x e^x \cos y - y e^x \sin y$, find $v$ and express $f(z)$ in terms of $z$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$\mathbf{v(x,y) = e^x(x\sin y + y\cos y) + C}$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">By Milne-Thomson: $f'(z) = (1+z)e^z \implies$</p>
+                  $$\mathbf{f(z) = z e^z + iC}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2024 Q.3(a) & 2023 Q.2(b) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 Q.3(a) & 2023 Q.2(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Physical Stream Potentials</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Velocity potential $\phi$ for $\psi = \tan^{-1}(y/x)$ and electric potential for $\psi = x^2-y^2+\frac{x}{x^2+y^2}$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold">Case 1: Flow potential $\psi = \tan^{-1}(y/x)$ (2024 Q3a):</p>
+                  $$\phi_x = \psi_y = \frac{x}{x^2+y^2} \implies \mathbf{\phi(x,y) = \ln\sqrt{x^2+y^2} + C}$$
+                  <p class="font-semibold mt-3">Case 2: Field potential $\psi = x^2-y^2+\frac{x}{x^2+y^2}$ (2023 Q2b):</p>
+                  $$\phi_x = \psi_y = -2y - \frac{2xy}{(x^2+y^2)^2} \implies \mathbf{\phi(x,y) = -2xy + \frac{y}{x^2+y^2} + C}$$
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 5 ================= -->
+        <div class="type-section space-y-3" id="type-5" data-type="type-5">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs">05</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 5: Contour Integrals (Cauchy's Theorem, Formula & Residues)</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec A: Q.3 & Q.4 • Repeated proofs & circular integrals</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Proof: Cauchy Integral Formula -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">2024 Q.4(a) & 2022 Q.3(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Core Formula Proof</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    State and prove Cauchy's Integral Formula: $f(z_0) = \frac{1}{2\pi i} \oint_C \frac{f(z)}{z-z_0} dz$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Around interior point $z_0$, draw circle $C_r: |z-z_0|=r$. By Cauchy-Goursat theorem:</p>
+                  $$\oint_C \frac{f(z)}{z-z_0} dz = \oint_{C_r} \frac{f(z)}{z-z_0} dz = f(z_0)\oint_{C_r} \frac{dz}{z-z_0} + \oint_{C_r} \frac{f(z)-f(z_0)}{z-z_0} dz$$
+                  $$\text{On } C_r: z-z_0 = r e^{i\theta} \implies \oint_{C_r} \frac{dz}{z-z_0} = \int_0^{2\pi} i\,d\theta = 2\pi i$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">By continuity, $|f(z)-f(z_0)| &lt; \epsilon$, bounded by $\frac{\epsilon}{r}(2\pi r) = 2\pi\epsilon \to 0$ as $r \to 0$.</p>
+                  $$\mathbf{\oint_C \frac{f(z)}{z-z_0} dz = 2\pi i f(z_0)}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- Repeated Integral: (3z^2+z)/(z^2-1) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">2024 Q.4(b) & 2022 Q.3(c)</span>
+                    <span class="text-xs text-slate-500 font-medium">Repeated Circle Integral</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Evaluate $\oint_C \frac{3z^2+z}{z^2-1} dz$ where $C$ is the circle $|z-1|=1$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Pole $z=1$ is inside $C$ ($|1-1|=0&lt;1$); pole $z=-1$ is outside ($|-1-1|=2>1$). Let $g(z) = \frac{3z^2+z}{z+1}$:</p>
+                  $$I = 2\pi i \cdot g(1) = 2\pi i \left(\frac{3(1)^2+1}{1+1}\right) = 2\pi i (2) = \mathbf{4\pi i}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2024 Q.3(b) & Q.4(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.3(b) & Q.4(c)</span>
+                    <span class="text-xs text-slate-500 font-medium">Shifted Center & Quadratic Poles</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Evaluate $\oint_{|z|=2} \frac{e^z}{z^2+1}dz$ and $\oint_{|z+1-i|=2} \frac{z+4}{z^2+2z+5}dz$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold">Integral 1: $\oint_{|z|=2} \frac{e^z}{z^2+1}dz$:</p>
+                  $$I_1 = \pi(e^i - e^{-i}) = \mathbf{2\pi i \sin(1)}$$
+                  <p class="font-semibold mt-3">Integral 2: $\oint_{|z+1-i|=2} \frac{z+4}{z^2+2z+5}dz$:</p>
+                  <p class="text-xs text-slate-600 dark:text-slate-400">Poles: $z = -1 \pm 2i$. $z_1 = -1+2i$ is inside $|z+1-i|=2$ ($|i|=1&lt;2$), $z_2$ is outside:</p>
+                  $$I_2 = 2\pi i \left.\frac{z+4}{z+1+2i}\right|_{z=-1+2i} = 2\pi i \left(\frac{3+2i}{4i}\right) = \mathbf{\frac{\pi}{2}(3+2i)}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2023 Q.3(b) Higher Order Pole -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.3(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Pole of Order 3</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Evaluate $\oint_{|z|=1} \frac{\sin^6 z}{(z-\pi/6)^3} dz$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Pole $z_0 = \pi/6$ has order $m=3$. By generalized formula ($n=2$):</p>
+                  $$I = \frac{2\pi i}{2!} \left. \frac{d^2}{dz^2}(\sin^6 z) \right|_{z=\pi/6} = \pi i [6\sin^4 z(5\cos^2 z - \sin^2 z)]_{\pi/6} = \mathbf{\frac{21\pi i}{16}}$$
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 6 ================= -->
+        <div class="type-section space-y-3" id="type-6" data-type="type-6">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-xs">06</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 6: Bilinear Transformation, Rouché's Theorem & Real Trig Integrals</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec A: Q.2(b), Q.4(a), Q.4(b) • Annular roots & geometric mapping</p>
+              </div>
+            </div>
+            <span class="badge-tier2 px-2.5 py-1 rounded-full text-xs font-bold">Tier 2 Backup</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2024 Q.2(b) Rouché -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.2(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Rouché Annulus</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Prove that all roots of $z^7 - 5z^3 + 12 = 0$ lie between the circles $|z|=1$ and $|z|=2$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                  <p><strong>On $|z|=1$:</strong> Let $f(z)=12, g(z)=z^7-5z^3$. $|g(z)| \le 1+5=6 &lt; 12=|f(z)| \implies$ <strong>0 roots inside $|z|=1$</strong>.</p>
+                  <p><strong>On $|z|=2$:</strong> Let $F(z)=z^7, G(z)=-5z^3+12$. $|G(z)| \le 5(8)+12=52 &lt; 128=2^7=|F(z)| \implies$ <strong>7 roots inside $|z|=2$</strong>.</p>
+                  <p class="font-semibold text-emerald-600">Therefore all 7 roots lie strictly in $1 &lt; |z| &lt; 2$.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.4(b) Real Trig Integral -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.4(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Trig Contour</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Evaluate $\int_0^{2\pi} \frac{d\theta}{a+b\cos\theta}$ for $a > |b| > 0$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Let $z=e^{i\theta}, d\theta = \frac{dz}{iz}$. Pole inside unit circle is $\alpha = \frac{-a+\sqrt{a^2-b^2}}{b}$:</p>
+                  $$I = 2\pi i \left(\frac{2}{ib}\right) \left(\frac{b}{2\sqrt{a^2-b^2}}\right) = \mathbf{\frac{2\pi}{\sqrt{a^2-b^2}}}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.4(a) Bilinear Decomposition -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.4(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Bilinear Mapping Geometry</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Prove bilinear transformation is a combination of translation, rotation, stretching, and inversion.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$w = \frac{az+b}{cz+d} = \frac{a}{c} + \frac{bc-ad}{c^2(z+d/c)}$$
+                  <ol class="list-decimal list-inside text-xs space-y-1 mt-2">
+                    <li>$z_1 = z + d/c$ &rarr; <strong>Translation</strong></li>
+                    <li>$z_2 = 1/z_1$ &rarr; <strong>Inversion</strong></li>
+                    <li>$z_3 = \left(\frac{bc-ad}{c^2}\right)z_2$ &rarr; <strong>Rotation and Stretching</strong></li>
+                    <li>$w = z_3 + a/c$ &rarr; <strong>Translation</strong></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 7 ================= -->
+        <div class="type-section space-y-3" id="type-7" data-type="type-7">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">07</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 7: Formation of PDEs & Clairaut's Singular Integral</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec B: Q.5(a), Q.5(c) • Arbitrary constant / function elimination</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2024 Q.5(a) & Q.5(c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-300">2024 (22 Series) Q.5(a), (c)</span>
+                    <span class="text-xs text-slate-500 font-medium">Constant Elimination & Clairaut</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Form PDE from $z = xy + y\sqrt{x^2-a^2} + b$ and find singular integral of $z = px+qy+pq$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold mb-1">Part (a): Eliminating $a, b$:</p>
+                  $$p-y = \frac{xy}{\sqrt{x^2-a^2}} \implies \sqrt{x^2-a^2} = \frac{xy}{p-y}, \quad q-x = \sqrt{x^2-a^2}$$
+                  $$\frac{xy}{p-y} = q-x \implies (p-y)(q-x) = xy \implies \mathbf{px+qy=pq}$$
+                </div>
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold mb-1">Part (c): Singular Integral of $z = px+qy+pq$:</p>
+                  <p class="text-xs text-slate-600 dark:text-slate-400">Complete: $z = ax+by+ab$. Differentiating w.r.t $a$ and $b$ gives $a = -y$ and $b = -x$:</p>
+                  $$z = (-y)x + (-x)y + (-y)(-x) = -xy \implies \mathbf{z + xy = 0}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.5(a) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.5(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Arbitrary Function Elimination</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Eliminate arbitrary function $\Phi$ from $\Phi(x+y+z, x^2+y^2-z^2) = 0$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$\Phi_u(1+p) + \Phi_v(2x-2zp) = 0, \quad \Phi_u(1+q) + \Phi_v(2y-2zq) = 0$$
+                  $$\frac{x-zp}{1+p} = \frac{y-zq}{1+q} \implies \mathbf{(y+z)p - (x+z)q = x-y}$$
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 8 ================= -->
+        <div class="type-section space-y-3" id="type-8" data-type="type-8">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">08</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 8: Lagrange's Method & Integral Surfaces through Given Curves</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec B: Q.5(a), Q.5(b), Q.6(a) • 100% 2-Year Repeated Exact Problem</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">100% Guaranteed Repeat</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Repeated: x(y^2+z)p - y(x^2+z)q = (x^2-y^2)z -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">2024 Q.5(b) & 2023 Q.5(a) (REPEATED!)</span>
+                    <span class="text-xs text-slate-500 font-medium">Exact Repeat</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Find integral surface of $x(y^2+z)p - y(x^2+z)q = (x^2-y^2)z$ through $x+y=0, z=1$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">Lagrange Aux: $\frac{dx}{x(y^2+z)} = \frac{dy}{-y(x^2+z)} = \frac{dz}{(x^2-y^2)z}$</p>
+                  <ul class="list-disc list-inside text-xs space-y-1">
+                    <li>Multipliers $(1/x, 1/y, 1/z) \implies xyz = c_1$</li>
+                    <li>Multipliers $(x, y, -1) \implies x^2 + y^2 - 2z = c_2$</li>
+                  </ul>
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">On curve $x=t, y=-t, z=1 \implies c_1 = -t^2$ and $c_2 = 2t^2-2 \implies 2c_1 + c_2 + 2 = 0$:</p>
+                  $$\mathbf{x^2 + y^2 + 2xyz - 2z + 2 = 0}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.5(b) z(x+y)p + z(x-y)q = x^2+y^2 -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.5(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Multiplier Combinations</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Solve $z(x+y)p + z(x-y)q = x^2+y^2$ using Lagrange's method.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <ul class="list-disc list-inside text-xs space-y-1">
+                    <li>Multipliers $(x, -y, -z) \implies x\,dx - y\,dy - z\,dz = 0 \implies x^2 - y^2 - z^2 = c_1$</li>
+                    <li>Multipliers $(y, x, -z) \implies y\,dx + x\,dy - z\,dz = 0 \implies 2xy - z^2 = c_2$</li>
+                  </ul>
+                  <p class="font-semibold mt-2">General Solution: $\mathbf{\Phi(x^2-y^2-z^2, 2xy-z^2) = 0}$</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.6(a) 4yzp + q + 2y = 0 -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.6(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Surface through 3D Curve</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Find surface satisfying $4yzp + q + 2y = 0$ through $x^2+y^2=1, x+z=2$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400">Auxiliary ratios: $\frac{dx}{4yz} = \frac{dy}{1} = \frac{dz}{-2y} \implies y^2+z=c_1, \quad x+z^2=c_2$.</p>
+                  <p class="font-semibold mt-2">$$\mathbf{(x+y^2+z+z^2+1)^2 - 4(x+y^2+z+z^2+1) + 16(2-x-z^2) = 0}$$</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 9 ================= -->
+        <div class="type-section space-y-3" id="type-9" data-type="type-9">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">09</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 9: Charpit's Method for Non-Linear First-Order PDEs</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec B: Q.5(b) & Q.6(b) • Complete Integrals</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">Tier 1 Must-Study</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2022 Q.6(b) px+qy=pq -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.6(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Standard Charpit</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Solve $px + qy = pq$ using Charpit's method.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400">$\frac{dp}{p} = \frac{dq}{q} \implies p = aq$. Substitute: $q = \frac{ax+y}{a}, p = ax+y$.</p>
+                  $$a\,dz = (ax+y)(a\,dx + dy) \implies \mathbf{2az = (ax+y)^2 + 2b}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2023 Q.5(b) p^2+q^2 = py-qx -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.5(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Polar Integrals</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Solve $p^2+q^2 = py-qx$ using Charpit's method.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="text-xs text-slate-600 dark:text-slate-400">From $\frac{dp}{q} = \frac{dq}{-p} \implies p^2+q^2 = a$, giving $py-qx=a$. Using polar form:</p>
+                  $$\mathbf{z = -a\tan^{-1}\left(\frac{y}{x}\right) \pm \left[ \sqrt{a(x^2+y^2-a)} - a\tan^{-1}\left(\frac{\sqrt{x^2+y^2-a}}{\sqrt{a}}\right) \right] + b}$$
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 10 ================= -->
+        <div class="type-section space-y-3" id="type-10" data-type="type-10">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">10</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 10: Boundary Value Problems: Wave & Heat/Laplace Equations</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec B: Q.6 • Separation of Variables & CSE Applications</p>
+              </div>
+            </div>
+            <span class="badge-tier2 px-2.5 py-1 rounded-full text-xs font-bold">Tier 2 Backup</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2024 Q.6(a), (b), (c) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.6 Complete</span>
+                    <span class="text-xs text-slate-500 font-medium">Wave Solution, CSE Use & Steady-State Heat</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Solve $u_{tt} = 4u_{xx}, u(x,0)=\sin x$; list 4 CSE wave applications; solve 2D Laplace equation.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold">Part (a): 1D Wave Solution:</p>
+                  $$\mathbf{u(x,t) = \sin x \cos 2t}$$
+                  
+                  <p class="font-semibold mt-3">Part (b): 4 CSE Applications:</p>
+                  <ul class="list-disc list-inside text-xs space-y-0.5 text-slate-600 dark:text-slate-400">
+                    <li>Wireless Signal & EM Wave propagation (5G, Wi-Fi, optical fiber networks).</li>
+                    <li>Computer Graphics (physics simulation of water surfaces and cloth).</li>
+                    <li>Digital Audio & Speech Processing (vocal tract modeling and noise cancellation).</li>
+                    <li>Biomedical & Seismic Computational Imaging (Ultrasound and MRI wave inversion).</li>
+                  </ul>
+
+                  <p class="font-semibold mt-3">Part (c): 2D Steady-State Laplace ($u_{xx} + u_{yy} = 0$):</p>
+                  $$\mathbf{u(x,y) = (A\cos kx + B\sin kx)(Ce^{ky} + De^{-ky})}$$
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================= TYPE 11 ================= -->
+        <div class="type-section space-y-3" id="type-11" data-type="type-11">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">11</span>
+              <div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">Type 11: Fourier Series (Proofs, Full/Half Range Expansions & Parseval)</h3>
+                <p class="text-xs text-slate-500">Mappable to Sec B: Q.7 • 100% 3-Year Repeat for Odd/Even Proofs & Sum Deductions</p>
+              </div>
+            </div>
+            <span class="badge-tier1 px-2.5 py-1 rounded-full text-xs font-bold">100% Guaranteed Repeat</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 100% Repeated Proof: Odd/Even Proof -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">2024 Q.7(a), 2023 Q.7(a), 2022 Q.7(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">3-Year 100% Repeat Proof</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Show that an odd function has no cosine terms (and an even function has no sine terms) in its Fourier series.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <p class="font-semibold">Case 1: Odd function $f(-x) = -f(x)$:</p>
+                  $$a_n = \frac{1}{\pi} \int_{-\pi}^\pi f(x)\cos nx\,dx = 0 \quad (\text{since } f(x)\cos nx \text{ is odd, integral over symmetric interval vanishes})$$
+                  <p class="font-semibold mt-2">Case 2: Even function $f(-x) = f(x)$:</p>
+                  $$b_n = \frac{1}{\pi} \int_{-\pi}^\pi f(x)\sin nx\,dx = 0 \quad (\text{since } f(x)\sin nx \text{ is odd, integral vanishes})$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2024 Q.7(b) f(x) = x^2 + x -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-brand-100 text-brand-800 dark:bg-brand-900/60 dark:text-brand-300">2024 (22 Series) Q.7(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Series & Basel Sum</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Fourier expansion of $f(x) = x^2+x$ on $(-\pi, \pi)$ and deduce $\sum \frac{1}{n^2} = \frac{\pi^2}{6}$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$x^2+x = \frac{\pi^2}{3} + 4\sum_{n=1}^\infty \frac{(-1)^n}{n^2}\cos nx + 2\sum_{n=1}^\infty \frac{(-1)^{n+1}}{n}\sin nx$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">At boundary $x = \pi$, Dirichlet convergence: $\frac{f(\pi^-)+f(-\pi^+)}{2} = \pi^2 \implies$</p>
+                  $$\pi^2 = \frac{\pi^2}{3} + 4\sum_{n=1}^\infty \frac{1}{n^2} \implies \mathbf{\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2023 Q.6(b) Parseval Identity Deduction -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.6(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Parseval Formula</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Sine series of $x(\pi-x)$ on $(0, \pi)$ and deduce $\sum \frac{1}{(2n-1)^6} = \frac{\pi^6}{960}$.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$b_n = \frac{8}{\pi n^3} \quad (n \text{ odd}) \implies x(\pi-x) = \frac{8}{\pi}\sum_{k=1}^\infty \frac{\sin(2k-1)x}{(2k-1)^3}$$
+                  <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Applying Parseval's identity $\frac{2}{\pi}\int_0^\pi [f(x)]^2 dx = \sum b_n^2$ gives:</p>
+                  $$\frac{\pi^4}{15} = \frac{64}{\pi^2}\sum_{k=1}^\infty \frac{1}{(2k-1)^6} \implies \mathbf{\sum_{k=1}^\infty \frac{1}{(2k-1)^6} = \frac{\pi^6}{960}}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2022 Q.7(b) f(x) = x^2 on (0, 2pi) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.7(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Interval $(0, 2\pi)$</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Expand $f(x) = x^2$ for $0 &lt; x &lt; 2\pi$ in a Fourier series.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  $$a_0 = \frac{8\pi^2}{3}, \quad a_n = \frac{4}{n^2}, \quad b_n = -\frac{4\pi}{n}$$
+                  $$\mathbf{x^2 = \frac{4\pi^2}{3} + 4\sum_{n=1}^\infty \frac{\cos nx}{n^2} - 4\pi\sum_{n=1}^\infty \frac{\sin nx}{n}}$$
+                </div>
+              </div>
+            </div>
+
+          
+            <!-- 2023 Q.6(a) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.6(a)</span>
+                    <span class="text-xs text-slate-500 font-medium">Period 4 Absolute Value Wave</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    A periodic function of period 4 is defined as $f(x) = |x|, -2 \lt x \lt 2$. Determine its Fourier Series expansion.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                  <p>Here period $2L = 4 \implies L = 2$. Since $f(x) = |x|$ is an <strong>even function</strong> on $(-2, 2)$, $b_n = 0$.</p>
+                  <p><strong>Constant Term $a_0$:</strong></p>
+                  $$a_0 = \frac{2}{2}\int_0^2 x\,dx = \left[\frac{x^2}{2}\right]_0^2 = 2$$
+                  <p><strong>Cosine Coefficients $a_n$:</strong></p>
+                  $$a_n = \frac{2}{2}\int_0^2 x\cos\left(\frac{n\pi x}{2}\right)dx = \left[x\frac{\sin(n\pi x/2)}{n\pi/2} + \frac{\cos(n\pi x/2)}{(n\pi/2)^2}\right]_0^2$$
+                  $$a_n = \frac{4}{n^2\pi^2}\left((-1)^n - 1\right) = \begin{cases} -\frac{8}{n^2\pi^2}, & n\text{ odd} \\ 0, & n\text{ even} \end{cases}$$
+                  <p><strong>Final Fourier Series:</strong></p>
+                  $$\mathbf{|x| = 1 - \frac{8}{\pi^2}\sum_{k=1}^\infty \frac{1}{(2k-1)^2}\cos\left(\frac{(2k-1)\pi x}{2}\right)}$$
+                </div>
+              </div>
+            </div>
+
+            <!-- 2023 Q.7(b) -->
+            <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.7(b)</span>
+                    <span class="text-xs text-slate-500 font-medium">Triangular Wave Fourier Series</span>
+                  </div>
+                  <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                    Expand $f(x) = \begin{cases} x, & 0 \lt x \lt 4 \\ 8-x, & 4 \lt x \lt 8 \end{cases}$ in a Fourier series.
+                  </h4>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                  <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                  <p>Period $2L = 8 \implies L = 4$.</p>
+                  <p><strong>Constant Term $a_0$:</strong></p>
+                  $$a_0 = \frac{1}{4}\left[\int_0^4 x\,dx + \int_4^8 (8-x)\,dx\right] = \frac{1}{4}[8 + 8] = 4$$
+                  <p><strong>Coefficients $a_n$ and $b_n$:</strong></p>
+                  $$a_n = \frac{1}{4}\left[\int_0^4 x\cos\frac{n\pi x}{4}dx + \int_4^8 (8-x)\cos\frac{n\pi x}{4}dx\right] = \frac{8}{n^2\pi^2}\left((-1)^n - 1\right)$$
+                  <p>Since $f(8-x) = f(x)$, $f(x)$ is symmetric about $x=4$ (even symmetry), so $b_n = 0$.</p>
+                  <p><strong>Final Expansion:</strong></p>
+                  $$\mathbf{f(x) = 2 - \frac{16}{\pi^2}\sum_{k=1}^\infty \frac{1}{(2k-1)^2}\cos\left(\frac{(2k-1)\pi x}{4}\right)}$$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TYPE 12 ================= -->
+        <div class="type-section space-y-3" id="type-12" data-type="type-12">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+              <div class="flex items-center space-x-2">
+                <span class="w-7 h-7 rounded-lg bg-brand-100 dark:bg-brand-900/60 text-brand-600 dark:text-brand-300 font-extrabold flex items-center justify-center text-xs">12</span>
+                <div>
+                  <h3 class="font-bold text-slate-900 dark:text-white text-base">Type 12: Fourier Transforms & Fourier Integrals</h3>
+                  <p class="text-xs text-slate-500">Mappable to Sec B: Q.6(c), Q.8(c) • Frequency: 67%</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 rounded-md">High Yield</span>
+            </div>
+
+            <div class="space-y-3">
+              <!-- 2023 Q.6(c) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.6(c)</span>
+                      <span class="text-xs text-slate-500 font-medium">Fourier Cosine Transform</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Find the Fourier cosine transform of $f(x) = e^{-x}$ (or $e^{-ax}$).
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p>By definition of the Fourier cosine transform:</p>
+                    $$\mathcal{F}_c\{f(x)\} = F_c(s) = \int_0^\infty e^{-x}\cos(sx)\,dx$$
+                    <p>Using standard integration by parts formula $\int e^{at}\cos(bt)dt = \frac{e^{at}(a\cos bt + b\sin bt)}{a^2+b^2}$ with $a=-1, b=s$:</p>
+                    $$F_c(s) = \left[\frac{e^{-x}(-\cos sx + s\sin sx)}{1+s^2}\right]_0^\infty = 0 - \frac{1(-1 + 0)}{1+s^2} = \mathbf{\frac{1}{1+s^2}}$$
+                    <p class="text-xs text-slate-500 dark:text-slate-400">*(If using normalized definition with $\sqrt{\frac{2}{\pi}}$, $F_c(s) = \sqrt{\frac{2}{\pi}}\frac{1}{1+s^2}$. For general $e^{-ax}$, $F_c(s) = \frac{a}{a^2+s^2}$)*.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2023 Q.8(c) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.8(c)</span>
+                      <span class="text-xs text-slate-500 font-medium">Fourier Sine Integral Representation</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Determine the Fourier sine integral for $f(x) = e^{-\beta x}$ ($\beta \gt 0$) and hence show that $\frac{\pi}{2}e^{-\beta x} = \int_0^\infty \frac{\lambda \sin \lambda x}{\beta^2+\lambda^2}d\lambda$.
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p>The Fourier sine integral representation of $f(x)$ for $x \gt 0$ is:</p>
+                    $$f(x) = \frac{2}{\pi}\int_0^\infty \sin(\lambda x)\left(\int_0^\infty f(t)\sin(\lambda t)\,dt\right)d\lambda$$
+                    <p>Evaluating inner integral with $f(t) = e^{-\beta t}$:</p>
+                    $$\int_0^\infty e^{-\beta t}\sin(\lambda t)\,dt = \left[\frac{e^{-\beta t}(-\beta\sin\lambda t - \lambda\cos\lambda t)}{\beta^2+\lambda^2}\right]_0^\infty = \frac{\lambda}{\beta^2+\lambda^2}$$
+                    <p>Substituting back into the Fourier sine integral gives:</p>
+                    $$e^{-\beta x} = \frac{2}{\pi}\int_0^\infty \frac{\lambda\sin(\lambda x)}{\beta^2+\lambda^2}d\lambda \implies \mathbf{\int_0^\infty \frac{\lambda\sin(\lambda x)}{\beta^2+\lambda^2}d\lambda = \frac{\pi}{2}e^{-\beta x}}$$
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= TYPE 13 ================= -->
+          <div class="type-section space-y-3" id="type-13" data-type="type-13">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+              <div class="flex items-center space-x-2">
+                <span class="w-7 h-7 rounded-lg bg-brand-100 dark:bg-brand-900/60 text-brand-600 dark:text-brand-300 font-extrabold flex items-center justify-center text-xs">13</span>
+                <div>
+                  <h3 class="font-bold text-slate-900 dark:text-white text-base">Type 13: Laplace Transforms, Heavyside Unit Step & Differential Equations</h3>
+                  <p class="text-xs text-slate-500">Mappable to Sec B: Q.8 • Frequency: 100% (Guaranteed 10 Marks)</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-md">100% Guaranteed</span>
+            </div>
+
+            <div class="space-y-3">
+              <!-- 2024 & 2022 Q.8(a) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">2024 & 2022 Q.8(a)</span>
+                      <span class="text-xs text-slate-500 font-medium">Standard Transforms & Inverses</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Find (i) $\mathcal{L}\{t \cos at\}$ and (ii) $\mathcal{L}^{-1}\left\{\frac{s+1}{s^2-4s+13}\right\}$.
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p><strong>Part (i):</strong> Since $\mathcal{L}\{\cos at\} = \frac{s}{s^2+a^2}$:</p>
+                    $$\mathcal{L}\{t\cos at\} = -\frac{d}{ds}\left(\frac{s}{s^2+a^2}\right) = -\frac{(s^2+a^2)(1) - s(2s)}{(s^2+a^2)^2} = \mathbf{\frac{s^2-a^2}{(s^2+a^2)^2}}$$
+                    <p><strong>Part (ii):</strong> Complete the square in denominator $s^2-4s+13 = (s-2)^2 + 9$:</p>
+                    $$\frac{s+1}{(s-2)^2+9} = \frac{(s-2) + 3}{(s-2)^2+3^2} = \frac{s-2}{(s-2)^2+3^2} + \frac{3}{(s-2)^2+3^2}$$
+                    $$\implies \mathbf{e^{2t}\cos 3t + e^{2t}\sin 3t = e^{2t}(\cos 3t + \sin 3t)}$$
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2024 (22 Series) Q.8(b) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300">2024 (22 Series) Q.8(b)</span>
+                      <span class="text-xs text-slate-500 font-medium">BVP using Laplace Transform</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Solve $y'' - 3y' + 2y = 4t + 12e^{-t}; y(0)=6, y'(\infty)=2$.
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p>Apply $\mathcal{L}$: $[s^2 Y - s y(0) - y'(0)] - 3[s Y - y(0)] + 2Y = \frac{4}{s^2} + \frac{12}{s+1}$.</p>
+                    <p>Let $y'(0) = A$. Then $(s^2-3s+2)Y(s) = 6s - 18 + A + \frac{4}{s^2} + \frac{12}{s+1}$.</p>
+                    <p>Partial fractions and inversion yield:</p>
+                    $$\mathbf{y(t) = 2t + 3 + 2e^{-t} + C_1 e^t + C_2 e^{2t}}$$
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Boundary condition $y'(\infty)=2 \implies C_1=0, C_2=0$. With $y(0)=6 \implies 3+2+1=6$.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2023 (21 Series) Q.8(a) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.8(a)</span>
+                      <span class="text-xs text-slate-500 font-medium">LC Circuit with Ramp Pulse</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Find current $i(t)$ in LC circuit ($L=1\text{H}, C=1\text{F}$) with voltage pulse $v(t)=t$ for $0 \lt t \lt 1$.
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p>Governing equation: $L\frac{di}{dt} + \frac{1}{C}\int_0^t i(\tau)d\tau = v(t)$. Differentiating: $i''(t) + i(t) = v'(t) = 1 - u(t-1)$.</p>
+                    <p>Taking Laplace transform with $i(0)=0, i'(0)=0$:</p>
+                    $$(s^2+1)I(s) = \frac{1 - e^{-s}}{s} \implies I(s) = \frac{1 - e^{-s}}{s(s^2+1)}$$
+                    $$\mathcal{L}^{-1}\left\{\frac{1}{s(s^2+1)}\right\} = 1 - \cos t$$
+                    $$\mathbf{i(t) = (1 - \cos t) - (1 - \cos(t-1))u(t-1)}$$
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2023 (21 Series) Q.8(b) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">2023 (21 Series) Q.8(b)</span>
+                      <span class="text-xs text-slate-500 font-medium">Heaviside Unit Step & Laplace Transform</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Express $f(t) = \begin{cases} t-1, & 1 \lt t \lt 2 \\ 3-t, & 2 \lt t \lt 3 \end{cases}$ in terms of unit step function and find its Laplace transform.
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p>In terms of Heaviside unit step functions $u(t-a)$:</p>
+                    $$f(t) = (t-1)[u(t-1) - u(t-2)] + (3-t)[u(t-2) - u(t-3)]$$
+                    $$f(t) = (t-1)u(t-1) - 2(t-2)u(t-2) + (t-3)u(t-3)$$
+                    <p>Taking Laplace transform using second shifting property $\mathcal{L}\{(t-a)u(t-a)\} = \frac{e^{-as}}{s^2}$:</p>
+                    $$\mathcal{L}\{f(t)\} = \frac{e^{-s} - 2e^{-2s} + e^{-3s}}{s^2} = \mathbf{\frac{e^{-s}(1 - e^{-s})^2}{s^2}}$$
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2022 (20 Series) Q.8(b) -->
+              <div class="problem-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div class="p-4 flex items-start justify-between cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition" onclick="toggleProblemCard(this)">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300">2022 (20 Series) Q.8(b)</span>
+                      <span class="text-xs text-slate-500 font-medium">Second-Order Initial Value Problem</span>
+                    </div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">
+                      Using Laplace Transformations, solve $y'' - 4y' + 4y = 64\sin 2t; y(0)=0, y'(0)=1$.
+                    </h4>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" class="study-check w-4 h-4 text-brand-600 rounded" onclick="event.stopPropagation(); updateReadiness();">
+                    <svg class="chevron-icon w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                <div class="problem-body hidden px-5 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 text-sm space-y-3">
+                  <div class="p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
+                    <p>Apply $\mathcal{L}$: $(s^2-4s+4)Y(s) - s(0) - 1 + 4(0) = \frac{128}{s^2+4}$.</p>
+                    $$(s-2)^2 Y(s) = 1 + \frac{128}{s^2+4} = \frac{s^2+132}{s^2+4}$$
+                    $$Y(s) = \frac{s^2+132}{(s-2)^2(s^2+4)} = \frac{A}{s-2} + \frac{B}{(s-2)^2} + \frac{Cs+D}{s^2+4}$$
+                    <p>Solving partial fraction coefficients: $A = -8, B = 17, C = 8, D = 0$:</p>
+                    $$\mathbf{y(t) = -8e^{2t} + 17t e^{2t} + 8\cos 2t}$$
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </section>
+
+    <!-- ================= TAB: BLUEPRINT & MATRIX ================= -->
+    <section id="tab-blueprint" class="tab-content hidden space-y-8">
+      
+      <div class="bg-blue-50 dark:bg-blue-950/40 border-l-4 border-brand-600 p-4 rounded-r-xl">
+        <p class="text-sm text-slate-700 dark:text-slate-300">
+          <strong>Exam Rule:</strong> Answer <strong>3 out of 4 questions</strong> per section (30 marks each, 60 marks total).
+          Focusing purely on <strong>Tier 1 Types (1, 2, 3, 4, 7, 8, 11, 12)</strong> gives you guaranteed 100% marks without needing backup questions.
+        </p>
+      </div>
+
+      <!-- Frequency Table -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">Exam Pattern Mapping (2022–2024)</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-xs uppercase font-semibold">
+              <tr>
+                <th class="px-6 py-3">Question No.</th>
+                <th class="px-6 py-3">Problem Type & Topic</th>
+                <th class="px-6 py-3">2022</th>
+                <th class="px-6 py-3">2023</th>
+                <th class="px-6 py-3">2024</th>
+                <th class="px-6 py-3">Repeat Rate</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr>
+                <td class="px-6 py-4 font-bold text-brand-600">Sec A: Q.1</td>
+                <td class="px-6 py-4">Types 1 & 2: Modulus Inequalities, Polar & $n$-th Roots</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100%</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-bold text-brand-600">Sec A: Q.2</td>
+                <td class="px-6 py-4">Types 3 & 4: Analyticity, C-R Equations, Harmonic Conjugates</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100%</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-bold text-brand-600">Sec A: Q.3</td>
+                <td class="px-6 py-4">Type 5: Cauchy's Integral Formula, Residue Theorem & Circle Integrals</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100%</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-bold text-slate-500">Sec A: Q.4</td>
+                <td class="px-6 py-4">Type 6: Real Contour Integrals, Bilinear Mapping & Rouché's Annulus</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4 text-rose-500">Legacy ODE</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier2 px-2 py-0.5 rounded text-xs font-bold">67% (Backup)</span></td>
+              </tr>
+              <tr class="border-t-2 border-slate-300 dark:border-slate-700">
+                <td class="px-6 py-4 font-bold text-indigo-600">Sec B: Q.5</td>
+                <td class="px-6 py-4">Types 7 & 8: PDE Formation, Lagrange's Method, Integral Surface</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100% (Repeat)</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-bold text-indigo-600">Sec B: Q.6</td>
+                <td class="px-6 py-4">Types 9 & 10: Charpit's Method, Wave & Heat/Laplace BVP</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100%</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-bold text-indigo-600">Sec B: Q.7</td>
+                <td class="px-6 py-4">Type 11: Fourier Series (Odd/Even Proofs, Expansions, Parseval)</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100% (Direct)</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-bold text-indigo-600">Sec B: Q.8</td>
+                <td class="px-6 py-4">Type 12: Laplace Transforms, Inverse Transforms, IVP & Circuits</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4">10 M</td>
+                <td class="px-6 py-4"><span class="badge-tier1 px-2 py-0.5 rounded text-xs font-bold">100%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB: ARGAND VISUALIZER ================= -->
+    <section id="tab-visualizer" class="tab-content hidden space-y-6">
+      
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+        <div class="max-w-2xl space-y-2 mb-6">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Interactive Argand Plane ($n$-th Roots Visualizer)</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Directly test roots from Type 2 exam problems: $(-2\sqrt{3}-2i)^{1/4}$, $(-1+i)^{1/3}$, and $x^7=1$.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          
+          <!-- Controls Panel -->
+          <div class="space-y-4 bg-slate-50 dark:bg-slate-800/40 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
+            <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Exam Presets</div>
+            
+            <div class="grid grid-cols-1 gap-2">
+              <button onclick="setVisualizerPreset('2024')" class="w-full text-left px-3 py-2 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 hover:border-brand-500 border border-slate-200 dark:border-slate-600 shadow-sm transition">
+                🎯 2024 Exam: $(-2\sqrt{3}-2i)^{1/4}$
+              </button>
+              <button onclick="setVisualizerPreset('2022')" class="w-full text-left px-3 py-2 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 hover:border-brand-500 border border-slate-200 dark:border-slate-600 shadow-sm transition">
+                🎯 2022 Exam: $(-1+i)^{1/3}$
+              </button>
+              <button onclick="setVisualizerPreset('2023')" class="w-full text-left px-3 py-2 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 hover:border-brand-500 border border-slate-200 dark:border-slate-600 shadow-sm transition">
+                🎯 2023 Exam: $x^7 - 1 = 0$
+              </button>
+            </div>
+
+            <div class="pt-2 border-t border-slate-200 dark:border-slate-700 space-y-3 text-xs">
+              <div>
+                <label class="block font-medium mb-1">Real Part ($x$):</label>
+                <input type="number" id="inputReal" value="-3.464" step="0.1" class="w-full px-2.5 py-1.5 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 outline-none">
+              </div>
+              <div>
+                <label class="block font-medium mb-1">Imaginary Part ($y$):</label>
+                <input type="number" id="inputImag" value="-2" step="0.1" class="w-full px-2.5 py-1.5 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 outline-none">
+              </div>
+              <div>
+                <label class="block font-medium mb-1">Root Degree ($n$):</label>
+                <input type="number" id="inputRoot" value="4" min="2" max="12" class="w-full px-2.5 py-1.5 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 outline-none">
+              </div>
+              <button onclick="renderCustomRoots()" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg transition shadow-sm">
+                Recalculate Roots
+              </button>
+            </div>
+
+            <div id="rootsOutputList" class="pt-2 text-xs space-y-1.5 text-slate-600 dark:text-slate-300"></div>
+          </div>
+
+          <!-- Canvas Display -->
+          <div class="lg:col-span-2 flex flex-col items-center justify-center p-4 bg-slate-900 rounded-xl border border-slate-800 shadow-inner">
+            <canvas id="argandCanvas" width="500" height="500" class="max-w-full h-auto cursor-crosshair"></canvas>
+            <div class="text-xs text-slate-400 mt-3 text-center">
+              Geometric Root Polygons in Complex Plane
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB: CHEATSHEET ================= -->
+    <section id="tab-cheatsheet" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="text-brand-600 dark:text-brand-400 font-bold text-sm">
+            📌 Complex Variables Formulas
+          </div>
+          <div class="text-xs space-y-2 text-slate-700 dark:text-slate-300">
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Cauchy-Riemann Equations:</span>
+              $$u_x = v_y, \quad u_y = -v_x$$
+            </div>
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Milne-Thomson Method:</span>
+              $$f'(z) = u_x(z, 0) - i u_y(z, 0)$$
+            </div>
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Cauchy's Integral Formula:</span>
+              $$f^{(n)}(z_0) = \frac{n!}{2\pi i}\oint_C \frac{f(z)}{(z-z_0)^{n+1}}dz$$
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="text-indigo-600 dark:text-indigo-400 font-bold text-sm">
+            📌 PDE Methods
+          </div>
+          <div class="text-xs space-y-2 text-slate-700 dark:text-slate-300">
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Lagrange's Auxiliary:</span>
+              $$\frac{dx}{P} = \frac{dy}{Q} = \frac{dz}{R}$$
+            </div>
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Charpit's System:</span>
+              $$\frac{dp}{f_x + p f_z} = \frac{dq}{f_y + q f_z} = \frac{dz}{-p f_p - q f_q} = \frac{dx}{-f_p} = \frac{dy}{-f_q}$$
+            </div>
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Clairaut's PDE:</span>
+              $$z = px + qy + f(p,q) \implies z = ax+by+f(a,b)$$
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div class="text-amber-600 dark:text-amber-400 font-bold text-sm">
+            📌 Fourier & Laplace Formulas
+          </div>
+          <div class="text-xs space-y-2 text-slate-700 dark:text-slate-300">
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Fourier Euler Coefficients:</span>
+              $$a_n = \frac{1}{L}\int_{-L}^L f(x)\cos\frac{n\pi x}{L}dx, \quad b_n = \frac{1}{L}\int_{-L}^L f(x)\sin\frac{n\pi x}{L}dx$$
+            </div>
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Parseval Formula on $(0, L)$:</span>
+              $$\frac{2}{L}\int_0^L [f(x)]^2 dx = \sum_{n=1}^\infty b_n^2$$
+            </div>
+            <div class="p-2 bg-slate-50 dark:bg-slate-800/60 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold block text-slate-900 dark:text-white">Multiplication by $t$:</span>
+              $$\mathcal{L}\{t f(t)\} = -\frac{d}{ds}F(s)$$
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-6 mt-16 text-center text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>Math 2213 (RUET CSE) • Type-Wise Solved Problem Bank (2022–2024)</div>
+      <div class="text-slate-400">KaTeX + Tailwind Engine</div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script>
+    // Theme Manager
+    const themeToggleBtn = document.getElementById('themeToggle');
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    
+    // Check initial preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      applyTheme(true);
+    } else {
+      applyTheme(false);
+    }
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        applyTheme(!isDark);
+        const vizTab = document.getElementById('tab-visualizer');
+        if (vizTab && !vizTab.classList.contains('hidden')) {
+          drawArgandDiagram();
+        }
+      });
+    }
+
+    // Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+        btn.classList.add('text-slate-600', 'dark:text-slate-300');
+      });
+
+      const activeTab = document.getElementById(tabId);
+      const activeBtn = document.getElementById('btn-' + tabId.replace('tab-', ''));
+      if (activeTab) activeTab.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+        activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+      }
+
+      if (tabId === 'tab-visualizer') {
+        setTimeout(drawArgandDiagram, 50);
+      }
+    }
+
+    // Card Accordion Toggle
+    function toggleProblemCard(headerEl) {
+      const card = headerEl.closest('.problem-card');
+      if (!card) return;
+      const body = card.querySelector('.problem-body');
+      const icon = card.querySelector('.chevron-icon');
+      
+      if (body) {
+        if (body.classList.contains('hidden')) {
+          body.classList.remove('hidden');
+          if (icon) icon.classList.add('rotate-180');
+        } else {
+          body.classList.add('hidden');
+          if (icon) icon.classList.remove('rotate-180');
+        }
+      }
+    }
+
+    function toggleAllAccordions(expand) {
+      document.querySelectorAll('.problem-card').forEach(card => {
+        const body = card.querySelector('.problem-body');
+        const icon = card.querySelector('.chevron-icon');
+        if (body) {
+          if (expand) {
+            body.classList.remove('hidden');
+            if (icon) icon.classList.add('rotate-180');
+          } else {
+            body.classList.add('hidden');
+            if (icon) icon.classList.remove('rotate-180');
+          }
+        }
+      });
+    }
+
+    // Type Filter Logic
+    function filterTypeGroup(typeId, btnEl) {
+      document.querySelectorAll('.type-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-brand-600', 'text-white', 'font-bold');
+        btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+      });
+      if (btnEl) {
+        btnEl.classList.add('bg-brand-600', 'text-white', 'font-bold');
+        btnEl.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+      }
+
+      document.querySelectorAll('.type-section').forEach(sec => {
+        if (typeId === 'all' || sec.getAttribute('data-type') === typeId) {
+          sec.classList.remove('hidden');
+        } else {
+          sec.classList.add('hidden');
+        }
+      });
+    }
+
+    // Search Filter
+    function applySearch() {
+      const gSearch = document.getElementById('globalSearch');
+      const mSearch = document.getElementById('mobileSearch');
+      const query = ((gSearch ? gSearch.value : '') || (mSearch ? mSearch.value : '')).toLowerCase().trim();
+      document.querySelectorAll('.problem-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    const gInput = document.getElementById('globalSearch');
+    if (gInput) gInput.addEventListener('input', applySearch);
+    const mInput = document.getElementById('mobileSearch');
+    if (mInput) mInput.addEventListener('input', applySearch);
+
+    // Readiness Tracker (Local Storage persistence)
+    function updateReadiness() {
+      const checkboxes = document.querySelectorAll('.study-check');
+      const total = checkboxes.length;
+      let checked = 0;
+      const states = [];
+      checkboxes.forEach((cb) => {
+        if (cb.checked) checked++;
+        states.push(cb.checked);
+      });
+      const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+      const pctEl = document.getElementById('readinessPercent');
+      const barEl = document.getElementById('readinessBar');
+      if (pctEl) pctEl.innerText = percent + '%';
+      if (barEl) barEl.style.width = percent + '%';
+      try {
+        localStorage.setItem('math2213_type_progress', JSON.stringify(states));
+      } catch (e) {}
+    }
+
+    function loadReadiness() {
+      try {
+        const saved = localStorage.getItem('math2213_type_progress');
+        if (saved) {
+          const states = JSON.parse(saved);
+          const checkboxes = document.querySelectorAll('.study-check');
+          checkboxes.forEach((cb, i) => {
+            if (states[i]) cb.checked = true;
+          });
+        }
+      } catch (e) {}
+      updateReadiness();
+    }
+
+    // Canvas Argand Visualizer
+    const canvas = document.getElementById('argandCanvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    let currentRootsData = { x: -3.4641, y: -2, n: 4, rootR: 1.414, roots: [] };
+
+    function setVisualizerPreset(type) {
+      const rInput = document.getElementById('inputReal');
+      const iInput = document.getElementById('inputImag');
+      const nInput = document.getElementById('inputRoot');
+      if (!rInput || !iInput || !nInput) return;
+
+      if (type === '2024') {
+        rInput.value = -3.464;
+        iInput.value = -2;
+        nInput.value = 4;
+      } else if (type === '2022') {
+        rInput.value = -1;
+        iInput.value = 1;
+        nInput.value = 3;
+      } else if (type === '2023') {
+        rInput.value = 1;
+        iInput.value = 0;
+        nInput.value = 7;
+      }
+      renderCustomRoots();
+    }
+
+    function renderCustomRoots() {
+      const rInput = document.getElementById('inputReal');
+      const iInput = document.getElementById('inputImag');
+      const nInput = document.getElementById('inputRoot');
+      if (!rInput || !iInput || !nInput) return;
+
+      const x = parseFloat(rInput.value) || 0;
+      const y = parseFloat(iInput.value) || 0;
+      const n = Math.max(1, parseInt(nInput.value) || 3);
+
+      const r = Math.sqrt(x * x + y * y);
+      const theta = Math.atan2(y, x);
+      const rootR = Math.pow(r, 1 / n);
+
+      const roots = [];
+      for (let k = 0; k < n; k++) {
+        const angle = (theta + 2 * Math.PI * k) / n;
+        const re = rootR * Math.cos(angle);
+        const im = rootR * Math.sin(angle);
+        roots.push({
+          k,
+          angle,
+          deg: (angle * 180 / Math.PI + 360) % 360,
+          re,
+          im
+        });
+      }
+
+      currentRootsData = { x, y, n, rootR, roots };
+
+      const listContainer = document.getElementById('rootsOutputList');
+      if (listContainer) {
+        listContainer.innerHTML = `
+          <div class="font-bold text-slate-800 dark:text-slate-100">Modulus $R = ${rootR.toFixed(3)}$, Angle Step = ${(360/n).toFixed(1)}&deg;:</div>
+          ${roots.map(rt => `
+            <div class="flex items-center justify-between p-1.5 bg-white dark:bg-slate-700/50 rounded border border-slate-200 dark:border-slate-700">
+              <span class="font-semibold text-brand-600 dark:text-brand-300">z_{${rt.k}}:</span>
+              <span>${rt.re.toFixed(3)} ${rt.im >= 0 ? '+' : '-'} ${Math.abs(rt.im).toFixed(3)}i</span>
+              <span class="text-slate-400">(${rt.deg.toFixed(1)}&deg;)</span>
+            </div>
+          `).join('')}
+        `;
+        renderAllMath(listContainer);
+      }
+
+      drawArgandDiagram();
+    }
+
+    function drawArgandDiagram() {
+      if (!canvas || !ctx) return;
+      const width = canvas.width;
+      const height = canvas.height;
+      const cx = width / 2;
+      const cy = height / 2;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Background grid
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, cy);
+      ctx.lineTo(width, cy);
+      ctx.moveTo(cx, 0);
+      ctx.lineTo(cx, height);
+      ctx.stroke();
+
+      // Axis labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px Inter, sans-serif';
+      ctx.fillText('Re (Real Axis)', width - 90, cy - 8);
+      ctx.fillText('Im (Imaginary)', cx + 8, 18);
+
+      const scale = (width * 0.38) / Math.max(1.5, currentRootsData.rootR || 1);
+
+      // Draw Radius Circle
+      const radiusPixel = (currentRootsData.rootR || 1) * scale;
+      
+      ctx.strokeStyle = '#475569';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.arc(cx, cy, radiusPixel, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const roots = currentRootsData.roots || [];
+      if (roots.length === 0) return;
+
+      // Draw Polygon connecting roots
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.4)';
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.08)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      roots.forEach((rt, idx) => {
+        const px = cx + rt.re * scale;
+        const py = cy - rt.im * scale;
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw Root Points & Vectors
+      roots.forEach(rt => {
+        const px = cx + rt.re * scale;
+        const py = cy - rt.im * scale;
+
+        // Radius vector line
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        // Node circle
+        ctx.fillStyle = '#f97316';
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Node label
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.fillText(`z_${rt.k} (${rt.deg.toFixed(0)}°)`, px + 8, py - 6);
+      });
+    }
+
+    // Robust KaTeX Auto-render with Polling
+    function renderAllMath(target) {
+      const el = target || document.body;
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(el, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      } else {
+        setTimeout(() => renderAllMath(el), 100);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAllMath();
+      renderCustomRoots();
+      loadReadiness();
+    });
+
+    window.addEventListener('load', () => {
+      renderAllMath();
+    });
+  </script>
+</body>
+</html>

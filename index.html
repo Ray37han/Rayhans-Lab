@@ -3,243 +3,785 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Rayhan's Lab is a personal learning platform for Math, Physics, and Computer Science.">
-  <title>Rayhan's Lab</title>
+
+  <!-- SEO -->
+  <title>Rayhan Hasan — Field Notes · Mathematics, Physics &amp; Computer Science</title>
+  <meta name="description" content="A digital engineering notebook documenting mathematics, physics, and computer science — with interactive experiments, derivations, and personal insight by Rayhan Hasan.">
+  <meta name="author" content="Md. Rakibul Hasan Rayhan">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rhrayhan.dev/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rhrayhan.dev/">
+  <meta property="og:title" content="Rayhan Hasan — Field Notes">
+  <meta property="og:description" content="A digital engineering notebook for mathematics, physics, and computer science.">
+  <meta property="og:site_name" content="rhrayhan.dev">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header" id="home">
-    <nav class="nav container" aria-label="Primary">
-      <a class="brand" href="#home" aria-label="Rayhan's Lab home">
-        <span class="brand-mark">RL</span>
-        <span>Rayhan's Lab</span>
-      </a>
 
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" data-nav-toggle>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="sr-only">Open menu</span>
-      </button>
+  <a href="#nb-content" class="skip-link">Skip to notebook content</a>
 
-      <div class="nav-links" id="nav-links" data-nav-links>
-        <a href="#home">Home</a>
-        <a href="#topics">Topics</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a class="btn btn-primary btn-small" href="#topics">Start Learning</a>
+  <!-- ═══════════════════════════════════════════════
+       PAGE 0 — COVER
+       ═══════════════════════════════════════════════ -->
+  <section class="book-page cover-page" id="page-cover" aria-label="Notebook cover">
+
+    <!-- Desk props -->
+    <div class="cover-props" aria-hidden="true">
+      <div class="cover-pencil"></div>
+      <div class="cover-ruler"></div>
+    </div>
+
+    <!-- Notebook sitting on the desk -->
+    <div class="cover-notebook" aria-hidden="true">
+      <div class="cover-book" id="cover-book">
+        <!-- Spine with binding rings -->
+        <div class="cover-book-spine">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span>
+        </div>
+
+        <!-- Front cover -->
+        <div class="cover-book-front">
+          <div class="cover-rule-top"></div>
+          <div class="cover-rule-bottom"></div>
+
+          <div class="cover-book-content">
+            <div class="cover-label">Engineering Notebook</div>
+            <div class="cover-name">Rayhan<br>Hasan</div>
+            <div class="cover-divider"></div>
+            <div class="cover-subjects">
+              <span>Mathematics</span>
+              <span>Physics</span>
+              <span>Computer Science</span>
+            </div>
+            <div class="cover-year">2026 — Field Notes</div>
+          </div>
+        </div>
       </div>
-    </nav>
-  </header>
+    </div>
 
-  <main>
-    <section class="hero section section-hero">
-      <div class="hero-bg" aria-hidden="true"></div>
-      <div class="container hero-layout reveal">
-        <div class="hero-copy">
-          <div class="eyebrow">Personal learning platform</div>
-          <h1>Learn Smarter. Understand Deeper.</h1>
-          <p class="lead">Interactive lessons on Math, Physics, and Computer Science.</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="#topics">Explore Topics</a>
-            <a class="btn btn-secondary" href="#roadmap">View Roadmap</a>
+    <!-- Scroll hint -->
+    <div class="cover-scroll-hint" aria-hidden="true">
+      <span>scroll to open</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SIDEBAR NAV (fixed, desktop)
+       ═══════════════════════════════════════════════ -->
+  <nav class="nb-sidebar" aria-label="Notebook sections" id="nb-sidebar">
+    <button class="nb-tab is-active" data-tab="home" data-page="1"
+            aria-pressed="true" aria-label="Go to Home section">
+      <div class="tab-accent"></div>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="nb-tab" data-tab="mathematics" data-page="2"
+            aria-pressed="false" aria-label="Go to Mathematics section">
+      <div class="tab-accent"></div>
+      <span class="tab-label">Math</span>
+    </button>
+    <button class="nb-tab" data-tab="physics" data-page="3"
+            aria-pressed="false" aria-label="Go to Physics section">
+      <div class="tab-accent"></div>
+      <span class="tab-label">Physics</span>
+    </button>
+    <button class="nb-tab" data-tab="cs" data-page="4"
+            aria-pressed="false" aria-label="Go to Computer Science section">
+      <div class="tab-accent"></div>
+      <span class="tab-label">CS</span>
+    </button>
+    <button class="nb-tab" data-tab="lab" data-page="5"
+            aria-pressed="false" aria-label="Go to Laboratory section">
+      <div class="tab-accent"></div>
+      <span class="tab-label">Lab</span>
+    </button>
+    <button class="nb-tab" data-tab="index" data-page="6"
+            aria-pressed="false" aria-label="Go to Index section">
+      <div class="tab-accent"></div>
+      <span class="tab-label">Index</span>
+    </button>
+  </nav>
+
+  <!-- Page progress dots -->
+  <nav class="page-progress" aria-label="Page navigation" id="page-progress">
+    <button class="progress-dot" data-page="0" aria-label="Cover"></button>
+    <button class="progress-dot is-active" data-page="1" aria-label="Home"></button>
+    <button class="progress-dot" data-page="2" aria-label="Mathematics"></button>
+    <button class="progress-dot" data-page="3" aria-label="Physics"></button>
+    <button class="progress-dot" data-page="4" aria-label="Computer Science"></button>
+    <button class="progress-dot" data-page="5" aria-label="Laboratory"></button>
+    <button class="progress-dot" data-page="6" aria-label="Index"></button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN NOTEBOOK CONTENT
+       ═══════════════════════════════════════════════ -->
+  <main id="nb-content">
+
+    <!-- ─── PAGE 1 — HOME ─────────────────────────── -->
+    <section class="book-page spread-page" id="page-home" data-section="home" aria-label="Introduction">
+      <div class="nb-spread is-active" data-section="home">
+
+        <!-- Left page -->
+        <div class="nb-page nb-page-left">
+          <div class="page-header">
+            <span class="page-num">PAGE 001</span>
+            <span class="page-section">INTRODUCTION</span>
           </div>
-          <div class="hero-pills">
-            <span>Math</span>
-            <span>Physics</span>
-            <span>CSE</span>
+
+          <div class="page-content">
+            <div class="margin-note" aria-label="Margin annotation">
+              Started this<br>to think<br>clearly.
+            </div>
+
+            <h1 class="page-title">Field Notes</h1>
+
+            <p class="page-subtitle">
+              "Understanding difficult things,<br>
+              one page at a time."
+            </p>
+
+            <div class="page-divider"></div>
+
+            <div class="page-author-block">
+              <img
+                src="Rayhan_2303037.jpg"
+                alt="Rayhan Hasan, CSE Student"
+                class="author-portrait"
+                loading="eager"
+                decoding="async"
+                width="60" height="60"
+              >
+              <div>
+                <p class="author-name">Md. Rakibul Hasan Rayhan</p>
+                <p class="author-title">CSE Student · Not just publishing tutorials — documenting how I understand difficult things.</p>
+              </div>
+            </div>
+
+            <div class="page-social">
+              <a href="https://github.com/Ray37han" target="_blank" rel="noreferrer"
+                 class="social-link" aria-label="GitHub profile">GH</a>
+              <a href="https://www.linkedin.com/in/rakibul-hasan-rayhan/" target="_blank"
+                 rel="noreferrer" class="social-link" aria-label="LinkedIn profile">IN</a>
+              <a href="https://www.facebook.com/ray32han" target="_blank" rel="noreferrer"
+                 class="social-link" aria-label="Facebook profile">FB</a>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">1</span>
           </div>
         </div>
 
-        <div class="hero-panel glass-card reveal">
-          <div class="panel-header">
-            <span class="panel-dot"></span>
-            <span>Weekly learning pulse</span>
-          </div>
-          <div class="panel-grid">
-            <div>
-              <strong>12</strong>
-              <span>Topics</span>
-            </div>
-            <div>
-              <strong>3</strong>
-              <span>Core subjects</span>
-            </div>
-            <div>
-              <strong>∞</strong>
-              <span>Practice ideas</span>
-            </div>
-          </div>
-          <div class="mini-chart" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <p class="panel-caption">Focused learning paths with visual explainers and simple tools.</p>
+        <!-- Spine -->
+        <div class="nb-book-spine" aria-hidden="true" id="spine-home">
+          <!-- Rings injected by JS -->
         </div>
+
+        <!-- Right page -->
+        <div class="nb-page nb-page-right">
+          <div class="page-header">
+            <span class="page-section">CURRENTLY EXPLORING</span>
+            <span class="page-num">PAGE 002</span>
+          </div>
+
+          <div class="page-content">
+            <div class="exploring-section" role="list">
+              <div class="subject-entry" role="listitem" tabindex="0"
+                   data-page="2" aria-label="Go to Mathematics section">
+                <span class="subject-dot" style="background: var(--nb-blue);"></span>
+                <div>
+                  <strong>Mathematics</strong>
+                  <p>Number theory, modular arithmetic, graph theory</p>
+                </div>
+                <span class="subject-arrow" aria-hidden="true">→</span>
+              </div>
+
+              <div class="subject-entry" role="listitem" tabindex="0"
+                   data-page="3" aria-label="Go to Physics section">
+                <span class="subject-dot" style="background: var(--nb-green);"></span>
+                <div>
+                  <strong>Physics</strong>
+                  <p>Newtonian mechanics, gravitation, vectors</p>
+                </div>
+                <span class="subject-arrow" aria-hidden="true">→</span>
+              </div>
+
+              <div class="subject-entry" role="listitem" tabindex="0"
+                   data-page="4" aria-label="Go to Computer Science section">
+                <span class="subject-dot" style="background: var(--nb-red);"></span>
+                <div>
+                  <strong>Computer Science</strong>
+                  <p>Algorithms, data structures, digital logic</p>
+                </div>
+                <span class="subject-arrow" aria-hidden="true">→</span>
+              </div>
+            </div>
+
+            <div class="section-rule"></div>
+            <p class="section-label">Recent Notes</p>
+
+            <div class="recent-notes">
+              <a href="Topics/Computer Science/Algorithms/Dijkstras-Algorithm.html"
+                 class="note-entry">
+                <span class="note-subject">CS</span>
+                <span class="note-title">Dijkstra's Algorithm — Interactive</span>
+                <span class="note-pg">→</span>
+              </a>
+              <a href="Topics/Physics/Mechanics/Newtonian-Mechanics.html"
+                 class="note-entry">
+                <span class="note-subject">PHY</span>
+                <span class="note-title">Newtonian Mechanics</span>
+                <span class="note-pg">→</span>
+              </a>
+              <a href="Topics/Computer Science/Algorithms/Graph-Theory.html"
+                 class="note-entry">
+                <span class="note-subject">CS</span>
+                <span class="note-title">Graph Theory — Interactive</span>
+                <span class="note-pg">→</span>
+              </a>
+              <a href="Topics/Computer Science/Digital Logic/JK-Counter.html"
+                 class="note-entry">
+                <span class="note-subject">CS</span>
+                <span class="note-title">JK Counter Simulation</span>
+                <span class="note-pg">→</span>
+              </a>
+            </div>
+
+            <div class="annotation-block" style="margin-top: var(--sp-6);">
+              <span class="hand-text">More in the Index ↑</span>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">2</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="section" id="topics">
-      <div class="container">
-        <div class="section-heading reveal">
-          <p class="section-kicker">Topics</p>
-          <h2>Explore the core subjects.</h2>
-          <p>Clean, focused content designed to make difficult ideas easier to retain.</p>
-        </div>
+    <!-- ─── PAGE 2 — MATHEMATICS ─────────────────── -->
+    <section class="book-page spread-page" id="page-mathematics" data-section="mathematics" aria-label="Mathematics">
+      <div class="nb-spread" data-section="mathematics">
 
-        <div class="topic-grid">
-          <article class="topic-card glass-card reveal">
-            <div class="topic-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19h16" />
-                <path d="M6 17l4-8 4 6 4-10" />
-              </svg>
-            </div>
-            <h3>Math</h3>
-            <p>Number theory, algebra, graphs, and problem-solving frameworks explained simply.</p>
-            <a class="btn btn-secondary btn-small topic-button" href="Topics/Math/">Explore</a>
-          </article>
-
-          <article class="topic-card glass-card reveal">
-            <div class="topic-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2v4" />
-                <path d="M5 20h14" />
-                <path d="M7 20c0-4 2-7 5-7s5 3 5 7" />
-                <path d="M9 9a3 3 0 0 1 6 0" />
-              </svg>
-            </div>
-            <h3>Physics</h3>
-            <p>Concept-first notes on motion, energy, and scientific intuition.</p>
-            <a class="btn btn-secondary btn-small topic-button" href="Topics/Physics/">Explore</a>
-          </article>
-
-          <article class="topic-card glass-card reveal">
-            <div class="topic-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 5h16v14H4z" />
-                <path d="M8 9l-2 3 2 3" />
-                <path d="M16 9l2 3-2 3" />
-                <path d="M12 8l-1 8" />
-              </svg>
-            </div>
-            <h3>Computer Science</h3>
-            <p>Algorithms, data structures, and digital logic through interactive examples.</p>
-            <a class="btn btn-secondary btn-small topic-button" href="Topics/Computer%20Science/">Explore</a>
-          </article>
-        </div>
-
-        <div class="lesson-links reveal">
-          <a href="Topics/Math/">Math folder</a>
-          <a href="Topics/Physics/">Physics folder</a>
-          <a href="Topics/Computer%20Science/">Computer Science folder</a>
-          <a href="Topics/Math/modular_inverse_calculator.html">Modular inverse calculator</a>
-          <a href="Topics/Computer%20Science/dijkstra_interactive.html">Dijkstra interactive</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="roadmap">
-      <div class="container preview-layout">
-        <div class="section-heading reveal">
-          <p class="section-kicker">Interactive Learning Experience</p>
-          <h2>Switch the preview instantly.</h2>
-          <p>Use the controls to swap between a formula, a code snippet, and a graph sketch.</p>
-        </div>
-
-        <div class="preview-card glass-card reveal">
-          <div class="preview-tabs" role="tablist" aria-label="Preview selector">
-            <button class="preview-tab is-active" type="button" data-preview="formula">Formula</button>
-            <button class="preview-tab" type="button" data-preview="code">Code</button>
-            <button class="preview-tab" type="button" data-preview="graph">Graph</button>
+        <div class="nb-page nb-page-left">
+          <div class="page-header">
+            <span class="page-num">PAGE 010</span>
+            <span class="page-section">MATHEMATICS</span>
           </div>
-          <div class="preview-window" aria-live="polite">
-            <pre class="preview-content is-visible" data-panel="formula">F = ma
 
-Force equals mass times acceleration.</pre>
-            <pre class="preview-content" data-panel="code">function gcd(a, b) {
-  return b === 0 ? a : gcd(b, a % b);
-}</pre>
-            <div class="preview-content graph-canvas" data-panel="graph">
-              <span class="node n1"></span>
-              <span class="node n2"></span>
-              <span class="node n3"></span>
-              <span class="node n4"></span>
-              <span class="edge e1"></span>
-              <span class="edge e2"></span>
-              <span class="edge e3"></span>
+          <div class="page-content">
+            <div class="margin-note" aria-label="Margin annotation">
+              Intuition<br>first, then<br>formalism.
+            </div>
+
+            <p class="subject-badge" style="color: var(--nb-blue);">◆ Mathematics</p>
+            <h2 class="page-title">The Language<br>of Everything</h2>
+            <p class="page-lead">Mathematics is not about memorizing formulas. It is about understanding <em>why</em> those formulas must be true.</p>
+
+            <div class="topic-overview">
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Number Theory</span>
+                <span class="topic-count">3 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Modular Arithmetic</span>
+                <span class="topic-count">2 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Graph Theory</span>
+                <span class="topic-count">2 notes</span>
+              </div>
             </div>
           </div>
-          <button class="btn btn-primary btn-small preview-action" type="button" data-preview-action>Change Preview</button>
+
+          <div class="page-footer">
+            <span class="page-foot-num">10</span>
+          </div>
         </div>
+
+        <div class="nb-book-spine" aria-hidden="true" id="spine-math"></div>
+
+        <div class="nb-page nb-page-right">
+          <div class="page-header">
+            <span class="page-section">MATHEMATICS — NOTES</span>
+            <span class="page-num">PAGE 011</span>
+          </div>
+
+          <div class="page-content">
+            <p class="section-label">Topics in this section</p>
+
+            <div class="topic-list">
+              <a href="Topics/Math/index.html" class="topic-entry">
+                <span class="entry-num">§ 00</span>
+                <span class="entry-title">Mathematics — Full Index</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Math/Number-Theory/Congruence.html" class="topic-entry">
+                <span class="entry-num">§ 01</span>
+                <span class="entry-title">Congruence</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Math/Number-Theory/Modular-Inverse.html" class="topic-entry">
+                <span class="entry-num">§ 02</span>
+                <span class="entry-title">Modular Inverse</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Math/Number-Theory/Chinese-Remainder-Theorem.html" class="topic-entry">
+                <span class="entry-num">§ 03</span>
+                <span class="entry-title">Chinese Remainder Theorem</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Math/Number-Theory/Modular-Inverse-Calculator.html" class="topic-entry">
+                <span class="entry-num">§ 04</span>
+                <span class="entry-title">Modular Inverse Calculator ★</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="math.html" class="topic-entry">
+                <span class="entry-num">§ 05</span>
+                <span class="entry-title">Math 2213 — Complex Variables &amp; Transforms Guide ★</span>
+                <span class="entry-arrow">→</span>
+              </a>
+            </div>
+
+            <div class="rayhan-note">
+              <div class="rayhan-note-header">✎ Rayhan's Note</div>
+              <p>Start with number theory if you're new. It builds the intuition for almost everything else.</p>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <a href="Topics/Math/index.html" class="page-link-btn">Open Mathematics Folder →</a>
+            <span class="page-foot-num">11</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="section" id="about">
-      <div class="container about-layout">
-        <div class="about-copy reveal">
-          <p class="section-kicker">About</p>
-          <h2>Hi, I'm Rayhan, a CSE student sharing my learning journey.</h2>
-          <p>
-            I build concise study notes and interactive explainers to make technical subjects easier to understand.
-            The goal is simple: keep the content clean, practical, and fast to scan.
-          </p>
-          <p>
-            Future lessons can expand into more Math, Physics, and Computer Science topics without changing the core experience.
-          </p>
+    <!-- ─── PAGE 3 — PHYSICS ──────────────────────── -->
+    <section class="book-page spread-page" id="page-physics" data-section="physics" aria-label="Physics">
+      <div class="nb-spread" data-section="physics">
+
+        <div class="nb-page nb-page-left">
+          <div class="page-header">
+            <span class="page-num">PAGE 020</span>
+            <span class="page-section">PHYSICS</span>
+          </div>
+
+          <div class="page-content">
+            <div class="margin-note" aria-label="Margin annotation">
+              First<br>principles.<br>Always.
+            </div>
+
+            <p class="subject-badge" style="color: var(--nb-green);">◆ Physics</p>
+            <h2 class="page-title">The Rules<br>of Reality</h2>
+            <p class="page-lead">Physics reveals how the universe operates — from why apples fall to how electrons orbit nuclei.</p>
+
+            <div class="topic-overview">
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Classical Mechanics</span>
+                <span class="topic-count">3 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Gravitation</span>
+                <span class="topic-count">2 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Vectors & Motion</span>
+                <span class="topic-count">2 notes</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">20</span>
+          </div>
         </div>
 
-        <div class="about-portrait glass-card reveal">
-          <img
-            src="Rayhan_2303037.jpg"
-            alt="Rayhan portrait"
-          >
+        <div class="nb-book-spine" aria-hidden="true" id="spine-physics"></div>
+
+        <div class="nb-page nb-page-right">
+          <div class="page-header">
+            <span class="page-section">PHYSICS — NOTES</span>
+            <span class="page-num">PAGE 021</span>
+          </div>
+
+          <div class="page-content">
+            <p class="section-label">Topics in this section</p>
+
+            <div class="topic-list">
+              <a href="Topics/Physics/index.html" class="topic-entry">
+                <span class="entry-num">§ 00</span>
+                <span class="entry-title">Physics — Full Index</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Physics/Mechanics/Newtonian-Mechanics.html" class="topic-entry">
+                <span class="entry-num">§ 01</span>
+                <span class="entry-title">Newtonian Mechanics</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Physics/Mechanics/Gravity-and-Gravitation.html" class="topic-entry">
+                <span class="entry-num">§ 02</span>
+                <span class="entry-title">Gravity &amp; Gravitation</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Physics/Mechanics/Vectors.html" class="topic-entry">
+                <span class="entry-num">§ 03</span>
+                <span class="entry-title">Vectors</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Physics/Mechanics/Projectile-Motion.html" class="topic-entry">
+                <span class="entry-num">§ 04</span>
+                <span class="entry-title">Projectile Motion ★</span>
+                <span class="entry-arrow">→</span>
+              </a>
+            </div>
+
+            <div class="rayhan-note">
+              <div class="rayhan-note-header">✎ Rayhan's Note</div>
+              <p>Draw the free-body diagram first. Every physics problem becomes easier when you can see the forces.</p>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <a href="Topics/Physics/index.html" class="page-link-btn">Open Physics Folder →</a>
+            <span class="page-foot-num">21</span>
+          </div>
         </div>
+
       </div>
     </section>
 
-    <section class="section cta-section" id="contact">
-      <div class="container cta-card glass-card reveal">
-        <p class="section-kicker">Start now</p>
-        <h2>Start your journey today.</h2>
-        <p>Browse the lessons and continue building a focused, durable understanding of the fundamentals.</p>
-        <a class="btn btn-primary" href="#topics">Browse Topics</a>
+    <!-- ─── PAGE 4 — COMPUTER SCIENCE ────────────── -->
+    <section class="book-page spread-page" id="page-cs" data-section="cs" aria-label="Computer Science">
+      <div class="nb-spread" data-section="cs">
+
+        <div class="nb-page nb-page-left">
+          <div class="page-header">
+            <span class="page-num">PAGE 030</span>
+            <span class="page-section">COMPUTER SCIENCE</span>
+          </div>
+
+          <div class="page-content">
+            <div class="margin-note" aria-label="Margin annotation">
+              Understand<br>the algo,<br>not just<br>the code.
+            </div>
+
+            <p class="subject-badge" style="color: var(--nb-red);">◆ Computer Science</p>
+            <h2 class="page-title">Algorithms &amp;<br>Digital Systems</h2>
+            <p class="page-lead">Computer science is the art of making machines think clearly about problems you have already understood.</p>
+
+            <div class="topic-overview">
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Graph Algorithms</span>
+                <span class="topic-count">3 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Number Theory / Crypto</span>
+                <span class="topic-count">4 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Digital Logic</span>
+                <span class="topic-count">2 notes</span>
+              </div>
+              <div class="topic-row">
+                <span class="topic-dot"></span>
+                <span>Numerical Methods</span>
+                <span class="topic-count">1 note</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">30</span>
+          </div>
+        </div>
+
+        <div class="nb-book-spine" aria-hidden="true" id="spine-cs"></div>
+
+        <div class="nb-page nb-page-right">
+          <div class="page-header">
+            <span class="page-section">CS — NOTES</span>
+            <span class="page-num">PAGE 031</span>
+          </div>
+
+          <div class="page-content">
+            <p class="section-label">Topics in this section</p>
+
+            <div class="topic-list">
+              <a href="Topics/Computer Science/Algorithms/Dijkstras-Algorithm.html" class="topic-entry">
+                <span class="entry-num">§ 01</span>
+                <span class="entry-title">Dijkstra's Algorithm ★ Interactive</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Algorithms/Graph-Theory-Basics.html" class="topic-entry">
+                <span class="entry-num">§ 02</span>
+                <span class="entry-title">Graph Theory Basics</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Algorithms/Graph-Theory.html" class="topic-entry">
+                <span class="entry-num">§ 03</span>
+                <span class="entry-title">Graph Theory ★ Interactive</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Algorithms/Adjacency-Matrix-vs-List.html" class="topic-entry">
+                <span class="entry-num">§ 04</span>
+                <span class="entry-title">Adjacency Matrix vs List</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Number Theory/Number-Theory-Cryptography.html" class="topic-entry">
+                <span class="entry-num">§ 05</span>
+                <span class="entry-title">Number Theory &amp; Cryptography</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Digital Logic/JK-Counter.html" class="topic-entry">
+                <span class="entry-num">§ 06</span>
+                <span class="entry-title">JK Counter ★ Simulation</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Numerical Methods/Curve-Fitting.html" class="topic-entry">
+                <span class="entry-num">§ 07</span>
+                <span class="entry-title">Curve Fitting Notes</span>
+                <span class="entry-arrow">→</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <a href="Topics/Computer Science/" class="page-link-btn">Open CS Folder →</a>
+            <span class="page-foot-num">31</span>
+          </div>
+        </div>
+
       </div>
     </section>
+
+    <!-- ─── PAGE 5 — LABORATORY ───────────────────── -->
+    <section class="book-page spread-page" id="page-lab" data-section="lab" aria-label="Laboratory">
+      <div class="nb-spread" data-section="lab">
+
+        <div class="nb-page nb-page-left">
+          <div class="page-header">
+            <span class="page-num">PAGE 050</span>
+            <span class="page-section">LABORATORY</span>
+          </div>
+
+          <div class="page-content">
+            <div class="margin-note" aria-label="Margin annotation">
+              Touch the<br>concept.<br>Break it<br>intentionally.
+            </div>
+
+            <p class="subject-badge" style="color: var(--nb-yellow);">⚗ Laboratory</p>
+            <h2 class="page-title">Interactive<br>Experiments</h2>
+            <p class="page-lead">These are not demonstrations. Each experiment teaches something you can only learn by doing.</p>
+
+            <div class="lab-legend">
+              <div class="legend-row">
+                <span class="legend-dot" style="background: var(--nb-blue);"></span>
+                Algorithm visualization
+              </div>
+              <div class="legend-row">
+                <span class="legend-dot" style="background: var(--nb-green);"></span>
+                Physics simulation
+              </div>
+              <div class="legend-row">
+                <span class="legend-dot" style="background: var(--nb-red);"></span>
+                Digital logic simulation
+              </div>
+              <div class="legend-row">
+                <span class="legend-dot" style="background: var(--nb-yellow);"></span>
+                Mathematical calculator
+              </div>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">50</span>
+          </div>
+        </div>
+
+        <div class="nb-book-spine" aria-hidden="true" id="spine-lab"></div>
+
+        <div class="nb-page nb-page-right">
+          <div class="page-header">
+            <span class="page-section">LAB — EXPERIMENTS</span>
+            <span class="page-num">PAGE 051</span>
+          </div>
+
+          <div class="page-content">
+            <p class="section-label">Available Experiments</p>
+
+            <div class="topic-list">
+              <a href="Topics/Computer Science/Algorithms/Dijkstras-Algorithm.html" class="topic-entry lab-entry">
+                <span class="entry-badge" style="background: rgba(49,92,120,0.12); color: var(--nb-blue);">ALG</span>
+                <span class="entry-title">Dijkstra's Shortest Path</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Algorithms/Graph-Theory.html" class="topic-entry lab-entry">
+                <span class="entry-badge" style="background: rgba(49,92,120,0.12); color: var(--nb-blue);">ALG</span>
+                <span class="entry-title">Graph Theory Explorer</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Computer Science/Digital Logic/JK-Counter.html" class="topic-entry lab-entry">
+                <span class="entry-badge" style="background: rgba(185,74,72,0.12); color: var(--nb-red);">DIG</span>
+                <span class="entry-title">JK Counter Simulation</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Math/Number-Theory/Modular-Inverse-Calculator.html" class="topic-entry lab-entry">
+                <span class="entry-badge" style="background: rgba(212,168,32,0.12); color: var(--nb-yellow);">MATH</span>
+                <span class="entry-title">Modular Inverse Calculator</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="Topics/Physics/Mechanics/Projectile-Motion.html" class="topic-entry lab-entry">
+                <span class="entry-badge" style="background: rgba(61,107,79,0.12); color: var(--nb-green);">PHY</span>
+                <span class="entry-title">Newtonian Mechanics</span>
+                <span class="entry-arrow">→</span>
+              </a>
+              <a href="math.html#tab-visualizer" class="topic-entry lab-entry">
+                <span class="entry-badge" style="background: rgba(212,168,32,0.12); color: var(--nb-yellow);">MATH</span>
+                <span class="entry-title">Argand Root Visualizer (Complex Roots)</span>
+                <span class="entry-arrow">→</span>
+              </a>
+            </div>
+
+            <div class="rayhan-note">
+              <div class="rayhan-note-header">✎ Rayhan's Note</div>
+              <p>Change the inputs. See what breaks. That's when the real learning happens.</p>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">51</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── PAGE 6 — INDEX ────────────────────────── -->
+    <section class="book-page spread-page" id="page-index" data-section="index" aria-label="Complete Index">
+      <div class="nb-spread" data-section="index">
+
+        <div class="nb-page nb-page-left">
+          <div class="page-header">
+            <span class="page-num">PAGE 100</span>
+            <span class="page-section">INDEX</span>
+          </div>
+
+          <div class="page-content">
+            <h2 class="page-title">Complete<br>Index</h2>
+            <p class="page-lead">Every note, organised by subject.</p>
+
+            <div class="index-group">
+              <div class="index-heading" style="color: var(--nb-blue);">Mathematics</div>
+              <div class="index-list">
+                <a href="Topics/Math/index.html" class="index-entry">Math Topic Index</a>
+                <a href="Topics/Math/Number-Theory/Congruence.html" class="index-entry">Congruence</a>
+                <a href="Topics/Math/Number-Theory/Modular-Inverse.html" class="index-entry">Modular Inverse</a>
+                <a href="Topics/Math/Number-Theory/Chinese-Remainder-Theorem.html" class="index-entry">Chinese Remainder Theorem</a>
+                <a href="Topics/Math/Number-Theory/Modular-Inverse-Calculator.html" class="index-entry">Modular Inverse Calculator ★</a>
+                <a href="math.html" class="index-entry">Math 2213: Complex Variables, PDE &amp; Laplace ★</a>
+              </div>
+            </div>
+
+            <div class="index-group">
+              <div class="index-heading" style="color: var(--nb-green);">Physics</div>
+              <div class="index-list">
+                <a href="Topics/Physics/index.html" class="index-entry">Physics Topic Index</a>
+                <a href="Topics/Physics/Mechanics/Newtonian-Mechanics.html" class="index-entry">Newtonian Mechanics</a>
+                <a href="Topics/Physics/Mechanics/Gravity-and-Gravitation.html" class="index-entry">Gravity &amp; Gravitation</a>
+                <a href="Topics/Physics/Mechanics/Vectors.html" class="index-entry">Vectors</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">100</span>
+          </div>
+        </div>
+
+        <div class="nb-book-spine" aria-hidden="true" id="spine-index"></div>
+
+        <div class="nb-page nb-page-right">
+          <div class="page-header">
+            <span class="page-section">INDEX — CONTINUED</span>
+            <span class="page-num">PAGE 101</span>
+          </div>
+
+          <div class="page-content">
+            <div class="index-group">
+              <div class="index-heading" style="color: var(--nb-red);">Computer Science</div>
+              <div class="index-list">
+                <a href="Topics/Computer Science/index.html" class="index-entry">CS Topic Index</a>
+                <a href="Topics/Computer Science/Algorithms/Dijkstras-Algorithm.html" class="index-entry">Dijkstra's Algorithm ★</a>
+                <a href="Topics/Computer Science/Algorithms/Graph-Theory-Basics.html" class="index-entry">Graph Theory Basics</a>
+                <a href="Topics/Computer Science/Algorithms/Graph-Theory.html" class="index-entry">Graph Theory Interactive ★</a>
+                <a href="Topics/Computer Science/Algorithms/Adjacency-Matrix-vs-List.html" class="index-entry">Adjacency Matrix vs List</a>
+                <a href="Topics/Computer Science/Number Theory/Number-Theory-Cryptography.html" class="index-entry">Number Theory &amp; Crypto</a>
+                <a href="Topics/Computer Science/Digital Logic/JK-Counter.html" class="index-entry">JK Counter Simulation ★</a>
+                <a href="Topics/Computer Science/Numerical Methods/Curve-Fitting.html" class="index-entry">Curve Fitting Notes</a>
+              </div>
+            </div>
+
+            <div class="annotation-block">
+              <span class="hand-text">★ = interactive experiment</span>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <span class="page-foot-num">101</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-layout">
-      <div>
-        <a class="brand footer-brand" href="#home">
-          <span class="brand-mark">RL</span>
-          <span>Rayhan's Lab</span>
-        </a>
-        <p>Math, Physics, and CSE learning notes built for clarity.</p>
-      </div>
+  <!-- ─── MOBILE BOTTOM BAR ─────────────────────── -->
+  <nav class="nb-mobile-bar" aria-label="Notebook sections" id="nb-mobile-bar">
+    <button class="nb-mobile-tab is-active" data-page="1" aria-pressed="true" aria-label="Home">
+      <span class="tab-icon">⌂</span>Home
+    </button>
+    <button class="nb-mobile-tab" data-page="2" aria-pressed="false" aria-label="Mathematics">
+      <span class="tab-icon">Σ</span>Math
+    </button>
+    <button class="nb-mobile-tab" data-page="3" aria-pressed="false" aria-label="Physics">
+      <span class="tab-icon">⚡</span>Physics
+    </button>
+    <button class="nb-mobile-tab" data-page="4" aria-pressed="false" aria-label="Computer Science">
+      <span class="tab-icon">&lt;/&gt;</span>CS
+    </button>
+    <button class="nb-mobile-tab" data-page="5" aria-pressed="false" aria-label="Laboratory">
+      <span class="tab-icon">⚗</span>Lab
+    </button>
+    <button class="nb-mobile-tab" data-page="6" aria-pressed="false" aria-label="Index">
+      <span class="tab-icon">≡</span>Index
+    </button>
+  </nav>
 
-      <div class="footer-links">
-        <a href="#home">Home</a>
-        <a href="#topics">Topics</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <div class="social-links" aria-label="Social links">
-        <a href="https://github.com/Ray37han" target="_blank" rel="noreferrer" aria-label="GitHub">GH</a>
-        <a href="https://www.facebook.com/ray32han" target="_blank" rel="noreferrer" aria-label="Facebook">FB</a>
-        <a href="https://www.linkedin.com/in/rakibul-hasan-rayhan/" target="_blank" rel="noreferrer" aria-label="LinkedIn">IN</a>
-      </div>
-    </div>
-
-    <div class="container footer-bottom">
-      <span>© 2026 Rayhan's Lab.</span>
-      <span>Built with HTML, CSS, and vanilla JavaScript.</span>
-    </div>
-  </footer>
-
-  <script src="script.js" defer></script>
+  <script src="notebook.js"></script>
 </body>
 </html>
